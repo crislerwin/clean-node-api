@@ -8,7 +8,7 @@ export class SignupController {
     }
     if (httpRequest.body.email === undefined) {
       return {
-        statusCode: 400,
+        statusCode: 300,
         body: new Error('Missing param: email'),
       }
     }

@@ -4,12 +4,22 @@ module.exports = {
     es2021: true,
   },
   extends: ['standard-with-typescript', 'prettier'],
-  overrides: [],
+  overrides: [
+    {
+      files: ['*.ts'],
+      rules: {
+        '@typescript-eslint/no-unused-vars': 'error',
+      },
+    },
+  ],
+  parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint'],
   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
+    project: './tsconfig.json',
   },
   rules: {
     indent: 'error',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'error',
   },
 }
