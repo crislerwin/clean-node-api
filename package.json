@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "vitest --watch",
+    "test": "vitest",
     "prepare": "husky install",
     "test:coverage": "vitest run --coverage",
     "test:ci": "npm test -- --coverage"

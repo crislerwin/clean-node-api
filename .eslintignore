@@ -1,0 +1,9 @@
+node_modules
+dist
+coverage
+./data
+requirements
+.vscode
+vite.config.ts
+.eslintrc.js
+
