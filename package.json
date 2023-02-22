@@ -5,10 +5,12 @@
   "main": "index.js",
   "scripts": {
     "prepare": "husky install",
+    "lint": "tsc",
     "test:coverage": "vitest run --coverage",
     "test": "vitest run",
-    "test:ci": "npm test -- --coverage",
-    "test:watch": "vitest run --watch"
+    "test:ci": "pnpm test -- --coverage",
+    "test:dev": "vitest run --watch",
+    "ci": "pnpm run test:ci && pnpm run lint"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown",
