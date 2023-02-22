@@ -1,7 +1,8 @@
 {
   "name": "clean-node-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "An node js api with clean architecture",
+  "private": false,
   "main": "index.js",
   "scripts": {
     "prepare": "husky install",
