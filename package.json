@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "vitest",
     "prepare": "husky install",
     "test:coverage": "vitest run --coverage",
-    "test:ci": "npm test -- --coverage"
+    "test": "vitest run",
+    "test:ci": "npm test -- --coverage",
+    "test:watch": "vitest run --watch"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown",
