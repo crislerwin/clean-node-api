@@ -14,11 +14,6 @@
     "ci": "pnpm run test:ci && pnpm run lint",
     "release": "pnpm run lint && pnpm run test && changeset publish"
   },
-  "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown",
-    "**/*.{js,ts}": "eslint --fix",
-    "**/*.{spec,test}.{js,ts}": "npm run test:coverage"
-  },
   "keywords": [],
   "author": "Crisler Wintler",
   "license": "MIT",
