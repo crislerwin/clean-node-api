@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest'
+import { MissingPararmError } from '../errors/missing-param-error'
 import { SignupController } from './signup'
 
 describe('Signup Controller', () => {
@@ -13,7 +14,7 @@ describe('Signup Controller', () => {
     }
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new Error('Missing param: name'))
+    expect(httpResponse.body).toEqual(new MissingPararmError('name'))
   })
   test('should return 400 if no email is provided', () => {
     const sut = new SignupController()
@@ -26,6 +27,6 @@ describe('Signup Controller', () => {
     }
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new Error('Missing param: email'))
+    expect(httpResponse.body).toEqual(new MissingPararmError('email'))
   })
 })
