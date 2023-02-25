@@ -16,6 +16,7 @@ specifiers:
   lint-staged: ^13.1.2
   prettier: 2.8.4
   typescript: ^4.9.5
+  vite: ^4.1.4
   vitest: ^0.28.5
 
 devDependencies:
@@ -34,6 +35,7 @@ devDependencies:
   lint-staged: 13.1.2
   prettier: 2.8.4
   typescript: 4.9.5
+  vite: 4.1.4_@types+node@18.13.0
   vitest: 0.28.5
 
 packages:
@@ -4937,7 +4939,7 @@ packages:
       picocolors: 1.0.0
       source-map: 0.6.1
       source-map-support: 0.5.21
-      vite: 4.1.1_@types+node@18.13.0
+      vite: 4.1.4_@types+node@18.13.0
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -4948,10 +4950,10 @@ packages:
       - terser
     dev: true
 
-  /vite/4.1.1_@types+node@18.13.0:
+  /vite/4.1.4_@types+node@18.13.0:
     resolution:
       {
-        integrity: sha512-LM9WWea8vsxhr782r9ntg+bhSFS06FJgCvvB0+8hf8UWtvaiDagKYWXndjfX6kGl74keHJUcpzrQliDXZlF5yg==,
+        integrity: sha512-3knk/HsbSTKEin43zHu7jTwYWv81f8kgAL99G5NWBcA1LKvtvcVAC4JjBH1arBunO9kQka+1oGbrMKOjk4ZrBg==,
       }
     engines: { node: ^14.18.0 || >=16.0.0 }
     hasBin: true
@@ -5031,7 +5033,7 @@ packages:
       tinybench: 2.3.1
       tinypool: 0.3.1
       tinyspy: 1.1.1
-      vite: 4.1.1_@types+node@18.13.0
+      vite: 4.1.4_@types+node@18.13.0
       vite-node: 0.28.5_@types+node@18.13.0
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
