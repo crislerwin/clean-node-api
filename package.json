@@ -11,14 +11,12 @@
     "test:ci": "pnpm test -- --coverage",
     "test:dev": "vitest",
     "test:staged": "pnpm run test -- --filter $(git diff --cached --name-only | grep -E '\\.test\\.ts$')",
-    "ci": "pnpm run test:ci && pnpm run lint",
-    "release": "pnpm run lint && pnpm run test && changeset publish"
+    "ci": "pnpm run test:ci && pnpm run lint"
   },
   "keywords": [],
   "author": "Crisler Wintler",
   "license": "MIT",
   "devDependencies": {
-    "@changesets/cli": "^2.26.0",
     "@types/node": "^18.13.0",
     "@typescript-eslint/eslint-plugin": "^5.52.0",
     "@typescript-eslint/parser": "^5.52.0",
@@ -33,7 +31,6 @@
     "lint-staged": "^13.1.2",
     "prettier": "2.8.4",
     "typescript": "^4.9.5",
-    "vite": "^4.1.4",
     "vitest": "^0.28.5"
   }
 }
