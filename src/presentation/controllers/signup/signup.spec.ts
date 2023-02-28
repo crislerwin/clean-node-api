@@ -165,7 +165,7 @@ describe('Signup Controller', () => {
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new MissingPararmError('passwordConfirmation'))
   })
-  test('should call', () => {
+  test('should call AddAccount and return the correct values', () => {
     const { sut, addAcountStub } = makeSut()
     const addSpy = vitest.spyOn(addAcountStub, 'add')
 
@@ -183,5 +183,23 @@ describe('Signup Controller', () => {
       email: 'valid_email',
       password: 'valid_password',
     })
+  })
+  test('Should return 500 if AddAccount throws', () => {
+    const { sut, addAcountStub } = makeSut()
+    vitest.spyOn(addAcountStub, 'add').mockImplementationOnce(() => {
+      throw new Error()
+    })
+
+    const httpRequest = {
+      body: {
+        name: 'valid_name',
+        email: 'valid_email',
+        password: 'valid_password',
+        passwordConfirmation: 'valid_password',
+      },
+    }
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
   })
 })
