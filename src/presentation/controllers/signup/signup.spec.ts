@@ -1,9 +1,7 @@
 import { describe, expect, test, vitest } from 'vitest'
-import { EmailValidator } from '../protocols'
+import { EmailValidator, AccountModel, AddAccount, AddAccountModel } from './signup-protocols'
 import { SignupController } from './signup'
-import { InvalidParamError, MissingPararmError, ServerError } from '../errors'
-import { AddAccount, AddAccountModel } from '../protocols/domain/usecases/add-account'
-import { AccountModel } from '../protocols/domain/models/accont'
+import { InvalidParamError, MissingPararmError, ServerError } from '../../errors'
 
 const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
