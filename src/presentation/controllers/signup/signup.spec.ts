@@ -21,14 +21,16 @@ const makeEmailValidatorWithError = (): EmailValidator => {
 }
 const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
-    add(_account: AddAccountModel): AccountModel {
+    async add(_account: AddAccountModel): Promise<AccountModel> {
       const fakeAccount = {
         id: 'valid_id',
         name: 'valid_name',
         email: 'valid_email',
         password: 'valid_password',
       }
-      return fakeAccount
+      return await new Promise((resolve) => {
+        resolve(fakeAccount)
+      })
     }
   }
   return new AddAccountStub()
@@ -51,7 +53,7 @@ const makeSut = (): SutTypes => {
   }
 }
 describe('Signup Controller', () => {
-  test('should return 400 if no name is provided', () => {
+  test('should return 400 if no name is provided', async () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {
@@ -60,11 +62,11 @@ describe('Signup Controller', () => {
         passwordConfirmation: 'any_password',
       },
     }
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new MissingPararmError('name'))
   })
-  test('should return 400 if no email is provided', () => {
+  test('should return 400 if no email is provided', async () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {
@@ -73,11 +75,11 @@ describe('Signup Controller', () => {
         passwordConfirmation: 'any_password',
       },
     }
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new MissingPararmError('email'))
   })
-  test('should return 400 if invalid email is provided', () => {
+  test('should return 400 if invalid email is provided', async () => {
     const { sut, emailValidatorStub } = makeSut()
     vitest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
     const httpRequest = {
@@ -88,11 +90,11 @@ describe('Signup Controller', () => {
         passwordConfirmation: 'any_password',
       },
     }
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new InvalidParamError('email'))
   })
-  test('should return 400 if password validate fails', () => {
+  test('should return 400 if password validate fails', async () => {
     const { sut, emailValidatorStub } = makeSut()
     vitest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
     const httpRequest = {
@@ -103,11 +105,11 @@ describe('Signup Controller', () => {
         passwordConfirmation: 'wrong_password',
       },
     }
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new InvalidParamError('passwordConfirmation'))
   })
-  test('should call EmailValidator with correct email', () => {
+  test('should call EmailValidator with correct email', async () => {
     const { sut, emailValidatorStub } = makeSut()
     const isValidSpy = vitest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
     const httpRequest = {
@@ -118,10 +120,10 @@ describe('Signup Controller', () => {
         passwordConfirmation: 'any_password',
       },
     }
-    sut.handle(httpRequest)
+    await sut.handle(httpRequest)
     expect(isValidSpy).toHaveBeenCalledWith('any_email@mail.com')
   })
-  test('should return 500 if email validator throws', () => {
+  test('should return 500 if email validator throws', async () => {
     const emailValidatorStub = makeEmailValidatorWithError()
     const addAccountStub = makeAddAccount()
     const sut = new SignupController(emailValidatorStub, addAccountStub)
@@ -133,11 +135,11 @@ describe('Signup Controller', () => {
         passwordConfirmation: 'any_password',
       },
     }
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
   })
-  test('should return 400 if no password is provided', () => {
+  test('should return 400 if no password is provided', async () => {
     const { sut } = makeSut()
 
     const httpRequest = {
@@ -146,12 +148,12 @@ describe('Signup Controller', () => {
         name: 'any_name',
       },
     }
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new MissingPararmError('password'))
   })
 
-  test('should return 400 if no password confirmation is provided', () => {
+  test('should return 400 if no password confirmation is provided', async () => {
     const { sut } = makeSut()
 
     const httpRequest = {
@@ -161,11 +163,11 @@ describe('Signup Controller', () => {
         password: 'any_password',
       },
     }
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new MissingPararmError('passwordConfirmation'))
   })
-  test('should call AddAccount and return the correct values', () => {
+  test('should call AddAccount and return the correct values', async () => {
     const { sut, addAcountStub } = makeSut()
     const addSpy = vitest.spyOn(addAcountStub, 'add')
 
@@ -177,18 +179,21 @@ describe('Signup Controller', () => {
         passwordConfirmation: 'valid_password',
       },
     }
-    sut.handle(httpRequest)
+    await sut.handle(httpRequest)
     expect(addSpy).toHaveBeenCalledWith({
       name: 'valid_name',
       email: 'valid_email',
       password: 'valid_password',
     })
   })
-  test('Should return 500 if AddAccount throws', () => {
+  test('Should return 500 if AddAccount throws', async () => {
     const { sut, addAcountStub } = makeSut()
-    vitest.spyOn(addAcountStub, 'add').mockImplementationOnce(() => {
-      throw new Error()
-    })
+    const addAccountMock = async (): Promise<any> => {
+      return await new Promise((resolve, reject) => {
+        reject(new Error())
+      })
+    }
+    vitest.spyOn(addAcountStub, 'add').mockImplementationOnce(addAccountMock)
 
     const httpRequest = {
       body: {
@@ -198,11 +203,11 @@ describe('Signup Controller', () => {
         passwordConfirmation: 'valid_password',
       },
     }
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
   })
-  test('Should return 200 if valid data is provided', () => {
+  test('Should return 200 if valid data is provided', async () => {
     const { sut } = makeSut()
 
     const httpRequest = {
@@ -213,7 +218,7 @@ describe('Signup Controller', () => {
         passwordConfirmation: 'valid_password',
       },
     }
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(200)
     expect(httpResponse.body).toEqual({
       id: 'valid_id',
