@@ -2,13 +2,12 @@ import { describe, expect, test, vitest } from 'vitest'
 import { EmailValidator } from '../protocols'
 import { SignupController } from './signup'
 import { InvalidParamError, MissingPararmError, ServerError } from '../errors'
-interface SutTypes {
-  sut: SignupController
-  emailValidatorStub: EmailValidator
-}
+import { AddAccount, AddAccountModel } from '../protocols/domain/usecases/add-account'
+import { AccountModel } from '../protocols/domain/models/accont'
+
 const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
-    isValid(email: string): boolean {
+    isValid(_mail: string): boolean {
       return true
     }
   }
@@ -16,19 +15,41 @@ const makeEmailValidator = (): EmailValidator => {
 }
 const makeEmailValidatorWithError = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
-    isValid(email: string): boolean {
+    isValid(_email: string): boolean {
       throw new ServerError()
     }
   }
   return new EmailValidatorStub()
 }
+const makeAddAccount = (): AddAccount => {
+  class AddAccountStub implements AddAccount {
+    add(_account: AddAccountModel): AccountModel {
+      const fakeAccount = {
+        id: 'valid_id',
+        name: 'any_name',
+        email: 'any_email@email.com',
+        password: 'any_password',
+      }
+      return fakeAccount
+    }
+  }
+  return new AddAccountStub()
+}
+
+interface SutTypes {
+  sut: SignupController
+  emailValidatorStub: EmailValidator
+  addAcountStub: AddAccount
+}
 
 const makeSut = (): SutTypes => {
+  const addAccountStub = makeAddAccount()
   const emailValidator = makeEmailValidator()
-  const sut = new SignupController(emailValidator)
+  const sut = new SignupController(emailValidator, addAccountStub)
   return {
     sut,
     emailValidatorStub: emailValidator,
+    addAcountStub: addAccountStub,
   }
 }
 describe('Signup Controller', () => {
@@ -104,7 +125,8 @@ describe('Signup Controller', () => {
   })
   test('should return 500 if email validator throws', () => {
     const emailValidatorStub = makeEmailValidatorWithError()
-    const sut = new SignupController(emailValidatorStub)
+    const addAccountStub = makeAddAccount()
+    const sut = new SignupController(emailValidatorStub, addAccountStub)
     const httpRequest = {
       body: {
         name: 'any_name',
@@ -130,6 +152,7 @@ describe('Signup Controller', () => {
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new MissingPararmError('password'))
   })
+
   test('should return 400 if no password confirmation is provided', () => {
     const { sut } = makeSut()
 
@@ -143,5 +166,24 @@ describe('Signup Controller', () => {
     const httpResponse = sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new MissingPararmError('passwordConfirmation'))
+  })
+  test('should call', () => {
+    const { sut, addAcountStub } = makeSut()
+    const addSpy = vitest.spyOn(addAcountStub, 'add')
+
+    const httpRequest = {
+      body: {
+        name: 'valid_name',
+        email: 'valid_email',
+        password: 'valid_password',
+        passwordConfirmation: 'valid_password',
+      },
+    }
+    sut.handle(httpRequest)
+    expect(addSpy).toHaveBeenCalledWith({
+      name: 'valid_name',
+      email: 'valid_email',
+      password: 'valid_password',
+    })
   })
 })
