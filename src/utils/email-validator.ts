@@ -1,5 +1,7 @@
+import validator from 'validator'
+
 export class EmailValidatorAdapter {
   isValid(email: string): boolean {
-    return false
+    return validator.isEmail(email)
   }
 }
