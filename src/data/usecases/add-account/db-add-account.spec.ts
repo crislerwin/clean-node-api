@@ -1,4 +1,4 @@
-import { Encrypter } from '@/data/protocols/encrypter'
+import { Encrypter } from './db-add-account-protocols'
 import { describe, expect, test, vi } from 'vitest'
 import { DbAddAccount } from './db-add-account'
 
