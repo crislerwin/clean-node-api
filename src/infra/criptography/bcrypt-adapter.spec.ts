@@ -24,4 +24,15 @@ describe('BcryptAdapter', () => {
     const hash = await sut.encrypt('any_value')
     expect(hash).toBe('hash')
   })
+  test('Should throws if bcrypt thros', async () => {
+    const sut = makeSut()
+    const bcryptMock = async (): Promise<string> => {
+      return await new Promise((resolve, reject) => {
+        reject(new Error())
+      })
+    }
+    vi.spyOn(bcrypt, 'hash').mockReturnValueOnce(bcryptMock as any)
+    const promise = await sut.encrypt('any_value')
+    await expect(promise).rejects.toThrow()
+  })
 })
