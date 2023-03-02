@@ -88,4 +88,23 @@ describe('DbAddAccount UseCase', () => {
     await sut.add(accountData)
     expect(addSpy).toHaveBeenCalledWith(accountData)
   })
+  test('Should throw if AddAccountRepository throws', async () => {
+    const { sut, addAccountRepositoryStub } = makeSut()
+    const addAccount = async (): Promise<AccountModel> => {
+      return await new Promise((resolve, reject) => {
+        reject(new Error())
+      })
+    }
+
+    vi.spyOn(addAccountRepositoryStub, 'add').mockReturnValueOnce(
+      addAccount as unknown as Promise<AccountModel>,
+    )
+    const accountData = {
+      name: 'valid_name',
+      email: 'valid_email',
+      password: 'valid_password',
+    }
+    const promise = await sut.add(accountData)
+    await expect(promise).rejects.toThrow()
+  })
 })
