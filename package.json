@@ -36,6 +36,8 @@
     "vitest": "^0.28.5"
   },
   "dependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "bcrypt": "^5.1.0",
     "validator": "^13.9.0"
   }
 }
