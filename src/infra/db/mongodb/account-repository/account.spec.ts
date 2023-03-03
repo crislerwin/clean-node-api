@@ -1,16 +1,13 @@
 import { test, describe, expect, beforeAll, afterAll } from 'vitest'
-import { MongoHelper } from '../helpers/mongo-helper'
+import { setup, teardown } from '../helpers/database-in-memory-helper'
 import { AccountMongoRepository } from './account'
-import { MongoMemoryServer } from 'mongodb-memory-server'
 
 describe('Account Mongo Repository', () => {
   beforeAll(async () => {
-    const inMemoryServer = await MongoMemoryServer.create()
-    const uri = inMemoryServer.getUri()
-    await MongoHelper.connect(uri)
+    await setup()
   })
   afterAll(async () => {
-    await MongoHelper.disconnect()
+    await teardown()
   })
   test('Should return an account on success', async () => {
     const sut = new AccountMongoRepository()
