@@ -8,16 +8,22 @@
     "prepare": "husky install",
     "lint": "tsc",
     "test": "vitest run",
+    "build": "rimraf dist && tsup src/main/server.ts --format cjs,esm --dts",
+    "start": "node dist/server.js",
+    "dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules src/main/server.ts",
     "test:ci": "pnpm test -- --coverage",
-    "test:dev": "vitest",
+    "test:watch": "vitest",
+    "test:integration": "vitest",
     "test:staged": "pnpm run test -- --filter $(git diff --cached --name-only | grep -E '\\.test\\.ts$')",
-    "ci": "pnpm run test:ci && pnpm run lint"
+    "ci": "pnpm run test:ci  && pnpm run lint && pnpm ru build"
   },
   "keywords": [],
   "author": "Crisler Wintler",
   "license": "MIT",
   "devDependencies": {
+    "@types/express": "^4.17.17",
     "@types/node": "^18.13.0",
+    "@types/supertest": "^2.0.12",
     "@types/validator": "^13.7.12",
     "@typescript-eslint/eslint-plugin": "^5.52.0",
     "@typescript-eslint/parser": "^5.52.0",
@@ -32,6 +38,10 @@
     "lint-staged": "^13.1.2",
     "mongodb-memory-server": "^8.11.5",
     "prettier": "2.8.4",
+    "rimraf": "^4.2.0",
+    "supertest": "^6.3.3",
+    "ts-node-dev": "^2.0.0",
+    "tsup": "^6.6.3",
     "typescript": "^4.9.5",
     "vite": "^4.1.4",
     "vitest": "^0.28.5"
@@ -39,6 +49,7 @@
   "dependencies": {
     "@types/bcrypt": "^5.0.0",
     "bcrypt": "^5.1.0",
+    "express": "^4.18.2",
     "mongodb": "^5.1.0",
     "validator": "^13.9.0"
   }
