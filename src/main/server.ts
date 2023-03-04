@@ -1,10 +1,11 @@
+import { Request, Response } from 'express'
 import app from './config/app'
 
 const APP_PORT = process.env.NODE_PORT ?? 5050
 
-app.get('/', (req, res) => {
+app.get('/', (req: Request, res: Response) => {
   res.send({
-    message: process.env.NODE_PORT,
+    message: 'Hello World!',
   })
 })
 

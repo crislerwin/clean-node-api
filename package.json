@@ -8,7 +8,7 @@
     "prepare": "husky install",
     "lint": "tsc",
     "test": "vitest run",
-    "build": "rimraf dist && tsup src/main/server.ts --format cjs,esm --dts",
+    "build": "rimraf dist && tsup src/main/server.ts --format cjs,esm",
     "start": "node dist/server.js",
     "dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules src/main/server.ts",
     "test:ci": "pnpm test -- --coverage",
