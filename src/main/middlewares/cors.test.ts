@@ -1,8 +1,9 @@
 import request from 'supertest'
-import app from '../config/app'
+import { setupApp } from '../config/app'
 import { describe, test } from 'vitest'
 
-describe('Cors Middleware', () => {
+describe('Cors Middleware', async () => {
+  const app = await setupApp()
   test('Should enable Cors', async () => {
     app.get('/test_cors', (req, res) => {
       res.send()

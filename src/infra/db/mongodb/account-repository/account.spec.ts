@@ -1,10 +1,14 @@
-import { test, describe, expect } from 'vitest'
+import { test, describe, expect, beforeAll, afterAll } from 'vitest'
 import { InMemoryMongoDbHelper } from '../helpers/in-memory-mongo-helper'
 import { AccountMongoRepository } from './account'
 
 describe('Account Mongo Repository', async () => {
-  await InMemoryMongoDbHelper.setup()
-  await InMemoryMongoDbHelper.teardown()
+  beforeAll(async () => {
+    await InMemoryMongoDbHelper.setup()
+  })
+  afterAll(async () => {
+    await InMemoryMongoDbHelper.teardown()
+  })
 
   test('Should return an account on success', async () => {
     const sut = new AccountMongoRepository()

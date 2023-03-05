@@ -1,8 +1,9 @@
 import request from 'supertest'
-import app from '../config/app'
+import { setupApp } from '../config/app'
 import { describe, test } from 'vitest'
 
-describe('Content Type Middleware', () => {
+describe('Content Type Middleware', async () => {
+  const app = await setupApp()
   test('Should default content type as json', async () => {
     app.get('/test_content_type', (req, res) => {
       res.send('')
