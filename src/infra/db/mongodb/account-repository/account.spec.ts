@@ -1,13 +1,16 @@
 import { test, describe, expect, beforeAll, afterAll } from 'vitest'
-import { InMemoryMongoDbHelper } from '../helpers/in-memory-mongo-helper'
 import { AccountMongoRepository } from './account'
+import { MongoMemoryServer } from 'mongodb-memory-server'
+import { MongoHelper } from '../helpers/mongo-helper'
 
 describe('Account Mongo Repository', async () => {
   beforeAll(async () => {
-    await InMemoryMongoDbHelper.setup()
+    const mongoServer = await MongoMemoryServer.create()
+    const uri = mongoServer.getUri()
+    await MongoHelper.connect(uri)
   })
   afterAll(async () => {
-    await InMemoryMongoDbHelper.teardown()
+    await MongoHelper.disconnect()
   })
 
   test('Should return an account on success', async () => {
