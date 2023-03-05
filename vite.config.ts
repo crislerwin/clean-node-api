@@ -5,5 +5,6 @@ export default defineConfig({
     alias: {
       '@/': '/src/',
     },
+    exclude: ['data', 'node_modules'],
   },
 })
