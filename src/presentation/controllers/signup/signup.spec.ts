@@ -1,4 +1,4 @@
-import { describe, expect, test, vitest } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import { EmailValidator, AccountModel, AddAccount, AddAccountModel } from './signup-protocols'
 import { SignupController } from './signup'
 import { InvalidParamError, MissingPararmError, ServerError } from '@/presentation/errors'
@@ -81,7 +81,7 @@ describe('Signup Controller', () => {
   })
   test('should return 400 if invalid email is provided', async () => {
     const { sut, emailValidatorStub } = makeSut()
-    vitest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
+    vi.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
     const httpRequest = {
       body: {
         name: 'any_name',
@@ -96,7 +96,7 @@ describe('Signup Controller', () => {
   })
   test('should return 400 if password validate fails', async () => {
     const { sut, emailValidatorStub } = makeSut()
-    vitest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
+    vi.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
     const httpRequest = {
       body: {
         name: 'any_name',
@@ -111,7 +111,7 @@ describe('Signup Controller', () => {
   })
   test('should call EmailValidator with correct email', async () => {
     const { sut, emailValidatorStub } = makeSut()
-    const isValidSpy = vitest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
+    const isValidSpy = vi.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
     const httpRequest = {
       body: {
         name: 'any_name',
@@ -169,7 +169,7 @@ describe('Signup Controller', () => {
   })
   test('should call AddAccount and return the correct values', async () => {
     const { sut, addAcountStub } = makeSut()
-    const addSpy = vitest.spyOn(addAcountStub, 'add')
+    const addSpy = vi.spyOn(addAcountStub, 'add')
 
     const httpRequest = {
       body: {
@@ -193,7 +193,7 @@ describe('Signup Controller', () => {
         reject(new Error())
       })
     }
-    vitest.spyOn(addAcountStub, 'add').mockImplementationOnce(addAccountMock)
+    vi.spyOn(addAcountStub, 'add').mockImplementationOnce(addAccountMock)
 
     const httpRequest = {
       body: {
