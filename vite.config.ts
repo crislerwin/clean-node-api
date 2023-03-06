@@ -11,7 +11,7 @@ export default defineConfig({
       '@domain/': '/src/domain/',
     },
     coverage: {
-      exclude: ['src/main/**', 'src/infra/db/mongodb/helpers'],
+      exclude: ['src/main/**'],
     },
     exclude: ['data', 'node_modules', 'dist'],
   },
