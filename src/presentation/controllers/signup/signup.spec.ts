@@ -8,7 +8,7 @@ import {
 } from './signup-protocols'
 import { SignupController } from './signup'
 import { InvalidParamError, MissingPararmError, ServerError } from '../../../presentation/errors'
-import { badRequest, serverError } from '@/presentation/helpers/http-helper'
+import { badRequest, ok, serverError } from '@/presentation/helpers/http-helper'
 
 const makeFakeAccount = (): AccountModel => ({
   id: 'valid_id',
@@ -190,7 +190,6 @@ describe('Signup Controller', () => {
     const { sut } = makeSut()
     const httpRequest = makeFakeRequest()
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.statusCode).toBe(200)
-    expect(httpResponse.body).toEqual(makeFakeAccount())
+    expect(httpResponse).toEqual(ok(makeFakeAccount()))
   })
 })

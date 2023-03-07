@@ -29,6 +29,13 @@ const makeFakeRequest = (): HttpRequest => ({
   },
 })
 
+const makeFakeServerError = (): HttpResponse => {
+  const fakeError = new Error()
+  fakeError.stack = 'any_stack'
+  const error = serverError(fakeError)
+  return error
+}
+
 const makeSut = (): SutTypes => {
   class ControllerStub implements Controller {
     async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -80,13 +87,11 @@ describe('LogController Decorator', () => {
   })
   test('Should call LogoErrorRepository with correct erro if controller returns a server error', async () => {
     const { sut, logErrorRepositoryStub, controllerStub } = makeSut()
-    const fakeError = new Error()
-    fakeError.stack = 'any_stack'
-    const error = serverError(fakeError)
+
     const logSpy = vi.spyOn(logErrorRepositoryStub, 'log')
     vi.spyOn(controllerStub, 'handle').mockReturnValueOnce(
       new Promise((resolve) => {
-        resolve(error)
+        resolve(makeFakeServerError())
       }),
     )
     const httpRequest = makeFakeRequest()
