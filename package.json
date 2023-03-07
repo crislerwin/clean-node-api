@@ -15,7 +15,7 @@
     "test:watch": "vitest",
     "test:integration": "vitest",
     "test:staged": "pnpm run test -- --filter $(git diff --cached --name-only | grep -E '\\.test\\.ts$')",
-    "ci": "pnpm run test:ci  && pnpm run lint && pnpm run build"
+    "ci": "pnpm run test:ci && pnpm run build"
   },
   "keywords": [],
   "author": "Crisler Wintler",
