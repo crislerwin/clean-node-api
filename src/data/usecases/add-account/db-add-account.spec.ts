@@ -9,17 +9,18 @@ interface SutTypes {
   addAccountRepositoryStub: AddAccountRepository
 }
 
+const makeFakeAccount = (): AccountModel => ({
+  id: 'valid_id',
+  name: 'valid_name',
+  email: 'valid_email',
+  password: 'hashed_password',
+})
+
 const makeAddAccountRepository = (): AddAccountRepository => {
   class AddAccountRepositoryStub implements AddAccountRepository {
     async add(accountData: AddAccountModel): Promise<AccountModel> {
       return await new Promise((resolve) => {
-        const fakeAccount = {
-          id: 'valid_id',
-          name: 'valid_name',
-          email: 'valid_email',
-          password: 'hashed_password',
-        }
-        resolve(fakeAccount)
+        resolve(makeFakeAccount())
       })
     }
   }
@@ -48,17 +49,18 @@ const makeSut = (): SutTypes => {
     addAccountRepositoryStub,
   }
 }
+const makeFakeAccountData = (): AddAccountModel => ({
+  name: 'valid_name',
+  email: 'valid_email',
+  password: 'valid_password',
+})
 
 describe('DbAddAccount UseCase', () => {
   test('Should call Encrypter with correct password', async () => {
     const { sut, encrypterStub } = makeSut()
     const encryptSpy = vi.spyOn(encrypterStub, 'encrypt')
-    const accountData = {
-      name: 'valid_name',
-      email: 'valid_email@mail.com',
-      password: 'valid_password',
-    }
-    await sut.add(accountData)
+
+    await sut.add(makeFakeAccountData())
     expect(encryptSpy).toHaveBeenCalledWith('valid_password')
   })
   test('Should throw if Encrypter throws', async () => {
@@ -69,22 +71,13 @@ describe('DbAddAccount UseCase', () => {
       })
     })
 
-    const accountData = {
-      name: 'valid_name',
-      email: 'valid_email@mail.com',
-      password: 'invalid_password',
-    }
-    const promise = sut.add(accountData)
+    const promise = sut.add(makeFakeAccountData())
     await expect(promise).rejects.toThrow()
   })
   test('Should call AddAccountRepository with correct values', async () => {
     const { sut, addAccountRepositoryStub } = makeSut()
     const addSpy = vi.spyOn(addAccountRepositoryStub, 'add')
-    const accountData = {
-      name: 'valid_name',
-      email: 'valid_email',
-      password: 'valid_password',
-    }
+    const accountData = makeFakeAccountData()
     await sut.add(accountData)
     expect(addSpy).toHaveBeenCalledWith(accountData)
   })
@@ -99,28 +92,14 @@ describe('DbAddAccount UseCase', () => {
     vi.spyOn(addAccountRepositoryStub, 'add').mockReturnValueOnce(
       addAccount as unknown as Promise<AccountModel>,
     )
-    const accountData = {
-      name: 'valid_name',
-      email: 'valid_email',
-      password: 'valid_password',
-    }
+    const accountData = makeFakeAccountData()
     const promise = await sut.add(accountData)
     await expect(promise).rejects.toThrow()
   })
   test('Should retyrb an account on success', async () => {
     const { sut } = makeSut()
-
-    const accountData = {
-      name: 'valid_name',
-      email: 'valid_email',
-      password: 'valid_password',
-    }
+    const accountData = makeFakeAccountData()
     const account = await sut.add(accountData)
-    expect(account).toEqual({
-      id: 'valid_id',
-      name: 'valid_name',
-      email: 'valid_email',
-      password: 'hashed_password',
-    })
+    expect(account).toEqual(makeFakeAccount())
   })
 })
