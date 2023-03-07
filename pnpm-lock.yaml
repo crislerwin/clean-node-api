@@ -1,9 +1,10 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@rollup/plugin-alias': ^4.0.3
   '@types/bcrypt': ^5.0.0
   '@types/express': ^4.17.17
-  '@types/node': ^18.13.0
+  '@types/node': ^18.14.6
   '@types/supertest': ^2.0.12
   '@types/validator': ^13.7.12
   '@typescript-eslint/eslint-plugin': ^5.52.0
@@ -25,6 +26,7 @@ specifiers:
   rimraf: ^4.2.0
   supertest: ^6.3.3
   ts-node-dev: ^2.0.0
+  tsconfig-paths: ^4.1.2
   tsup: ^6.6.3
   typescript: ^4.9.5
   validator: ^13.9.0
@@ -39,6 +41,7 @@ dependencies:
   validator: 13.9.0
 
 devDependencies:
+  '@rollup/plugin-alias': 4.0.3
   '@types/express': 4.17.17
   '@types/node': 18.14.6
   '@types/supertest': 2.0.12
@@ -59,6 +62,7 @@ devDependencies:
   rimraf: 4.3.0
   supertest: 6.3.3
   ts-node-dev: 2.0.0_alpjt73dvgv6kni625hu7f2l4m
+  tsconfig-paths: 4.1.2
   tsup: 6.6.3_typescript@4.9.5
   typescript: 4.9.5
   vite: 4.1.4_@types+node@18.14.6
@@ -1395,6 +1399,18 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
+    dev: true
+
+  /@rollup/plugin-alias/4.0.3:
+    resolution: {integrity: sha512-ZuDWE1q4PQDhvm/zc5Prun8sBpLJy41DMptYrS6MhAy9s9kL/doN1613BWfEchGVfKxzliJ3BjbOPizXX38DbQ==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      slash: 4.0.0
     dev: true
 
   /@tsconfig/node10/1.0.9:
@@ -3568,6 +3584,12 @@ packages:
       minimist: 1.2.8
     dev: true
 
+  /json5/2.2.3:
+    resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
+    engines: {node: '>=6'}
+    hasBin: true
+    dev: true
+
   /jsonc-parser/3.2.0:
     resolution: {integrity: sha512-gfFQZrcTc8CnKXp6Y4/CBT3fTc0OVuDofpre4aEeEpSBPV5X5v4+Vmx+8snU7RLPrNHPKSgLxGo9YuQzz20o+w==}
     dev: true
@@ -4521,6 +4543,11 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /slash/4.0.0:
+    resolution: {integrity: sha512-3dOsAHXXUkQTpOYcoAxLIorMTp4gIQr5IW3iVb7A7lFIp0VHhnynm9izx6TssdrIcVIESAlVjtnO2K8bg+Coew==}
+    engines: {node: '>=12'}
+    dev: true
+
   /slice-ansi/3.0.0:
     resolution: {integrity: sha512-pSyv7bSTC7ig9Dcgbw9AuRNUb5k5V6oDudjZoMBSr13qpLBG7tB+zgCkARjq7xIUgdz5P1Qe8u+rSGdouOOIyQ==}
     engines: {node: '>=8'}
@@ -4921,6 +4948,15 @@ packages:
     dependencies:
       '@types/json5': 0.0.29
       json5: 1.0.2
+      minimist: 1.2.8
+      strip-bom: 3.0.0
+    dev: true
+
+  /tsconfig-paths/4.1.2:
+    resolution: {integrity: sha512-uhxiMgnXQp1IR622dUXI+9Ehnws7i/y6xvpZB9IbUVOPy0muvdvgXeZOn88UcGPiT98Vp3rJPTa8bFoalZ3Qhw==}
+    engines: {node: '>=6'}
+    dependencies:
+      json5: 2.2.3
       minimist: 1.2.8
       strip-bom: 3.0.0
     dev: true

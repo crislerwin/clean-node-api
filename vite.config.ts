@@ -1,15 +1,15 @@
+import path from 'path'
 import { defineConfig } from 'vitest/config'
+import alias from '@rollup/plugin-alias'
 
 export default defineConfig({
+  plugins: [
+    alias({
+      entries: [{ find: '@', replacement: path.resolve(__dirname, './src') }],
+    }),
+  ],
+
   test: {
-    alias: {
-      '@/': '/src/',
-      '@main/': '/src/main/',
-      '@infra/': '/src/infra/',
-      '@data/': '/src/data/',
-      '@presentation/': '/src/presentation/',
-      '@domain/': '/src/domain/',
-    },
     coverage: {
       exclude: ['src/main/**'],
     },

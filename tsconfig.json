@@ -12,7 +12,13 @@
     "moduleResolution": "node",
     "lib": ["ES2022"],
     "outDir": "dist",
-    "baseUrl": "."
+    "baseUrl": "src",
+    "sourceMap": true,
+    "declaration": true,
+    "paths": {
+      "@/*": ["*"],
+      "@test/*": ["../test/*"]
+    }
   },
   "include": ["src/**/*", "test/**/*"],
   "exclude": ["node_modules", "dist"]
