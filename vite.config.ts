@@ -13,6 +13,6 @@ export default defineConfig({
     coverage: {
       exclude: ['src/main/**'],
     },
-    exclude: ['data', 'node_modules', 'dist'],
+    exclude: ['.data', 'node_modules', 'dist'],
   },
 })
