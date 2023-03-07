@@ -12,15 +12,7 @@
     "moduleResolution": "node",
     "lib": ["ES2022"],
     "outDir": "dist",
-    "baseUrl": ".",
-    "paths": {
-      "@/": ["/src/"],
-      "@main/": ["/src/main/"],
-      "@infra/": ["/src/infra/"],
-      "@data/": ["/src/data/"],
-      "@presentation/": ["/src/presentation/"],
-      "@domain/": ["/src/domain/"]
-    }
+    "baseUrl": "."
   },
   "include": ["src/**/*", "test/**/*"],
   "exclude": ["node_modules", "dist"]
