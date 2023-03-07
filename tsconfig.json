@@ -14,8 +14,12 @@
     "outDir": "dist",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@test/*": ["test/*"]
+      "@/": ["/src/"],
+      "@main/": ["/src/main/"],
+      "@infra/": ["/src/infra/"],
+      "@data/": ["/src/data/"],
+      "@presentation/": ["/src/presentation/"],
+      "@domain/": ["/src/domain/"]
     }
   },
   "include": ["src/**/*", "test/**/*"],
