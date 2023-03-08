@@ -1,6 +1,6 @@
 import { Authentication } from '@/domain/usecases/authentication'
 import { InvalidParamError, MissingPararmError } from '@/presentation/errors'
-import { badRequest, serverError } from '@/presentation/helpers/http-helper'
+import { badRequest, serverError, unauthorized } from '@/presentation/helpers/http-helper'
 import { describe, expect, test, vi } from 'vitest'
 import { EmailValidator, HttpRequest } from '../signup/signup-protocols'
 import { LoginController } from './login'
@@ -86,5 +86,16 @@ describe('Login Controller', () => {
     const httpRequest = makeFakeRequest()
     await sut.handle(httpRequest)
     expect(authSpy).toHaveBeenCalledWith('any_email@mail.com', 'any_password')
+  })
+  test('Should return 401 if invalid credentials is provided', async () => {
+    const { sut, authenticationStub } = makeSut()
+    vi.spyOn(authenticationStub, 'auth').mockReturnValueOnce(
+      new Promise((resolve) => {
+        resolve(null as any)
+      }),
+    )
+    const httpRequest = makeFakeRequest()
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(unauthorized())
   })
 })
