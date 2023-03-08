@@ -1,8 +1,15 @@
 import { InvalidParamError, MissingPararmError } from '@/presentation/errors'
 import { badRequest } from '@/presentation/helpers/http-helper'
 import { describe, expect, test, vi } from 'vitest'
-import { EmailValidator } from '../signup/signup-protocols'
+import { EmailValidator, HttpRequest } from '../signup/signup-protocols'
 import { LoginController } from './login'
+
+const makeFakeRequest = (): HttpRequest => ({
+  body: {
+    email: 'any_email@mail.com',
+    password: 'any_password',
+  },
+})
 
 const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
@@ -39,11 +46,7 @@ describe('Login Controller', () => {
   test('Should call Emailvalidator with correct email', async () => {
     const { sut, emailValidatorStub } = makeSut()
     const isValidSpy = vi.spyOn(emailValidatorStub, 'isValid')
-    const httpRequest = {
-      body: {
-        email: 'any_email@mail.com',
-      },
-    }
+    const httpRequest = makeFakeRequest()
     await sut.handle(httpRequest)
     expect(isValidSpy).toHaveBeenCalledWith('any_email@mail.com')
   })
@@ -51,12 +54,7 @@ describe('Login Controller', () => {
   test('Should return 400 if no valid email is provided', async () => {
     const { sut, emailValidatorStub } = makeSut()
     vi.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
-    const httpRequest = {
-      body: {
-        email: 'any_email@mail.com',
-        password: 'any_password',
-      },
-    }
+    const httpRequest = makeFakeRequest()
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(badRequest(new InvalidParamError('email')))
   })
