@@ -10,7 +10,7 @@ import { LogControllerDecorator } from '../decorators/log'
 
 class Validator implements Validation {
   validate(input: any): Error {
-    return new Error()
+    return null as unknown as Error
   }
 }
 
