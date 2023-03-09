@@ -211,4 +211,11 @@ describe('Signup Controller', () => {
     await sut.handle(httpRequest)
     expect(validateSpy).toBeCalledWith(httpRequest.body)
   })
+  test('should return 400 if Validation returns an error', async () => {
+    const { sut, validationStub } = makeSut()
+    vi.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingPararmError('any_field'))
+    const httpRequest = makeFakeRequest()
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(badRequest(new MissingPararmError('any_field')))
+  })
 })
