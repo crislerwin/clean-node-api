@@ -5,30 +5,38 @@ import { ValidateComposite } from './validation-composite'
 
 interface SutTypes {
   sut: ValidateComposite
-  validationStub: Validation
+  validationStubs: Validation[]
 }
-const makeSut = (): SutTypes => {
+
+const makeValidation = (): Validation => {
   class ValidationStub implements Validation {
     validate(input: any): Error {
       return null as unknown as Error
     }
   }
-
-  const validationStub = new ValidationStub()
-
-  const sut = new ValidateComposite([validationStub])
-
+  return new ValidationStub()
+}
+const makeSut = (): SutTypes => {
+  const validationStubs = [makeValidation(), makeValidation()]
+  const sut = new ValidateComposite(validationStubs)
   return {
     sut,
-    validationStub,
+    validationStubs,
   }
 }
 
 describe('ValidationComposite', () => {
   test('Should return an error if any validation fails', () => {
-    const { sut, validationStub } = makeSut()
-    vi.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingPararmError('field'))
+    const { sut, validationStubs } = makeSut()
+    vi.spyOn(validationStubs[1], 'validate').mockReturnValueOnce(new MissingPararmError('field'))
     const error = sut.validate({ field: 'any_value' })
     expect(error).toEqual(new MissingPararmError('field'))
+  })
+  test('Should return the first error more than one validation fails ', () => {
+    const { sut, validationStubs } = makeSut()
+    vi.spyOn(validationStubs[0], 'validate').mockReturnValueOnce(new Error())
+    vi.spyOn(validationStubs[1], 'validate').mockReturnValueOnce(new MissingPararmError('field'))
+    const error = sut.validate({ field: 'any_value' })
+    expect(error).toEqual(new Error())
   })
 })
