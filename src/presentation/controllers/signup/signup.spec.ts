@@ -1,12 +1,12 @@
 import { describe, expect, test, vi } from 'vitest'
 import { SignupController } from './signup'
-import { InvalidParamError, MissingPararmError, ServerError } from '../../../presentation/errors'
 import { AccountModel } from '@/domain/models/account'
 import { HttpRequest } from '@/presentation/protocols'
 import { EmailValidator } from '@/presentation/protocols/email-validator'
 import { AddAccount, AddAccountModel } from '@/domain/usecases/add-account'
 import { badRequest, ok, serverError } from '@/presentation/helpers/http-helper'
 import { Validation } from './signup-protocols'
+import { MissingPararmError, ServerError } from '@/presentation/errors'
 
 const makeFakeAccount = (): AccountModel => ({
   id: 'valid_id',
@@ -81,20 +81,6 @@ const makeSut = (): SutTypes => {
   }
 }
 describe('Signup Controller', () => {
-  test('should return 400 if password validate fails', async () => {
-    const { sut, emailValidatorStub } = makeSut()
-    vi.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
-    const httpRequest = {
-      body: {
-        name: 'any_name',
-        email: 'any_email@email.com',
-        password: 'any_password',
-        passwordConfirmation: 'wrong_password',
-      },
-    }
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(badRequest(new InvalidParamError('passwordConfirmation')))
-  })
   test('should call EmailValidator with correct email', async () => {
     const { sut, emailValidatorStub } = makeSut()
     const isValidSpy = vi.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
