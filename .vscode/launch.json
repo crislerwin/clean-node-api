@@ -7,10 +7,9 @@
       "name": "Current File",
       "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
       "args": ["${file}", "--config", "${workspaceFolder}/vite.config.ts"],
-
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
-      "skipFiles": ["<node_internals>/*", "/node_modules/*"]
+      "skipFiles": ["<node_internals>/*", "/node_modules/*", "/dist"]
     }
   ]
 }

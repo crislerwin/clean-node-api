@@ -31,14 +31,7 @@ const makeEmailValidator = (): EmailValidator => {
   }
   return new EmailValidatorStub()
 }
-const makeEmailValidatorWithError = (): EmailValidator => {
-  class EmailValidatorStub implements EmailValidator {
-    isValid(_email: string): boolean {
-      throw new ServerError()
-    }
-  }
-  return new EmailValidatorStub()
-}
+
 const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
     async add(_account: AddAccountModel): Promise<AccountModel> {
@@ -71,7 +64,7 @@ const makeSut = (): SutTypes => {
   const addAcountStub = makeAddAccount()
   const emailValidatorStub = makeEmailValidator()
   const validationStub = makeValidation()
-  const sut = new SignupController(emailValidatorStub, addAcountStub, validationStub)
+  const sut = new SignupController(addAcountStub, validationStub)
 
   return {
     sut,
@@ -81,29 +74,6 @@ const makeSut = (): SutTypes => {
   }
 }
 describe('Signup Controller', () => {
-  test('should call EmailValidator with correct email', async () => {
-    const { sut, emailValidatorStub } = makeSut()
-    const isValidSpy = vi.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
-    const httpRequest = {
-      body: {
-        name: 'any_name',
-        password: 'any_password',
-        email: 'any_mail@mail.com',
-        passwordConfirmation: 'any_password',
-      },
-    }
-    await sut.handle(httpRequest)
-    expect(isValidSpy).toHaveBeenCalledWith('any_mail@mail.com')
-  })
-  test('should return 500 if email validator throws', async () => {
-    const emailValidatorStub = makeEmailValidatorWithError()
-    const validationStub = makeValidation()
-    const addAccountStub = makeAddAccount()
-    const sut = new SignupController(emailValidatorStub, addAccountStub, validationStub)
-    const httpRequest = makeFakeRequest()
-    const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(serverError(new ServerError()))
-  })
   test('should call AddAccount and return the correct values', async () => {
     const { sut, addAcountStub } = makeSut()
     const addSpy = vi.spyOn(addAcountStub, 'add')
