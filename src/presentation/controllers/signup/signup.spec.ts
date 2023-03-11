@@ -4,7 +4,7 @@ import { AccountModel } from '@/domain/models/account'
 import { HttpRequest } from '@/presentation/protocols'
 import { EmailValidator } from '@/presentation/protocols/email-validator'
 import { AddAccount, AddAccountModel } from '@/domain/usecases/add-account'
-import { badRequest, ok, serverError } from '@/presentation/helpers/http-helper'
+import { badRequest, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { Validation } from './signup-protocols'
 import { MissingPararmError, ServerError } from '@/presentation/errors'
 

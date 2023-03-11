@@ -1,6 +1,6 @@
 import { Authentication } from '@/domain/usecases/authentication'
 import { MissingPararmError } from '@/presentation/errors'
-import { badRequest, ok, serverError, unauthorized } from '@/presentation/helpers/http-helper'
+import { badRequest, ok, serverError, unauthorized } from '@/presentation/helpers/http/http-helper'
 import { describe, expect, test, vi } from 'vitest'
 import { HttpRequest, Validation } from './login-protocols'
 import { LoginController } from './login'
