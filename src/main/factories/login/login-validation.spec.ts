@@ -1,10 +1,12 @@
 import { makeLoginValidation } from './login-validation'
 import { describe, test, expect, vi } from 'vitest'
-import { ValidateComposite } from '@/presentation/protocols/validators/validation-composite'
-import { RequiredFieldValidation } from '@/presentation/protocols/validators/required-field-validation'
-import { Validation } from '@/presentation/protocols/validators/validation'
-import { EmailValidation } from '@/presentation/protocols/validators/email-validation'
-import { EmailValidator } from '@/presentation/protocols/email-validator'
+import {
+  ValidateComposite,
+  EmailValidation,
+  EmailValidator,
+  Validation,
+  RequiredFieldValidation,
+} from '@/presentation/protocols/validators'
 vi.mock('@/presentation/protocols/validators/validation-composite')
 
 const makeEmailValidator = (): EmailValidator => {
