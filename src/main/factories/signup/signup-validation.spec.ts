@@ -1,12 +1,12 @@
 import { makeSignUpValidation } from './signup-validation'
 import { describe, test, expect, vi } from 'vitest'
-import { ValidateComposite } from '@/presentation/helpers/validators/validation-composite'
-import { RequiredFieldValidation } from '@/presentation/helpers/validators/required-field-validation'
-import { Validation } from '@/presentation/helpers/validators/validation'
-import { CompareFieldsValidation } from '@/presentation/helpers/validators/compare-fields-validation'
-import { EmailValidation } from '@/presentation/helpers/validators/email-validation'
+import { ValidateComposite } from '@/presentation/protocols/validators/validation-composite'
+import { RequiredFieldValidation } from '@/presentation/protocols/validators/required-field-validation'
+import { Validation } from '@/presentation/protocols/validators/validation'
+import { CompareFieldsValidation } from '@/presentation/protocols/validators/compare-fields-validation'
+import { EmailValidation } from '@/presentation/protocols/validators/email-validation'
 import { EmailValidator } from '@/presentation/protocols/email-validator'
-vi.mock('@/presentation/helpers/validators/validation-composite')
+vi.mock('@/presentation/protocols/validators/validation-composite')
 
 const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
