@@ -1,4 +1,4 @@
-import { Authentication } from '@/domain/usecases/authentication'
+import { Authentication, AuthenticationModel } from '@/domain/usecases/authentication'
 import { MissingPararmError } from '@/presentation/errors'
 import { badRequest, ok, serverError, unauthorized } from '@/presentation/helpers/http/http-helper'
 import { describe, expect, test, vi } from 'vitest'
@@ -22,7 +22,7 @@ const makeValidation = (): Validation => {
 
 const makeAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
-    async auth(email: string, password: string): Promise<string> {
+    async auth(authentication: AuthenticationModel): Promise<string> {
       return 'any_token'
     }
   }
@@ -60,7 +60,7 @@ describe('Login Controller', () => {
     const authSpy = vi.spyOn(authenticationStub, 'auth')
     const httpRequest = makeFakeRequest()
     await sut.handle(httpRequest)
-    expect(authSpy).toHaveBeenCalledWith('any_email@mail.com', 'any_password')
+    expect(authSpy).toHaveBeenCalledWith(httpRequest.body)
   })
   test('Should return 401 if invalid credentials is provided', async () => {
     const { sut, authenticationStub } = makeSut()

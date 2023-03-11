@@ -20,7 +20,7 @@ export class LoginController implements Controller {
       for (const field of requiredFields) {
         if (!httpRequest.body[field]) return badRequest(new MissingPararmError(field))
       }
-      const accessToken = await this.authentication.auth(email, password)
+      const accessToken = await this.authentication.auth({ email, password })
       if (!accessToken) return unauthorized()
       return ok({ accessToken })
     } catch (error) {
