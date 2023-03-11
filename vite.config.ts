@@ -10,9 +10,6 @@ export default defineConfig({
   ],
 
   test: {
-    coverage: {
-      exclude: ['src/main/**'],
-    },
     exclude: ['.data', 'node_modules', 'dist'],
   },
 })
