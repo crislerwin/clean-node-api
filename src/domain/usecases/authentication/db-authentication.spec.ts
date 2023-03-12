@@ -1,4 +1,5 @@
 import { HashComparer } from '@/data/protocols/criptography/hash-comparer'
+import { TokenGenerator } from '@/data/protocols/criptography/token-generator'
 import { LoadAccountByEmailRepository } from '@/data/protocols/db/load-account-by-email-repository'
 import { AccountModel } from '@/domain/models/account'
 import { describe, expect, test, vi } from 'vitest'
@@ -6,9 +7,9 @@ import { AuthenticationModel } from '../authentication'
 import { DbAuthentication } from './db-authentication'
 
 const makeFakeAccount = (): AccountModel => ({
-  id: 'valid_id',
-  name: 'valid_name',
-  email: 'valid_email',
+  id: 'any_id',
+  name: 'any_name',
+  email: 'any_email',
   password: 'hashed_password',
 })
 const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
@@ -26,6 +27,7 @@ interface SutTypes {
   sut: DbAuthentication
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
   hashCompareStub: HashComparer
+  tokenGeneratorStub: TokenGenerator
 }
 
 const makeHashComparer = (): HashComparer => {
@@ -39,15 +41,31 @@ const makeHashComparer = (): HashComparer => {
   return new HashComparerStub()
 }
 
+const makeTokenGenerator = (): TokenGenerator => {
+  class TokenGeneratorStub implements TokenGenerator {
+    async generate(id: string): Promise<string> {
+      return await new Promise((resolve) => {
+        resolve('any_token')
+      })
+    }
+  }
+  return new TokenGeneratorStub()
+}
+
 const makeSut = (): SutTypes => {
   const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository()
-
   const hashCompareStub = makeHashComparer()
-  const sut = new DbAuthentication(loadAccountByEmailRepositoryStub, hashCompareStub)
+  const tokenGeneratorStub = makeTokenGenerator()
+  const sut = new DbAuthentication(
+    loadAccountByEmailRepositoryStub,
+    hashCompareStub,
+    tokenGeneratorStub,
+  )
   return {
     sut,
     loadAccountByEmailRepositoryStub,
     hashCompareStub,
+    tokenGeneratorStub,
   }
 }
 const makeFakeAuthentication = (): AuthenticationModel => ({
@@ -105,5 +123,11 @@ describe('DbAuthentication Usecase', () => {
     )
     const accessToken = await sut.auth(makeFakeAuthentication())
     expect(accessToken).toBeNull()
+  })
+  test('Should call TokenGenerator with correct id', async () => {
+    const { sut, tokenGeneratorStub } = makeSut()
+    const generateSpy = vi.spyOn(tokenGeneratorStub, 'generate')
+    await sut.auth(makeFakeAuthentication())
+    expect(generateSpy).toHaveBeenCalledWith('any_id')
   })
 })
