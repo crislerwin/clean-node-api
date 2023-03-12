@@ -1,6 +1,7 @@
 import { HashComparer } from '@/data/protocols/criptography/hash-comparer'
 import { TokenGenerator } from '@/data/protocols/criptography/token-generator'
 import { LoadAccountByEmailRepository } from '@/data/protocols/db/load-account-by-email-repository'
+import { UpdateAccessTokenRepository } from '@/data/protocols/update-access-token-repository'
 import { AccountModel } from '@/domain/models/account'
 import { describe, expect, test, vi } from 'vitest'
 import { AuthenticationModel } from '../authentication'
@@ -28,6 +29,7 @@ interface SutTypes {
   loadAccountByEmailRepositoryStub: LoadAccountByEmailRepository
   hashCompareStub: HashComparer
   tokenGeneratorStub: TokenGenerator
+  updateAccessTokenRepositoryStub: UpdateAccessTokenRepository
 }
 
 const makeHashComparer = (): HashComparer => {
@@ -52,20 +54,34 @@ const makeTokenGenerator = (): TokenGenerator => {
   return new TokenGeneratorStub()
 }
 
+const makeUpdateAccessTokenRepository = (): UpdateAccessTokenRepository => {
+  class UpdateAccessTokenRepositoryStub implements UpdateAccessTokenRepository {
+    async update(id: string, token: string): Promise<void> {
+      await new Promise((resolve) => {
+        resolve('any_token')
+      })
+    }
+  }
+  return new UpdateAccessTokenRepositoryStub()
+}
+
 const makeSut = (): SutTypes => {
   const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository()
   const hashCompareStub = makeHashComparer()
   const tokenGeneratorStub = makeTokenGenerator()
+  const updateAccessTokenRepositoryStub = makeUpdateAccessTokenRepository()
   const sut = new DbAuthentication(
     loadAccountByEmailRepositoryStub,
     hashCompareStub,
     tokenGeneratorStub,
+    updateAccessTokenRepositoryStub,
   )
   return {
     sut,
     loadAccountByEmailRepositoryStub,
     hashCompareStub,
     tokenGeneratorStub,
+    updateAccessTokenRepositoryStub,
   }
 }
 const makeFakeAuthentication = (): AuthenticationModel => ({
@@ -144,5 +160,11 @@ describe('DbAuthentication Usecase', () => {
     const { sut } = makeSut()
     const accessToken = await sut.auth(makeFakeAuthentication())
     expect(accessToken).toBe('any_token')
+  })
+  test('Should call UpdateAccessTokeRepository  with correct values', async () => {
+    const { sut, updateAccessTokenRepositoryStub } = makeSut()
+    const updateSpy = vi.spyOn(updateAccessTokenRepositoryStub, 'update')
+    await sut.auth(makeFakeAuthentication())
+    expect(updateSpy).toHaveBeenCalledWith('any_id', 'any_token')
   })
 })
