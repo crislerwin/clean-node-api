@@ -7,7 +7,7 @@ import {
   HashComparer,
   AccountModel,
   AuthenticationModel,
-} from './db-authentication.protocols'
+} from './db-authentication-protocols'
 const makeFakeAccount = (): AccountModel => ({
   id: 'any_id',
   name: 'any_name',

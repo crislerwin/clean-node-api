@@ -5,7 +5,7 @@ import {
   HashComparer,
   Authentication,
   AuthenticationModel,
-} from './db-authentication.protocols'
+} from './db-authentication-protocols'
 
 export class DbAuthentication implements Authentication {
   private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository
