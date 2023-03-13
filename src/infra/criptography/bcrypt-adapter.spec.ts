@@ -2,25 +2,13 @@ import { describe, expect, test, vi } from 'vitest'
 import { BcryptAdapter } from './encrypt-adapter'
 import bcrypt from 'bcrypt'
 
-vi.mock('bcrypt', async () => {
-  const actual: typeof bcrypt = await vi.importActual('bcrypt')
-  return {
-    ...actual,
-    hash: vi.fn().mockImplementationOnce(async (): Promise<string> => {
-      return await new Promise((resolve) => {
-        resolve('hash')
-      })
-    }),
-    compare: vi.fn().mockImplementationOnce(async (): Promise<boolean> => {
-      return await new Promise((resolve) => {
-        resolve(true)
-      })
-    }),
-  }
-})
-
 const salt = 12
 const makeSut = (): BcryptAdapter => {
+  vi.spyOn(bcrypt, 'compare').mockImplementationOnce(async (): Promise<boolean> => {
+    return await new Promise((resolve) => {
+      resolve(true)
+    })
+  })
   return new BcryptAdapter(salt)
 }
 
@@ -62,5 +50,16 @@ describe('BcryptAdapter', () => {
     const sut = makeSut()
     const isValid = await sut.compare('any_value', 'any_hash')
     expect(isValid).toBe(true)
+  })
+  test('Should return a false when compare fails', async () => {
+    const sut = makeSut()
+    vi.spyOn(bcrypt, 'compare').mockImplementationOnce(async (): Promise<boolean> => {
+      return await new Promise((resolve) => {
+        resolve(false)
+      })
+    })
+
+    const isValid = await sut.compare('any_value', 'any_hash')
+    expect(isValid).toBe(false)
   })
 })
