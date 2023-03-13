@@ -11,7 +11,7 @@ describe('BcryptAdapter', () => {
   test('Should call EncryptAdapter with correct values', async () => {
     const sut = makeSut()
     const hashSpy = vi.spyOn(bcrypt, 'hash')
-    await sut.encrypt('any_value')
+    await sut.hash('any_value')
     expect(hashSpy).toBeCalledWith('any_value', salt)
   })
   test('Should return a hash on success', async () => {
@@ -21,7 +21,7 @@ describe('BcryptAdapter', () => {
         resolve('hash')
       })
     })
-    const hash = await sut.encrypt('any_value')
+    const hash = await sut.hash('any_value')
     expect(hash).toBe('hash')
   })
   test('Should throws if bcrypt thros', async () => {
@@ -32,7 +32,7 @@ describe('BcryptAdapter', () => {
       })
     }
     vi.spyOn(bcrypt, 'hash').mockReturnValueOnce(bcryptMock as any)
-    const promise = await sut.encrypt('any_value')
+    const promise = await sut.hash('any_value')
     await expect(promise).rejects.toThrow()
   })
 })

@@ -1,8 +1,8 @@
 import { LogControllerDecorator } from './log'
 import { describe, expect, test, vi } from 'vitest'
 import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
-import { LogErrorRepository } from '@/data/protocols/log-error-repository'
 import { serverError } from '@/presentation/helpers/http/http-helper'
+import { LogErrorRepository } from '@/data/protocols/db/log-error-repository'
 
 interface SutTypes {
   sut: LogControllerDecorator
