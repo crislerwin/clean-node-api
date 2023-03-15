@@ -16,7 +16,7 @@ const makeFakeAccount = (): AccountModel => ({
 })
 const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
-    async load(email: string): Promise<AccountModel> {
+    async loadByEmail(email: string): Promise<AccountModel> {
       return await new Promise((resolve) => {
         resolve(makeFakeAccount())
       })
@@ -93,13 +93,13 @@ const makeFakeAuthentication = (): AuthenticationModel => ({
 describe('DbAuthentication Usecase', () => {
   test('Should  call LoadAccountByEmailRepository with correct email', async () => {
     const { loadAccountByEmailRepositoryStub, sut } = makeSut()
-    const loadSpy = vi.spyOn(loadAccountByEmailRepositoryStub, 'load')
+    const loadSpy = vi.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
     await sut.auth(makeFakeAuthentication())
     expect(loadSpy).toBeCalledWith('any_email@mail.com')
   })
   test('Should  throw if LoadAccountByEmailRepository throws', async () => {
     const { loadAccountByEmailRepositoryStub, sut } = makeSut()
-    vi.spyOn(loadAccountByEmailRepositoryStub, 'load').mockReturnValueOnce(
+    vi.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockReturnValueOnce(
       new Promise((resolve, reject) => {
         reject(new Error())
       }),
@@ -109,7 +109,7 @@ describe('DbAuthentication Usecase', () => {
   })
   test('Should return null if LoadAccountByEmailRepository returns null', async () => {
     const { loadAccountByEmailRepositoryStub, sut } = makeSut()
-    vi.spyOn(loadAccountByEmailRepositoryStub, 'load').mockReturnValueOnce(
+    vi.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockReturnValueOnce(
       null as unknown as Promise<AccountModel>,
     )
     const accessToken = await sut.auth(makeFakeAuthentication())

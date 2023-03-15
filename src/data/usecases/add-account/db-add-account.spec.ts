@@ -36,6 +36,12 @@ const makeHasher = (): Hasher => {
         resolve('hashed_password')
       })
     }
+
+    async compare(value: string, hash: string): Promise<boolean> {
+      return await new Promise((resolve) => {
+        resolve(true)
+      })
+    }
   }
   const encrypterStub = new HasherStub()
   return encrypterStub
@@ -98,7 +104,7 @@ describe('DbAddAccount UseCase', () => {
     const promise = await sut.add(accountData)
     await expect(promise).rejects.toThrow()
   })
-  test('Should retyrb an account on success', async () => {
+  test('Should returb an account on success', async () => {
     const { sut } = makeSut()
     const accountData = makeFakeAccountData()
     const account = await sut.add(accountData)
