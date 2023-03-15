@@ -11,9 +11,19 @@ describe('Jwt Adapter', () => {
   })
   test('Should return a token on sign success', async () => {
     const sut = new JwtAdapter('secret')
-    // @ts-expect-error
-    vi.spyOn(jwt, 'sign').mockReturnValueOnce('any_token')
+    vi.spyOn(jwt, 'sign').mockImplementationOnce(() => 'any_token')
     const accessToken = await sut.encrypt('any_id')
     expect(accessToken).toBe('any_token')
+  })
+  test('Should throw if sign throws ', async () => {
+    const sut = new JwtAdapter('secret')
+    vi.spyOn(jwt, 'sign').mockImplementationOnce(async () => {
+      return await new Promise((_resolve, reject) => {
+        reject(new Error())
+      })
+    })
+
+    const promise = sut.encrypt('any_id')
+    await expect(promise).rejects.toThrow()
   })
 })
