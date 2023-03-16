@@ -1,8 +1,7 @@
 import { Validation } from './validation'
 
 export class ValidateComposite implements Validation {
-  private readonly validations: Validation[]
-  constructor(validations: Validation[]) {
+  constructor(private readonly validations: Validation[]) {
     this.validations = validations
   }
 

@@ -4,9 +4,10 @@ import { AccountModel } from '@/domain/models/account'
 import { AddAccount, AddAccountModel } from '@/domain/usecases/add-account'
 
 export class DbAddAccount implements AddAccount {
-  private readonly encrypter: Hasher
-  private readonly addAccountRepository: AddAccountRepository
-  constructor(encrypter: Hasher, addAccountRepository: AddAccountRepository) {
+  constructor(
+    private readonly encrypter: Hasher,
+    private readonly addAccountRepository: AddAccountRepository,
+  ) {
     this.encrypter = encrypter
     this.addAccountRepository = addAccountRepository
   }
