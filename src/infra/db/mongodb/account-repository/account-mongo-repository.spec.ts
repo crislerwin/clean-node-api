@@ -1,5 +1,5 @@
 import { test, describe, expect, beforeAll, afterAll, beforeEach } from 'vitest'
-import { AccountMongoRepository } from './account'
+import { AccountMongoRepository } from './account-mongo-repository'
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { Collection } from 'mongodb'
@@ -49,7 +49,7 @@ describe('Account Mongo Repository', async () => {
     })
     const createdAccount = await sut.loadByEmail('any_email@mail.com')
     expect(createdAccount.accessToken).toBeFalsy()
-    await sut.updateAccessToken(insertedId, 'any_token')
+    await sut.updateAccessToken(insertedId.toString(), 'any_token')
     const updatedAccount = await sut.loadByEmail('any_email@mail.com')
     expect(updatedAccount).toBeTruthy()
     expect(updatedAccount.accessToken).toBe('any_token')

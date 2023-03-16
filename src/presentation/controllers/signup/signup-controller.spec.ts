@@ -1,11 +1,11 @@
 import { describe, expect, test, vi } from 'vitest'
-import { SignupController } from './signup'
+import { SignupController } from './signup-controller'
 import { AccountModel } from '@/domain/models/account'
 import { HttpRequest } from '@/presentation/protocols'
 import { EmailValidator } from '@/presentation/protocols/validators'
 import { AddAccount, AddAccountModel } from '@/domain/usecases/add-account'
 import { badRequest, ok, serverError } from '@/presentation/helpers/http/http-helper'
-import { Validation } from './signup-protocols'
+import { Validation } from './signup-controller-protocols'
 import { MissingPararmError, ServerError } from '@/presentation/errors'
 
 const makeFakeAccount = (): AccountModel => ({
