@@ -5,11 +5,11 @@ import { Controller, HttpRequest, HttpResponse, Validation } from './login-contr
 
 export class LoginController implements Controller {
   constructor(
-    private readonly validation: Validation,
     private readonly authentication: Authentication,
+    private readonly validation: Validation,
   ) {
-    this.validation = validation
     this.authentication = authentication
+    this.validation = validation
   }
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
