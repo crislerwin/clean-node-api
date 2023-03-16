@@ -8,7 +8,7 @@ import { agent, SuperAgentTest } from 'supertest'
 let app: Express
 let server: SuperAgentTest
 
-describe('SignUp Routes', () => {
+describe('Login Routes', () => {
   beforeAll(async () => {
     const mongoServer = await MongoMemoryServer.create()
     const mongoUri = mongoServer.getUri()
@@ -21,7 +21,7 @@ describe('SignUp Routes', () => {
     await MongoHelper.disconnect()
   })
 
-  test('POST /signup', async () => {
+  test('Should return 200 on signup', async () => {
     await server
       .post('/api/signup')
       .send({

@@ -1,1 +1,1 @@
-export * from './signup-routes'
+export * from './login-routes'
