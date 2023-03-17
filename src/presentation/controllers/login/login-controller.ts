@@ -13,8 +13,8 @@ export class LoginController implements Controller {
   }
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const requiredFields = ['email', 'password']
     try {
+      const requiredFields = ['email', 'password']
       const { email, password } = httpRequest.body
       const error = this.validation.validate(httpRequest.body)
       if (error) return badRequest(error)
