@@ -50,7 +50,7 @@
   },
   "engines": {
     "node": "18.15.0",
-    "pnpm": "7.26.3"
+    "pnpm": "7.29.3"
   },
   "dependencies": {
     "@types/bcrypt": "^5.0.0",
