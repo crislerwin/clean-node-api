@@ -1,4 +1,4 @@
-import { test, beforeAll, describe, afterAll } from 'vitest'
+import { test, beforeAll, describe, afterAll, beforeEach } from 'vitest'
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import { MongoHelper } from '../../infra/db/mongodb/helpers/mongo-helper'
 import { setupApp } from '../config/app'
@@ -18,6 +18,10 @@ beforeAll(async () => {
   accountCollection = await MongoHelper.getCollection('accounts')
   app = await setupApp()
   server = agent(app)
+})
+
+beforeEach(async () => {
+  await accountCollection.deleteMany({})
 })
 
 afterAll(async () => {
@@ -53,5 +57,14 @@ describe('Post /login', () => {
         password: 'any_password',
       })
       .expect(200)
+  })
+  test('Should return 401 on login if user not exists', async () => {
+    await server
+      .post('/api/login')
+      .send({
+        email: 'any_email@email.com',
+        password: 'any_password',
+      })
+      .expect(401)
   })
 })
