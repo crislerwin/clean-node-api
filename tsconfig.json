@@ -3,23 +3,16 @@
     "target": "ES2022",
     "module": "commonjs",
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": true,
     "incremental": false,
     "noEmit": true,
     "resolveJsonModule": true,
-    "moduleResolution": "node",
-    "lib": ["ES2022"],
     "outDir": "dist",
     "baseUrl": "src",
     "sourceMap": true,
-    "declaration": true,
     "paths": {
-      "@/*": ["*"],
-      "@test/*": ["../test/*"]
+      "@/*": ["*"]
     }
   },
-  "include": ["src/**/*", "test/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src"]
 }
