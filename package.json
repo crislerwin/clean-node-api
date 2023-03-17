@@ -48,6 +48,10 @@
     "vite": "^4.1.4",
     "vitest": "^0.28.5"
   },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=7.0.0"
+  },
   "dependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/jsonwebtoken": "^9.0.1",
