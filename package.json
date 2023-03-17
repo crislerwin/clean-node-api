@@ -49,8 +49,8 @@
     "vitest": "^0.28.5"
   },
   "engines": {
-    "node": "18.15.0",
-    "pnpm": "7.29.3"
+    "node": "18.x",
+    "pnpm": "7.x"
   },
   "dependencies": {
     "@types/bcrypt": "^5.0.0",
