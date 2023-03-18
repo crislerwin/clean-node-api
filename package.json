@@ -8,14 +8,14 @@
     "prepare": "husky install",
     "lint": "tsc",
     "test": "vitest run",
-    "build": "rimraf dist && pnpm run lint && tsup src/* -- format cjs,esm --dts --sourcemap --external validator",
+    "build": "rimraf dist && npm run lint && tsup src/* -- format cjs,esm --dts --sourcemap --external validator",
     "start": "node dist/main/server.js",
     "dev": "tsnd --respawn --transpile-only --ignore-watch node_modules -r tsconfig-paths/register src/main/server.ts",
-    "test:ci": "pnpm test -- --coverage",
+    "test:ci": "npm test -- --coverage",
     "test:watch": "vitest",
     "test:integration": "vitest",
-    "test:staged": "pnpm run test -- --filter $(git diff --cached --name-only | grep -E '\\.test\\.ts$')",
-    "ci": "pnpm run test:ci && pnpm run build"
+    "test:staged": "npm run test -- --filter $(git diff --cached --name-only | grep -E '\\.test\\.ts$')",
+    "build:ci": "npm run test:ci && npm run build"
   },
   "keywords": [],
   "author": "Crisler Wintler",
@@ -49,8 +49,8 @@
     "vitest": "^0.28.5"
   },
   "engines": {
-    "node": "18.x",
-    "pnpm": "7.x"
+    "node": "18.15.0",
+    "npm": "9.5.0"
   },
   "dependencies": {
     "@types/bcrypt": "^5.0.0",
