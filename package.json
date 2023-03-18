@@ -14,7 +14,7 @@
     "test:ci": "npm test -- --coverage",
     "test:watch": "vitest",
     "test:integration": "vitest",
-    "test:staged": "npm run test -- --filter $(git diff --cached --name-only | grep -E '\\.test\\.ts$')",
+    "test:staged": "npm run test && npm run lint",
     "build:ci": "npm run test:ci && npm run build"
   },
   "keywords": [],
