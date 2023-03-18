@@ -1,3 +1,4 @@
 {
-  "*.ts": ["eslint 'src/**/*.ts' --fix", "npm run test:staged"]
+  "*.ts": ["eslint 'src/**/*.ts' --fix"],
+  "*.spec.ts": ["npm run test"]
 }

@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "prepare": "husky install",
-    "lint": "tsc",
+    "lint": "eslint --ext .ts src/",
     "test": "vitest run",
     "build": "rimraf dist && npm run lint && tsup src/* -- format cjs,esm --dts --sourcemap --external validator",
     "start": "node dist/main/server.js",
