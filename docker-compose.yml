@@ -8,3 +8,15 @@ services:
       - ./.data:/data/db
     ports:
       - '27017:27017'
+  api:
+    container_name: clean-node-api
+    image: node:15
+    command: npm run debug
+    restart: always
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - '5050:5050'
+    depends_on:
+      - mongo
