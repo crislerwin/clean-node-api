@@ -9,6 +9,7 @@
     "prepare": "husky install",
     "lint": "eslint --ext .ts src/",
     "test": "vitest run",
+    "debug": "tsnd --inspect=0.0.0.0:9222 --respawn --transpile-only --ignore-watch node_modules -r tsconfig-paths/register src/main/server.ts",
     "build": "rimraf dist && npm run lint && tsup src/* -- format cjs,esm --dts --sourcemap --external validator",
     "dev": "tsnd --respawn --transpile-only --ignore-watch node_modules -r tsconfig-paths/register src/main/server.ts",
     "test:ci": "npm test -- --coverage",
