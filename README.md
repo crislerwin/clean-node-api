@@ -66,8 +66,6 @@ O objetivo do treinamento é mostrar como criar uma API com uma arquitetura bem 
 - Github Actions
 - Bcrypt
 - JsonWebToken
-- Faker
-- Validator
 - Express
 - Supertest
 - Husky
@@ -77,20 +75,17 @@ O objetivo do treinamento é mostrar como criar uma API com uma arquitetura bem 
 - Tsup
 - Nodemon
 - Rimraf
-- In-Memory MongoDb Server
+- MongoDb Memory Server
 
 > ## Features do Node
 
 - Documentação de API com Swagger
 - API Rest com Express
-- GraphQL com Apollo Server
 - Log de Erro
 - Segurança (Hashing, Encryption e Encoding)
 - CORS
 - Middlewares
-- Nível de Acesso nas Rotas (Admin, User e Anônimo)
 - Deploy no Heroku
-- Servir Arquivos Estáticos
 
 > ## Features do Git
 
