@@ -7,6 +7,7 @@ import { AddAccount, AddAccountModel } from '@/domain/usecases/add-account'
 import { badRequest, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { Validation } from './signup-controller-protocols'
 import { MissingPararmError, ServerError } from '@/presentation/errors'
+import { Authentication, AuthenticationModel } from '../login/login-controller-protocols'
 
 const makeFakeAccount = (): AccountModel => ({
   id: 'valid_id',
@@ -49,6 +50,7 @@ interface SutTypes {
   emailValidatorStub: EmailValidator
   addAcountStub: AddAccount
   validationStub: Validation
+  authenticationStub: Authentication
 }
 
 const makeValidation = (): Validation => {
@@ -59,25 +61,34 @@ const makeValidation = (): Validation => {
   }
   return new ValidationStub()
 }
+const makeAuthentication = (): Authentication => {
+  class AuthenticationStub implements Authentication {
+    async auth(authentication: AuthenticationModel): Promise<string> {
+      return 'any_token'
+    }
+  }
+  return new AuthenticationStub()
+}
 
 const makeSut = (): SutTypes => {
   const addAcountStub = makeAddAccount()
   const emailValidatorStub = makeEmailValidator()
   const validationStub = makeValidation()
-  const sut = new SignupController(addAcountStub, validationStub)
+  const authenticationStub = makeAuthentication()
+  const sut = new SignupController(addAcountStub, validationStub, authenticationStub)
 
   return {
     sut,
     emailValidatorStub,
     addAcountStub,
     validationStub,
+    authenticationStub,
   }
 }
 describe('Signup Controller', () => {
   test('should call AddAccount and return the correct values', async () => {
     const { sut, addAcountStub } = makeSut()
     const addSpy = vi.spyOn(addAcountStub, 'add')
-
     const httpRequest = makeFakeRequest()
     await sut.handle(httpRequest)
     expect(addSpy).toHaveBeenCalledWith({
@@ -117,5 +128,14 @@ describe('Signup Controller', () => {
     const httpRequest = makeFakeRequest()
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(badRequest(new MissingPararmError('any_field')))
+  })
+  test('Should call Authentication with correct value', async () => {
+    const { sut, authenticationStub } = makeSut()
+    const authSpy = vi.spyOn(authenticationStub, 'auth')
+    await sut.handle(makeFakeRequest())
+    expect(authSpy).toHaveBeenCalledWith({
+      email: 'valid_email',
+      password: 'valid_password',
+    })
   })
 })
