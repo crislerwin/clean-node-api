@@ -11,8 +11,8 @@ O objetivo do treinamento é mostrar como criar uma API com uma arquitetura bem 
 
 > ## APIs construídas no treinamento
 
-1. [Cadastro](.docs/requirements/signup.md)
-2. [Login](.docs/requirements/login.md)
+1. [Cadastro](docs/requirements/signup.md)
+2. [Login](docs/requirements/login.md)
 
 > ## Princípios
 
