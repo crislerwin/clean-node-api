@@ -138,4 +138,14 @@ describe('Signup Controller', () => {
       password: 'valid_password',
     })
   })
+
+  test('Should return 500 if Validator throws', async () => {
+    const { sut, validationStub } = makeSut()
+    vi.spyOn(validationStub, 'validate').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const httpRequest = makeFakeRequest()
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(serverError(new Error()))
+  })
 })
