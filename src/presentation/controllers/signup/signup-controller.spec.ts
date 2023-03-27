@@ -4,9 +4,9 @@ import { AccountModel } from '@/domain/models/account'
 import { HttpRequest } from '@/presentation/protocols'
 import { EmailValidator } from '@/presentation/protocols/validators'
 import { AddAccount, AddAccountModel } from '@/domain/usecases/add-account'
-import { badRequest, ok, serverError } from '@/presentation/helpers/http/http-helper'
+import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { Validation } from './signup-controller-protocols'
-import { MissingPararmError, ServerError } from '@/presentation/errors'
+import { EmailInUseError, MissingPararmError, ServerError } from '@/presentation/errors'
 import { Authentication, AuthenticationModel } from '../login/login-controller-protocols'
 
 const makeFakeAccount = (): AccountModel => ({
@@ -114,6 +114,14 @@ describe('Signup Controller', () => {
     const httpRequest = makeFakeRequest()
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(ok({ accessToken: 'any_token' }))
+  })
+  test('Should return 403 if AddAccount returns null', async () => {
+    const { sut, addAcountStub } = makeSut()
+    // @ts-expect-error
+    vi.spyOn(addAcountStub, 'add').mockReturnValueOnce(null)
+    const httpRequest = makeFakeRequest()
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(forbidden(new EmailInUseError()))
   })
   test('Should call Validation with correct values', async () => {
     const { sut, validationStub } = makeSut()
