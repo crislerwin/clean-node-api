@@ -22,9 +22,9 @@ const makeFakeAccount = (): AccountModel => ({
 
 const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
-    async loadByEmail(email: string): Promise<AccountModel> {
+    async loadByEmail(email: string): Promise<AccountModel | null> {
       return await new Promise((resolve) => {
-        resolve(makeFakeAccount())
+        resolve(null)
       })
     }
   }
@@ -129,5 +129,15 @@ describe('DbAddAccount UseCase', () => {
     const loadSpy = vi.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
     await sut.add(makeFakeAccount())
     expect(loadSpy).toBeCalledWith('valid_email@mail.com')
+  })
+  test('Should return null if  LoadAccountByEmailRepository not return null', async () => {
+    const { loadAccountByEmailRepositoryStub, sut } = makeSut()
+    vi.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockReturnValueOnce(
+      new Promise((resolve) => {
+        resolve(makeFakeAccount())
+      }),
+    )
+    const account = await sut.add(makeFakeAccount())
+    expect(account).toBeNull()
   })
 })
