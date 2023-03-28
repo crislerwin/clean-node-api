@@ -81,6 +81,7 @@ const makeSut = (): SutTypes => {
     sut,
     loadAccountByEmailRepositoryStub,
     hashCompareStub,
+
     encrypterStub,
     updateAccessTokenRepositoryStub,
   }
