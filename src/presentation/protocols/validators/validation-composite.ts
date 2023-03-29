@@ -1,9 +1,7 @@
 import { Validation } from './validation'
 
 export class ValidateComposite implements Validation {
-  constructor(private readonly validations: Validation[]) {
-    this.validations = validations
-  }
+  constructor(private readonly validations: Validation[]) {}
 
   validate(input: any): Error | undefined {
     for (const validation of this.validations) {
