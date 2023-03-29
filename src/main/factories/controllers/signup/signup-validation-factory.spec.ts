@@ -7,8 +7,8 @@ import {
   CompareFieldsValidation,
   Validation,
   EmailValidator,
-} from '@/presentation/protocols/validators'
-vi.mock('@/presentation/protocols/validators/validation-composite')
+} from '@/validation/validators'
+vi.mock('@/validation/validators/validation-composite')
 
 const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
