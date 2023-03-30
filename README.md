@@ -13,6 +13,7 @@ O objetivo do treinamento é mostrar como criar uma API com uma arquitetura bem 
 
 1. [Cadastro](docs/requirements/signup.md)
 2. [Login](docs/requirements/login.md)
+3. [Criar enquete](docs/requirements/add-survey.md)
 
 > ## Princípios
 
