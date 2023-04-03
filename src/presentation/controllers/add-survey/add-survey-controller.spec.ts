@@ -1,7 +1,7 @@
 import { describe, expect, test, vi } from 'vitest'
 import { HttpRequest, Validation } from './add-survey-controller-protocols'
 import { AddSurveyController } from './add-survey-controller'
-import { badRequest, serverError } from '@/presentation/helpers/http/http-helper'
+import { badRequest, noContent, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddSurvey } from '@/domain/usecases/add-survey'
 
 interface SutTypes {
@@ -83,5 +83,11 @@ describe('AddSurveyController', () => {
     )
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+  test('Should return 204 on success', async () => {
+    const { sut, addSurveyStub } = makeSut()
+    vi.spyOn(addSurveyStub, 'add')
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(noContent())
   })
 })
