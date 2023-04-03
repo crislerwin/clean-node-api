@@ -1,4 +1,4 @@
-import { badRequest, serverError } from '@/presentation/helpers/http/http-helper'
+import { badRequest, noContent, serverError } from '@/presentation/helpers/http/http-helper'
 import {
   Controller,
   HttpRequest,
@@ -21,9 +21,7 @@ export class AddSurveyController implements Controller {
 
       const error = this.validation.validate(httpRequest.body)
       if (error) return badRequest(error)
-      return await new Promise((resolve) => {
-        resolve(null)
-      })
+      return noContent()
     } catch (error) {
       return serverError(error as Error)
     }
