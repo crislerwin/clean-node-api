@@ -2,10 +2,12 @@ import { describe, expect, test, vi } from 'vitest'
 import { HttpRequest, Validation } from './add-survey-controller-protocols'
 import { AddSurveyController } from './add-survey-controller'
 import { badRequest } from '@/presentation/helpers/http/http-helper'
+import { AddSurvey } from '@/domain/usecases/add-survey'
 
 interface SutTypes {
   sut: AddSurveyController
   validationStub: Validation
+  addSurveyStub: AddSurvey
 }
 
 const makeFakeRequest = (): HttpRequest => ({
@@ -29,12 +31,24 @@ const makeValidation = (): Validation => {
   return new ValidationStub()
 }
 
+const makeAddSurvey = (): AddSurvey => {
+  class AddSurveyStub implements AddSurvey {
+    async add(_input: any): Promise<void> {
+      await new Promise((resolve) => {
+        resolve(null)
+      })
+    }
+  }
+  return new AddSurveyStub()
+}
 const makeSut = (): SutTypes => {
   const validationStub = makeValidation()
-  const sut = new AddSurveyController(validationStub)
+  const addSurveyStub = makeAddSurvey()
+  const sut = new AddSurveyController(validationStub, addSurveyStub)
   return {
     sut,
     validationStub,
+    addSurveyStub,
   }
 }
 
@@ -51,5 +65,13 @@ describe('AddSurveyController', () => {
     vi.spyOn(validationStub, 'validate').mockReturnValueOnce(new Error())
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(badRequest(new Error()))
+  })
+
+  test('Should call AddSurvey with correct values', async () => {
+    const { sut, addSurveyStub } = makeSut()
+    const addSpy = vi.spyOn(addSurveyStub, 'add')
+    const httpRequest = makeFakeRequest()
+    await sut.handle(httpRequest)
+    expect(addSpy).toHaveBeenCalledWith(httpRequest.body)
   })
 })
