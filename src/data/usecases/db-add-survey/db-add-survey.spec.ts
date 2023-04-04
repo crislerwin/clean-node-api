@@ -43,4 +43,15 @@ describe('DbAddSurvey', () => {
     await sut.add(makeFakeSurveyData())
     expect(addSpy).toHaveBeenCalledWith(makeFakeSurveyData())
   })
+  test('Should throw if Hasher throws', async () => {
+    const { sut, addSurveyRepositoryStub } = makeSut()
+    vi.spyOn(addSurveyRepositoryStub, 'add').mockImplementationOnce(async (): Promise<any> => {
+      return await new Promise((resolve, reject) => {
+        reject(new Error())
+      })
+    })
+
+    const promise = sut.add(makeFakeSurveyData())
+    await expect(promise).rejects.toThrow()
+  })
 })
