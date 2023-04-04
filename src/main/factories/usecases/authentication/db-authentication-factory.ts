@@ -3,6 +3,7 @@ import { DbAuthentication } from '@/domain/usecases/authentication/db-authentica
 import { BcryptAdapter } from '@/infra/criptography/encrypt-adapter'
 import { JwtAdapter } from '@/infra/criptography/jwt-adapter/jwt-adapter'
 import { AccountMongoRepository } from '@/infra/db/mongodb/account-repository/account-mongo-repository'
+
 import env from '@/main/config/env'
 
 export const makeDbAuthentication = (): Authentication => {
