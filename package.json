@@ -19,7 +19,8 @@
     "test:dev": "vitest",
     "test:integration": "vitest",
     "test:staged": "npm run test && npm run lint",
-    "build:ci": "npm run test:ci && npm run build"
+    "build:ci": "npm run test:ci && npm run build",
+    "pretty": "prettier --write **/*.{js,ts,md,json}"
   },
   "devDependencies": {
     "@rollup/plugin-alias": "^4.0.3",

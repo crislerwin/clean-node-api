@@ -10,7 +10,7 @@ import {
 export class AddSurveyController implements Controller {
   constructor(private readonly validation: Validation, private readonly addSurvey: AddSurvey) {}
 
-  async handle(httpRequest: HttpRequest): Promise<HttpResponse | null> {
+  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const { question, answers } = httpRequest.body
 

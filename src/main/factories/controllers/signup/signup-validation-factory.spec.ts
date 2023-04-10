@@ -1,7 +1,7 @@
 import { makeSignUpValidation } from './signup-validation-factory'
 import { describe, test, expect, vi } from 'vitest'
 import {
-  ValidateComposite,
+  ValidationComposite,
   RequiredFieldValidation,
   EmailValidation,
   CompareFieldsValidation,
@@ -28,6 +28,6 @@ describe('SignUp Validation', () => {
     }
     validations.push(new CompareFieldsValidation('password', 'passwordConfirmation'))
     validations.push(new EmailValidation('email', makeEmailValidator()))
-    expect(ValidateComposite).toHaveBeenCalledWith(validations)
+    expect(ValidationComposite).toHaveBeenCalledWith(validations)
   })
 })

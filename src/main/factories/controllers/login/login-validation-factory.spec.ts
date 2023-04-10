@@ -1,7 +1,7 @@
 import { makeLoginValidation } from './login-validation-factory'
 import { describe, test, expect, vi } from 'vitest'
 import {
-  ValidateComposite,
+  ValidationComposite,
   EmailValidation,
   EmailValidator,
   Validation,
@@ -26,6 +26,6 @@ describe('LoginValidations', () => {
       validations.push(new RequiredFieldValidation(field))
     }
     validations.push(new EmailValidation('email', makeEmailValidator()))
-    expect(ValidateComposite).toHaveBeenCalledWith(validations)
+    expect(ValidationComposite).toHaveBeenCalledWith(validations)
   })
 })
