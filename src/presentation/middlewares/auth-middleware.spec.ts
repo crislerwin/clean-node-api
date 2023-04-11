@@ -2,8 +2,7 @@ import { test, vi, expect, describe } from 'vitest'
 import { forbidden, ok, serverError } from '../helpers/http/http-helper'
 import { AccessDeniedError } from '../errors'
 import { AuthMiddleware } from './auth-middleware'
-import { LoadAccountByToken } from '@/domain/usecases/load-account-by-token'
-import { AccountModel, HttpRequest } from '../controllers/login/signup/signup-controller-protocols'
+import { AccountModel, HttpRequest, LoadAccountByToken } from './auth-middleware-protocols'
 
 interface SutTypes {
   sut: AuthMiddleware
