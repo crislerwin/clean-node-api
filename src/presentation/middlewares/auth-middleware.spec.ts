@@ -47,10 +47,21 @@ describe('Auth Middleware', () => {
     const httpResponse = await sut.handle({})
     expect(httpResponse).toEqual(forbidden(new AccessDeniedError()))
   })
-  test('Should return 403 if no x-access-token exists in headers', async () => {
+  test('Should call LoadAccountByToken with correct accessToken', async () => {
     const { loadAccountByTokenStub, sut } = makeSut()
     const loadSpy = vi.spyOn(loadAccountByTokenStub, 'load')
     await sut.handle(makeFakeRequest())
     expect(loadSpy).toHaveBeenCalledWith('any_token')
+  })
+  test('Should return 403 if LoadAccountByToken return null', async () => {
+    const { sut, loadAccountByTokenStub } = makeSut()
+    vi.spyOn(loadAccountByTokenStub, 'load').mockReturnValueOnce(
+      new Promise((resolve) => {
+        // @ts-expect-error
+        resolve(null)
+      }),
+    )
+    const httpResponse = await sut.handle({})
+    expect(httpResponse).toEqual(forbidden(new AccessDeniedError()))
   })
 })
