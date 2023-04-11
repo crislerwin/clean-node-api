@@ -3,7 +3,7 @@ import { forbidden } from '../helpers/http/http-helper'
 import { AccessDeniedError } from '../errors'
 import { AuthMiddleware } from './auth-middleware'
 import { LoadAccountByToken } from '@/domain/usecases/load-account-by-token'
-import { AccountModel } from '../controllers/login/signup/signup-controller-protocols'
+import { AccountModel, HttpRequest } from '../controllers/login/signup/signup-controller-protocols'
 
 interface SutTypes {
   sut: AuthMiddleware
@@ -17,6 +17,11 @@ const makeFakeAccount = (): AccountModel => ({
   password: 'hashed_password',
 })
 
+const makeFakeRequest = (): HttpRequest => ({
+  headers: {
+    'x-access-token': 'any_token',
+  },
+})
 const makeLoadAccountByToken = (): LoadAccountByToken => {
   class LoadAccountByTokenStub implements LoadAccountByToken {
     async load(accessToken: string, role?: string): Promise<AccountModel> {
@@ -45,11 +50,7 @@ describe('Auth Middleware', () => {
   test('Should return 403 if no x-access-token exists in headers', async () => {
     const { loadAccountByTokenStub, sut } = makeSut()
     const loadSpy = vi.spyOn(loadAccountByTokenStub, 'load')
-    await sut.handle({
-      headers: {
-        'x-access-token': 'any_token',
-      },
-    })
+    await sut.handle(makeFakeRequest())
     expect(loadSpy).toHaveBeenCalledWith('any_token')
   })
 })
