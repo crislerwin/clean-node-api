@@ -6,9 +6,7 @@ export class DbLoadAccountByToken implements LoadAccountByToken {
   constructor(private readonly decrypter: Decrypter, private readonly role?: string) {}
   async load(accessToken: string, role?: string): Promise<AccountModel> {
     await this.decrypter.decrypt(accessToken)
-    return await new Promise((resolve) => {
-      // @ts-expect-error
-      resolve(null)
-    })
+    // @ts-expect-error
+    return null
   }
 }
