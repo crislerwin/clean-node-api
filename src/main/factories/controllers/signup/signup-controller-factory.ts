@@ -2,7 +2,7 @@ import { Authentication, AuthenticationModel } from '@/domain/usecases/authentic
 import { SignupController } from '@/presentation/controllers/login/signup/signup-controller'
 import { Controller } from '@/presentation/protocols'
 import { makeLogControllerDecorator } from '../../decorators/log-controller-decorator-factory'
-import { makeDbAccount } from '../../usecases/add-account/db-add-account-factory'
+import { makeDbAddAccount } from '../../usecases/add-account/db-add-account-factory'
 import { makeSignUpValidation } from './signup-validation-factory'
 
 class AuthenticationRepository implements Authentication {
@@ -14,6 +14,6 @@ class AuthenticationRepository implements Authentication {
 export const makeSignUpController = (): Controller => {
   const authenticationRepository = new AuthenticationRepository()
   return makeLogControllerDecorator(
-    new SignupController(makeDbAccount(), makeSignUpValidation(), authenticationRepository),
+    new SignupController(makeDbAddAccount(), makeSignUpValidation(), authenticationRepository),
   )
 }
