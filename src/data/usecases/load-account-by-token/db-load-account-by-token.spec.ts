@@ -1,7 +1,7 @@
 import { Decrypter } from '@/data/protocols/criptography/decrypter'
 import { describe, test, expect, vi } from 'vitest'
 import { DbLoadAccountByToken } from './db-load-account-by-token'
-import { AccountModel } from './db-authentication-protocols'
+import { AccountModel } from '../../../domain/usecases/authentication/db-authentication-protocols'
 import { LoadAccountByTokenRepository } from '@/data/protocols/db/account/load-account-by-token-repository'
 
 const makeDecrypter = (): Decrypter => {
