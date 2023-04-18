@@ -1,10 +1,10 @@
 import { Hasher } from '@/data/protocols/criptography/hasher'
-import { AddAccountRepository } from '@/data/protocols/db/add-account-repository'
-import { LoadAccountByEmailRepository } from '@/data/protocols/db/load-account-by-email-repository'
 import { AccountModel } from '@/domain/models/account'
 import { AddAccountModel } from '@/domain/usecases/add-account'
 import { describe, expect, test, vi } from 'vitest'
 import { DbAddAccount } from './db-add-account'
+import { AddAccountRepository } from '@/data/protocols/db/account/add-account-repository'
+import { LoadAccountByEmailRepository } from '@/data/protocols/db/account/load-account-by-email-repository'
 
 interface SutTypes {
   sut: DbAddAccount

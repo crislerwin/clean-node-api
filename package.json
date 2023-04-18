@@ -4,6 +4,9 @@
   "description": "An node js api with clean architecture",
   "private": false,
   "main": "index.js",
+  "keywords": [],
+  "author": "Crisler Wintler",
+  "license": "MIT",
   "scripts": {
     "start": "node dist/main/server.js",
     "prepare": "husky install",
@@ -13,14 +16,12 @@
     "build": "rimraf dist && npm run lint && tsup src/* -- format cjs,esm --dts --sourcemap --external validator",
     "dev": "tsnd --respawn --transpile-only --ignore-watch node_modules -r tsconfig-paths/register src/main/server.ts",
     "test:ci": "npm test -- --coverage",
-    "test:watch": "vitest",
+    "test:dev": "vitest",
     "test:integration": "vitest",
     "test:staged": "npm run test && npm run lint",
-    "build:ci": "npm run test:ci && npm run build"
+    "build:ci": "npm run test:ci && npm run build",
+    "pretty": "prettier --write **/*.{js,ts,md,json}"
   },
-  "keywords": [],
-  "author": "Crisler Wintler",
-  "license": "MIT",
   "devDependencies": {
     "@rollup/plugin-alias": "^4.0.3",
     "@types/express": "^4.17.17",

@@ -1,6 +1,6 @@
 import { Validation } from '../../presentation/protocols/validation'
 
-export class ValidateComposite implements Validation {
+export class ValidationComposite implements Validation {
   constructor(private readonly validations: Validation[]) {}
 
   validate(input: any): Error | undefined {

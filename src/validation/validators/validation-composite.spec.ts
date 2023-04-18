@@ -1,10 +1,10 @@
 import { MissingPararmError } from '@/presentation/errors'
 import { describe, expect, test, vi } from 'vitest'
 import { Validation } from '@/presentation/protocols'
-import { ValidateComposite } from './validation-composite'
+import { ValidationComposite } from './validation-composite'
 
 interface SutTypes {
-  sut: ValidateComposite
+  sut: ValidationComposite
   validationStubs: Validation[]
 }
 
@@ -18,7 +18,7 @@ const makeValidation = (): Validation => {
 }
 const makeSut = (): SutTypes => {
   const validationStubs = [makeValidation(), makeValidation()]
-  const sut = new ValidateComposite(validationStubs)
+  const sut = new ValidationComposite(validationStubs)
   return {
     sut,
     validationStubs,
