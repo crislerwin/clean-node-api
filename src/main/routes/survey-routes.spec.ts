@@ -5,22 +5,27 @@ import { setupApp } from '../config/app'
 import { Express } from 'express'
 import { agent, SuperAgentTest } from 'supertest'
 import { Collection } from 'mongodb'
+import { sign } from 'jsonwebtoken'
+import env from '../config/env'
 
 let app: Express
 let server: SuperAgentTest
 let surveyCollection: Collection
+let accountCollection: Collection
 
 beforeAll(async () => {
   const mongoServer = await MongoMemoryServer.create()
   const mongoUri = mongoServer.getUri()
   await MongoHelper.connect(mongoUri)
   surveyCollection = await MongoHelper.getCollection('surveys')
+  accountCollection = await MongoHelper.getCollection('accounts')
   app = await setupApp()
   server = agent(app)
 })
 
 beforeEach(async () => {
   await surveyCollection.deleteMany({})
+  await accountCollection.deleteMany({})
 })
 
 afterAll(async () => {
@@ -41,5 +46,39 @@ describe('Post /survey', () => {
         ],
       })
       .expect(403)
+  })
+  test('Should return 204 on add survey with valid token', async () => {
+    const res = await accountCollection.insertOne({
+      name: 'any_name',
+      email: 'any_email@email.com',
+      password: 'any_password',
+      role: 'admin',
+    })
+    const id = res.insertedId
+    const accessToken = sign({ id }, env.jwtSecret)
+    await accountCollection.updateOne(
+      {
+        _id: id,
+      },
+      {
+        $set: {
+          accessToken,
+        },
+      },
+    )
+
+    await server
+      .post('/api/surveys')
+      .set('x-access-token', accessToken)
+      .send({
+        question: 'any_question',
+        answers: [
+          {
+            image: 'any_image',
+            answer: 'any_answer',
+          },
+        ],
+      })
+      .expect(204)
   })
 })
