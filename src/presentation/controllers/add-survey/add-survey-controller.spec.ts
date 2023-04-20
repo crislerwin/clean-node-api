@@ -19,6 +19,7 @@ const makeFakeRequest = (): HttpRequest => ({
         answer: 'any_answer',
       },
     ],
+    date: new Date(),
   },
 })
 

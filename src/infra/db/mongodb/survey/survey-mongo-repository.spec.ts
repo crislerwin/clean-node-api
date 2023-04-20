@@ -14,6 +14,7 @@ const makeFakeSurveyData = (): AddSurveyModel => ({
       answer: 'any_answer',
     },
   ],
+  date: new Date(),
 })
 
 describe('Account Mongo Repository', async () => {

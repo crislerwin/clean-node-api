@@ -1,4 +1,4 @@
-import { describe, test, vi, expect } from 'vitest'
+import { describe, test, vi, expect, beforeEach, afterEach } from 'vitest'
 import { DbAddSurvey } from './db-add-survey'
 import { AddSurveyRepository, AddSurveyModel } from './add-survey-protocols'
 
@@ -15,6 +15,7 @@ const makeFakeSurveyData = (): AddSurveyModel => ({
       answer: 'any_answer',
     },
   ],
+  date: new Date(),
 })
 
 const makeAddSurveyRepository = (): AddSurveyRepository => {
@@ -37,6 +38,13 @@ const makeSut = (): SutTypes => {
   }
 }
 describe('DbAddSurvey', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
   test('should call AddSurveyRepository with correct values', async () => {
     const { addSurveyRepositoryStub, sut } = makeSut()
     const addSpy = vi.spyOn(addSurveyRepositoryStub, 'add')
