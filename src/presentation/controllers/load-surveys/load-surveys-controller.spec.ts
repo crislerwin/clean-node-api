@@ -1,6 +1,7 @@
 import { describe, expect, test, vi } from 'vitest'
 import { SurveyModel, LoadSurveys } from './load-surveys-controller-protocols'
 import { LoadSurveysController } from './load-surveys-controller'
+import { ok } from '@/presentation/helpers/http/http-helper'
 
 const makeFakeSurveys = (): SurveyModel[] => [
   {
@@ -48,5 +49,10 @@ describe('LoadSurveys Controller', () => {
     const loadSpy = vi.spyOn(loadSurveysStub, 'load')
     await sut.handle({})
     expect(loadSpy).toHaveBeenCalled()
+  })
+  test('Should return 200 on successs', async () => {
+    const { sut } = makeSut()
+    const httpRespose = await sut.handle({})
+    expect(httpRespose).toEqual(ok(makeFakeSurveys()))
   })
 })
