@@ -1,7 +1,7 @@
 import { describe, expect, test, vi } from 'vitest'
 import { SurveyModel, LoadSurveys } from './load-surveys-controller-protocols'
 import { LoadSurveysController } from './load-surveys-controller'
-import { ok } from '@/presentation/helpers/http/http-helper'
+import { ok, serverError } from '@/presentation/helpers/http/http-helper'
 
 const makeFakeSurveys = (): SurveyModel[] => [
   {
@@ -54,5 +54,15 @@ describe('LoadSurveys Controller', () => {
     const { sut } = makeSut()
     const httpRespose = await sut.handle({})
     expect(httpRespose).toEqual(ok(makeFakeSurveys()))
+  })
+  test('Should return 500 if AddSurvey throws', async () => {
+    const { sut, loadSurveysStub } = makeSut()
+    vi.spyOn(loadSurveysStub, 'load').mockReturnValueOnce(
+      new Promise((resolve, reject) => {
+        reject(new Error())
+      }),
+    )
+    const httpResponse = await sut.handle({})
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })
