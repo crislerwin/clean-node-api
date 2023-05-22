@@ -16,19 +16,35 @@ const makeFakeSurveys = (): SurveyModel[] => [
     date: new Date(),
   },
 ]
+interface SutTypes {
+  sut: DbLoadSurveys
+  loadSurveysRepository: LoadSurveysRepository
+}
+
+const makeLoadSurveysRepository = (): LoadSurveysRepository => {
+  class LoadSurveysRepositoryStub implements LoadSurveysRepository {
+    async loadAll(): Promise<SurveyModel[]> {
+      return await new Promise((resolve) => {
+        resolve(makeFakeSurveys())
+      })
+    }
+  }
+  return new LoadSurveysRepositoryStub()
+}
+
+const makeSut = (): SutTypes => {
+  const loadSurveysRepository = makeLoadSurveysRepository()
+  const sut = new DbLoadSurveys(loadSurveysRepository)
+  return {
+    sut,
+    loadSurveysRepository,
+  }
+}
 
 describe('DbLoadSurveys', () => {
   test('Should call LoadSurveysRepository', async () => {
-    class LoadSurveysRepositoryStub implements LoadSurveysRepository {
-      async loadAll(): Promise<SurveyModel[]> {
-        return await new Promise((resolve) => {
-          resolve(makeFakeSurveys())
-        })
-      }
-    }
-    const loadSurveysRepository = new LoadSurveysRepositoryStub()
+    const { sut, loadSurveysRepository } = makeSut()
     const loadSpy = vi.spyOn(loadSurveysRepository, 'loadAll')
-    const sut = new DbLoadSurveys(loadSurveysRepository)
     await sut.load()
     expect(loadSpy).toHaveBeenCalled()
   })
