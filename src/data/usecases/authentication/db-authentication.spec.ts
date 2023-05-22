@@ -6,8 +6,8 @@ import {
   Encrypter,
   HashComparer,
   AccountModel,
-  AuthenticationModel,
 } from './db-authentication-protocols'
+import { AuthenticationModel } from '@/domain/usecases/authentication'
 const makeFakeAccount = (): AccountModel => ({
   id: 'any_id',
   name: 'any_name',

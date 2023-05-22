@@ -1,8 +1,8 @@
 import { Decrypter } from '@/data/protocols/criptography/decrypter'
 import { describe, test, expect, vi } from 'vitest'
 import { DbLoadAccountByToken } from './db-load-account-by-token'
-import { AccountModel } from '../../../domain/usecases/authentication/db-authentication-protocols'
 import { LoadAccountByTokenRepository } from '@/data/protocols/db/account/load-account-by-token-repository'
+import { AccountModel } from '../add-account/db-add-account-protocols'
 
 const makeDecrypter = (): Decrypter => {
   class DecrypterStub implements Decrypter {
