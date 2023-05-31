@@ -18,26 +18,28 @@ const makeFakeSurveyData = (): AddSurveyModel => ({
 })
 
 describe('Account Mongo Repository', async () => {
-  let surveyCollection: Collection
-  beforeAll(async () => {
-    const mongoServer = await MongoMemoryServer.create()
-    const uri = mongoServer.getUri()
-    await MongoHelper.connect(uri)
-    surveyCollection = await MongoHelper.getCollection('surveys')
-  })
+  describe('add()', () => {
+    let surveyCollection: Collection
+    beforeAll(async () => {
+      const mongoServer = await MongoMemoryServer.create()
+      const uri = mongoServer.getUri()
+      await MongoHelper.connect(uri)
+      surveyCollection = await MongoHelper.getCollection('surveys')
+    })
 
-  beforeEach(async () => {
-    await surveyCollection.deleteMany({})
-  })
+    beforeEach(async () => {
+      await surveyCollection.deleteMany({})
+    })
 
-  afterAll(async () => {
-    await MongoHelper.disconnect()
-  })
+    afterAll(async () => {
+      await MongoHelper.disconnect()
+    })
 
-  test('Should add a survey on success', async () => {
-    const sut = new SurveyMongoRepository()
-    await sut.add(makeFakeSurveyData())
-    const survey = await surveyCollection.findOne({ question: 'any_question' })
-    expect(survey).toBeTruthy()
+    test('Should add a survey on success', async () => {
+      const sut = new SurveyMongoRepository()
+      await sut.add(makeFakeSurveyData())
+      const survey = await surveyCollection.findOne({ question: 'any_question' })
+      expect(survey).toBeTruthy()
+    })
   })
 })
