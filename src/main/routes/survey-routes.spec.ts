@@ -31,7 +31,6 @@ beforeEach(async () => {
 afterAll(async () => {
   await MongoHelper.disconnect()
 })
-
 describe('Post /survey', () => {
   test('Should return 403 on add survey without accessToken', async () => {
     await server
@@ -80,5 +79,11 @@ describe('Post /survey', () => {
         ],
       })
       .expect(204)
+  })
+})
+
+describe('Get/survey', () => {
+  test('Should return 403 on load surveys without access token', async () => {
+    await server.get('/api/surveys').expect(403)
   })
 })
