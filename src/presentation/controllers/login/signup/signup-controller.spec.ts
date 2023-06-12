@@ -2,12 +2,15 @@ import { describe, expect, test, vi } from 'vitest'
 import { SignupController } from './signup-controller'
 import { AccountModel } from '@/domain/models/account'
 import { HttpRequest } from '@/presentation/protocols'
-import { EmailValidator } from '@/presentation/protocols/validators'
 import { AddAccount, AddAccountModel } from '@/domain/usecases/add-account'
 import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { Validation } from './signup-controller-protocols'
 import { EmailInUseError, MissingPararmError, ServerError } from '@/presentation/errors'
-import { Authentication, AuthenticationModel } from '../login/login-controller-protocols'
+import {
+  Authentication,
+  AuthenticationModel,
+  EmailValidator,
+} from '../login/login-controller-protocols'
 
 const makeFakeAccount = (): AccountModel => ({
   id: 'valid_id',
@@ -45,7 +48,7 @@ const makeAddAccount = (): AddAccount => {
   return new AddAccountStub()
 }
 
-interface SutTypes {
+type SutTypes = {
   sut: SignupController
   emailValidatorStub: EmailValidator
   addAcountStub: AddAccount

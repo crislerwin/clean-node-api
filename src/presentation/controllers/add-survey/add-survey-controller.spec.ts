@@ -4,7 +4,7 @@ import { AddSurveyController } from './add-survey-controller'
 import { badRequest, noContent, serverError } from '@/presentation/helpers/http/http-helper'
 import { AddSurvey } from '@/domain/usecases/add-survey'
 
-interface SutTypes {
+type SutTypes = {
   sut: AddSurveyController
   validationStub: Validation
   addSurveyStub: AddSurvey

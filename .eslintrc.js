@@ -17,6 +17,7 @@ module.exports = {
     '@typescript-eslint/strict-boolean-expressions': 'off',
     '@typescript-eslint/consistent-type-imports': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
+    '@typescript-eslint/consistent-type-definitions': 'off',
     '@typescript-eslint/no-misused-promises': [
       'error',
       {
