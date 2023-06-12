@@ -1,12 +1,12 @@
 import { Hasher } from '@/data/protocols/criptography/hasher'
 import { AccountModel } from '@/domain/models/account'
 import { AddAccountModel } from '@/domain/usecases/add-account'
-import { describe, expect, test, vi } from 'vitest'
+import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { DbAddAccount } from './db-add-account'
 import { AddAccountRepository } from '@/data/protocols/db/account/add-account-repository'
 import { LoadAccountByEmailRepository } from '@/data/protocols/db/account/load-account-by-email-repository'
 
-interface SutTypes {
+type SutTypes = {
   sut: DbAddAccount
   hasherStub: Hasher
   addAccountRepositoryStub: AddAccountRepository
@@ -22,8 +22,9 @@ const makeFakeAccount = (): AccountModel => ({
 
 const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
-    async loadByEmail(email: string): Promise<AccountModel | null> {
+    async loadByEmail(email: string): Promise<AccountModel> {
       return await new Promise((resolve) => {
+        // @ts-expect-error
         resolve(null)
       })
     }
@@ -78,6 +79,10 @@ const makeSut = (): SutTypes => {
 }
 
 describe('DbAddAccount UseCase', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
   test('Should call Hasher with correct password', async () => {
     const { sut, hasherStub } = makeSut()
     const encryptSpy = vi.spyOn(hasherStub, 'hash')
@@ -87,8 +92,8 @@ describe('DbAddAccount UseCase', () => {
   })
   test('Should throw if Hasher throws', async () => {
     const { sut, hasherStub } = makeSut()
-    vi.spyOn(hasherStub, 'hash').mockImplementationOnce(async (): Promise<any> => {
-      return await new Promise((resolve, reject) => {
+    vi.spyOn(hasherStub, 'hash').mockImplementationOnce(async (): Promise<string> => {
+      return await new Promise((_resolve, reject) => {
         reject(new Error())
       })
     })

@@ -1,9 +1,9 @@
 import { describe, test, vi, expect, beforeEach, afterEach } from 'vitest'
 import { DbAddSurvey } from './db-add-survey'
 import { AddSurveyModel } from './add-survey-protocols'
-import { AddSurveyRepository } from '@/data/protocols/db/survey/add-survey-repository copy'
+import { AddSurveyRepository } from '@/data/protocols/db/survey/add-survey-repository'
 
-interface SutTypes {
+type SutTypes = {
   sut: DbAddSurvey
   addSurveyRepositoryStub: AddSurveyRepository
 }
