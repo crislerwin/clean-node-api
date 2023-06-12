@@ -1,6 +1,6 @@
 import { LoadSurveysRepository } from '@/data/protocols/db/survey/load-survey-repository'
 import { SurveyModel } from '@/domain/models/survey'
-import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest'
+import { beforeAll, describe, expect, test, vi } from 'vitest'
 import { DbLoadSurveys } from './db-load-surveys'
 
 const makeFakeSurveys = (): SurveyModel[] => [
@@ -44,10 +44,6 @@ const makeSut = (): SutTypes => {
 describe('DbLoadSurveys', () => {
   beforeAll(() => {
     vi.useFakeTimers()
-  })
-
-  afterAll(() => {
-    vi.clearAllTimers()
   })
 
   test('Should call LoadSurveysRepository', async () => {
