@@ -1,6 +1,6 @@
 import { test, beforeAll, describe, afterAll, beforeEach } from 'vitest'
 import { MongoMemoryServer } from 'mongodb-memory-server'
-import { MongoHelper } from '../../infra/db/mongodb/helpers/mongo-helper'
+import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper'
 import { setupApp } from '../config/app'
 import { Express } from 'express'
 import { agent, SuperAgentTest } from 'supertest'
