@@ -22,10 +22,6 @@
     "build:ci": "npm run test:ci && npm run build",
     "pretty": "prettier --write **/*.{js,ts,md,json}"
   },
-  "engines": {
-    "node": "18.15.0",
-    "npm": "9.5.0"
-  },
   "dependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/jsonwebtoken": "^9.0.1",
