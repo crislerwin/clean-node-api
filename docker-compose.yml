@@ -10,7 +10,7 @@ services:
       - '27017:27017'
   api:
     container_name: clean-node-api
-    image: node:15
+    image: node:20
     command: npm run debug
     restart: always
     working_dir: /app
