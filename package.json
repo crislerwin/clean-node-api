@@ -1,6 +1,6 @@
 {
   "name": "clean-node-api",
-  "version": "1.4.1",
+  "version": "2.0.2",
   "description": "An node js api with clean architecture",
   "private": false,
   "main": "index.js",
