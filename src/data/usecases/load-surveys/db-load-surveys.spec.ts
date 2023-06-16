@@ -1,5 +1,5 @@
-import { LoadSurveysRepository } from '@/data/protocols/db/survey/load-survey-repository'
-import { SurveyModel } from '@/domain/models/survey'
+import { LoadSurveysRepository, SurveyModel } from './db-load-survey-protocols'
+
 import { beforeAll, describe, expect, test, vi } from 'vitest'
 import { DbLoadSurveys } from './db-load-surveys'
 
