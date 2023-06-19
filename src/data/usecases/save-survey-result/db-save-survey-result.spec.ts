@@ -48,11 +48,25 @@ describe('DbSaveSurveyResult', () => {
   afterEach(() => {
     vi.useRealTimers()
   })
-  test('should call AddSurveyRepository with correct values', async () => {
+  test('should call DbSaveSurveyResult with correct values', async () => {
     const { saveSurveyResultRepositoryStub, sut } = makeSut()
     const addSpy = vi.spyOn(saveSurveyResultRepositoryStub, 'save')
     const surveyData = makeFakeSurveyResultData()
     await sut.save(surveyData)
     expect(addSpy).toHaveBeenCalledWith(surveyData)
+  })
+
+  test('Should throw if DbSaveSurveyResult throws', async () => {
+    const { sut, saveSurveyResultRepositoryStub } = makeSut()
+    vi.spyOn(saveSurveyResultRepositoryStub, 'save').mockImplementationOnce(
+      async (): Promise<SurveyResultModel> => {
+        return await new Promise((resolve, reject) => {
+          reject(new Error())
+        })
+      },
+    )
+
+    const promise = sut.save(makeFakeSurveyResultData())
+    await expect(promise).rejects.toThrow()
   })
 })
