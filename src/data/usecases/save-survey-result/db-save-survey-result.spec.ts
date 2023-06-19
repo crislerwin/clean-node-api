@@ -1,4 +1,4 @@
-import { describe, test, vi, expect } from 'vitest'
+import { describe, test, vi, expect, beforeEach, afterEach } from 'vitest'
 import { DbSaveSurveyResult } from './db-save-survey-result'
 import { SurveyResultModel } from '@/domain/models/survey-result'
 import { SaveSurveyResultModel } from '@/domain/usecases/save-survey-result'
@@ -41,6 +41,13 @@ const makeSut = (): SutTypes => {
   }
 }
 describe('DbSaveSurveyResult', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
   test('should call AddSurveyRepository with correct values', async () => {
     const { saveSurveyResultRepositoryStub, sut } = makeSut()
     const addSpy = vi.spyOn(saveSurveyResultRepositoryStub, 'save')
