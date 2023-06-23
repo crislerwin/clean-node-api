@@ -18,18 +18,18 @@ export class AccountMongoRepository
     const accountCollection = await MongoHelper.getCollection('accounts')
     const { insertedId } = await accountCollection.insertOne(accountData)
     const account = await accountCollection.findOne({ _id: insertedId })
-    return MongoHelper.map(account)
+    return MongoHelper.map<AccountModel>(account)
   }
 
   async loadByEmail(email: string): Promise<AccountModel> {
     const accountCollection = await MongoHelper.getCollection('accounts')
     const account = await accountCollection.findOne({ email })
-    return MongoHelper.map(account)
+    return MongoHelper.map<AccountModel>(account)
   }
 
   async loadByToken(accessToken: string, role?: string): Promise<AccountModel> {
     const accountCollection = await MongoHelper.getCollection('accounts')
-    const account = await accountCollection.findOne({
+    const response = await accountCollection.findOne({
       accessToken,
       $or: [
         {
@@ -40,7 +40,7 @@ export class AccountMongoRepository
         },
       ],
     })
-    return MongoHelper.map(account)
+    return MongoHelper.map<AccountModel>(response)
   }
 
   async updateAccessToken(id: string, token: string): Promise<void> {
