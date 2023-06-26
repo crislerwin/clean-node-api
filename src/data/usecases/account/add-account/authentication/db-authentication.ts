@@ -1,5 +1,6 @@
-import { Authentication, AuthenticationModel } from '@/domain/usecases/authentication'
 import {
+  Authentication,
+  AuthenticationModel,
   UpdateAccessTokenRepository,
   LoadAccountByEmailRepository,
   Encrypter,

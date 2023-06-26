@@ -1,5 +1,4 @@
 import { test, describe, expect, beforeAll, afterAll, beforeEach } from 'vitest'
-
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import { Collection } from 'mongodb'
 import { SurveyMongoResultRepository } from './survey-result-mongo-repository'

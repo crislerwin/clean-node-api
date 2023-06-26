@@ -125,7 +125,7 @@ describe('DbAddAccount UseCase', () => {
     const promise = await sut.add(accountData)
     await expect(promise).rejects.toThrow()
   })
-  test('Should returb an account on success', async () => {
+  test('Should return an account on success', async () => {
     const { sut } = makeSut()
     const accountData = makeFakeAccount()
     const account = await sut.add(accountData)
