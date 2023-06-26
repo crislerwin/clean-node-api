@@ -11,19 +11,23 @@ export class SurveyMongoRepository
 {
   async add(surveyData: AddSurveyModel): Promise<void> {
     const surveyCollection = await MongoHelper.getCollection('surveys')
-    await surveyCollection.insertOne(surveyData)
+    const { question, answers } = surveyData
+    await surveyCollection.insertOne({
+      question,
+      answers,
+      date: new Date(),
+    })
   }
 
   async loadAll(): Promise<SurveyModel[]> {
     const surveyCollection = await MongoHelper.getCollection('surveys')
     const surveys = await surveyCollection.find().toArray()
-    return JSON.parse(JSON.stringify(surveys))
+    return MongoHelper.mapCollection(surveys)
   }
 
   async loadById(id: string): Promise<SurveyModel> {
     const surveyCollection = await MongoHelper.getCollection('surveys')
-    return (await surveyCollection.findOne({
-      _id: new ObjectId(id),
-    })) as unknown as SurveyModel
+    const survey = await surveyCollection.findOne({ _id: new ObjectId(id) })
+    return await MongoHelper.map(survey)
   }
 }
