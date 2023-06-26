@@ -10,7 +10,7 @@
   "scripts": {
     "start": "node dist/main/server.js",
     "prepare": "husky install",
-    "lint": "eslint --ext .ts src/",
+    "lint": "eslint --ext .ts src/*",
     "test": "vitest run",
     "debug": "tsnd --inspect=0.0.0.0:9222 --respawn --transpile-only --ignore-watch node_modules -r tsconfig-paths/register src/main/server.ts",
     "build": "rimraf dist && npm run lint && tsup src/* -- format cjs,esm --dts --sourcemap --external validator",
@@ -20,7 +20,7 @@
     "test:integration": "vitest",
     "test:staged": "npm run test && npm run lint",
     "build:ci": "npm run test:ci && npm run build",
-    "pretty": "prettier --write **/*.{js,ts,md,json}"
+    "format": "prettier --write src/*"
   },
   "dependencies": {
     "@types/bcrypt": "^5.0.0",

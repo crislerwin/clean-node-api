@@ -5,7 +5,7 @@ import { Collection } from 'mongodb'
 import { SurveyMongoResultRepository } from './survey-result-mongo-repository'
 import { SurveyModel } from '@/domain/models/survey'
 import { AccountModel } from '@/domain/models/account'
-import { MongoHelper } from '../../helpers/mongo-helper'
+import { MongoHelper } from '../helpers/mongo-helper'
 
 let surveyResultCollection: Collection
 let accountCollection: Collection

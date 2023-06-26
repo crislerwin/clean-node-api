@@ -1,8 +1,10 @@
 import { describe, test, vi, expect, beforeEach, afterEach } from 'vitest'
 import { DbSaveSurveyResult } from './db-save-survey-result'
-import { SurveyResultModel } from '@/domain/models/survey-result'
-import { SaveSurveyResultModel } from '@/domain/usecases/save-survey-result'
-import { SaveSurveyResultRepository } from '@/data/protocols/db/survey/save-survey-result-repository'
+import {
+  SaveSurveyResultRepository,
+  SaveSurveyResultModel,
+  SurveyResultModel,
+} from './db-save-survey-result.protocols'
 
 type SutTypes = {
   sut: DbSaveSurveyResult

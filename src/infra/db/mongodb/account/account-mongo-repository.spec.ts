@@ -3,7 +3,7 @@ import { AccountMongoRepository } from './account-mongo-repository'
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { Collection } from 'mongodb'
-import { AddAccountModel } from '@/domain/usecases/add-account'
+import { AddAccountModel } from '@/domain/usecases/account/add-account'
 
 const makeFakeAccount = (): AddAccountModel => ({
   name: 'any_name',
