@@ -1,4 +1,4 @@
-import { makeSignUpValidation } from '../signup-validation-factory'
+import { makeSignUpValidation } from './signup-validation-factory'
 import { describe, test, expect, vi } from 'vitest'
 import {
   ValidationComposite,
