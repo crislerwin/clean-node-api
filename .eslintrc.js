@@ -1,4 +1,7 @@
 module.exports = {
+  env: {
+    es2022: true,
+  },
   extends: ['standard-with-typescript', 'prettier'],
   overrides: [],
   parser: '@typescript-eslint/parser',
