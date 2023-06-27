@@ -1,8 +1,13 @@
 import { describe, expect, test, vi } from 'vitest'
-import { HttpRequest, Validation } from './add-survey-controller-protocols'
+import {
+  badRequest,
+  noContent,
+  serverError,
+  AddSurvey,
+  HttpRequest,
+  Validation,
+} from './add-survey-controller-protocols'
 import { AddSurveyController } from './add-survey-controller'
-import { badRequest, noContent, serverError } from '@/presentation/helpers/http/http-helper'
-import { AddSurvey } from '@/domain/usecases/add-survey'
 
 type SutTypes = {
   sut: AddSurveyController

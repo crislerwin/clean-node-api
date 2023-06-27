@@ -1,4 +1,4 @@
 {
-  "*.ts": ["npm run lint", "npm run format"],
+  "*.ts": ["npm run format", "eslint --fix --ext .ts"],
   "*.spec.ts": ["npm run test"]
 }

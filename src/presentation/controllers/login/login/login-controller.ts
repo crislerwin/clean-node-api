@@ -1,7 +1,7 @@
-import { Authentication } from '@/domain/usecases/authentication'
 import { MissingPararmError } from '@/presentation/errors'
 import { badRequest, ok, serverError, unauthorized } from '@/presentation/helpers/http/http-helper'
 import { Controller, HttpRequest, HttpResponse, Validation } from './login-controller-protocols'
+import { Authentication } from '../signup/signup-controller-protocols'
 
 export class LoginController implements Controller {
   constructor(

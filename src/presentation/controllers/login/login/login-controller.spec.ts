@@ -1,8 +1,15 @@
-import { Authentication, AuthenticationModel } from '@/domain/usecases/authentication'
-import { MissingPararmError } from '@/presentation/errors'
-import { badRequest, ok, serverError, unauthorized } from '@/presentation/helpers/http/http-helper'
 import { describe, expect, test, vi } from 'vitest'
-import { HttpRequest, Validation } from './login-controller-protocols'
+import {
+  HttpRequest,
+  Validation,
+  Authentication,
+  AuthenticationModel,
+  badRequest,
+  MissingPararmError,
+  ok,
+  serverError,
+  unauthorized,
+} from './login-controller-protocols'
 import { LoginController } from './login-controller'
 
 const makeFakeRequest = (): HttpRequest => ({

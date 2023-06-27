@@ -57,7 +57,6 @@ describe('Auth Middleware', () => {
     const { sut, loadAccountByTokenStub } = makeSut()
     vi.spyOn(loadAccountByTokenStub, 'load').mockReturnValueOnce(
       new Promise((resolve) => {
-        // @ts-expect-error
         resolve(null)
       }),
     )
