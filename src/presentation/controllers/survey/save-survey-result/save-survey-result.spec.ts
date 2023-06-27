@@ -1,10 +1,14 @@
 import { describe, expect, test, vi } from 'vitest'
 import { SaveSurveyResultController } from './save-survey-result-controller'
-import { HttpRequest } from './save-survey-result-protocols'
-import { LoadSurveyById } from '@/domain/usecases/survey/load-surveys-by-id'
-import { SurveyModel } from '../load-surveys/load-surveys-controller-protocols'
-import { forbidden } from '../add-survey/add-survey-controller-protocols'
-import { InvalidParamError, ok } from '../../login/login/login-controller-protocols'
+import {
+  HttpRequest,
+  SurveyModel,
+  forbidden,
+  InvalidParamError,
+  ok,
+  LoadSurveyById,
+  serverError,
+} from './save-survey-result-protocols'
 
 const makeFakeRequest = (): HttpRequest => ({
   params: { surveyId: 'any_id' },
@@ -62,6 +66,17 @@ describe('SaveSurveyResultController', () => {
     )
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(forbidden(new InvalidParamError('surveyId')))
+  })
+
+  test('Should return  500 if LoadSurveyById throws', async () => {
+    const { sut, loadSurveysStub } = makeSut()
+    vi.spyOn(loadSurveysStub, 'loadById').mockReturnValueOnce(
+      new Promise((_resolve, reject) => {
+        reject(serverError(new Error()))
+      }),
+    )
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 
   test('Should return a valid survey on success', async () => {
