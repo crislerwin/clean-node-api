@@ -11,11 +11,17 @@ import {
 export class SaveSurveyResultController implements Controller {
   constructor(private readonly loadSurveyById: LoadSurveyById) {}
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const { surveyId } = httpRequest.params
     try {
+      const { surveyId } = httpRequest.params
+      const { answer } = httpRequest.body
       const survey = await this.loadSurveyById.loadById(surveyId)
-      if (!survey) return forbidden(new InvalidParamError('surveyId'))
-      return ok(survey)
+      if (survey) {
+        const answers = survey.answers.map((a) => a.answer)
+        if (!answers.includes(answer)) return forbidden(new InvalidParamError('answer'))
+        return ok(survey)
+      } else {
+        return forbidden(new InvalidParamError('surveyId'))
+      }
     } catch (error) {
       return serverError(error as Error)
     }
