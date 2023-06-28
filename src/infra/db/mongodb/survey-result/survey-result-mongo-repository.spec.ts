@@ -1,7 +1,7 @@
 import { test, describe, expect, beforeAll, afterAll, beforeEach } from 'vitest'
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import { Collection } from 'mongodb'
-import { SurveyMongoResultRepository } from './survey-result-mongo-repository'
+import { SurveyResultMongoRepository } from './survey-result-mongo-repository'
 import { SurveyModel } from '@/domain/models/survey'
 import { AccountModel } from '@/domain/models/account'
 import { MongoHelper } from '../helpers/mongo-helper'
@@ -9,7 +9,7 @@ import { MongoHelper } from '../helpers/mongo-helper'
 let surveyResultCollection: Collection
 let accountCollection: Collection
 let surveyCollection: Collection
-const makeSut = (): SurveyMongoResultRepository => new SurveyMongoResultRepository()
+const makeSut = (): SurveyResultMongoRepository => new SurveyResultMongoRepository()
 
 const makeFakeSurvey = async (): Promise<SurveyModel> => {
   const { insertedId } = await surveyResultCollection.insertOne({
