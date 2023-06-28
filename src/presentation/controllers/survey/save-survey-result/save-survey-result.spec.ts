@@ -12,6 +12,7 @@ import {
 
 const makeFakeRequest = (): HttpRequest => ({
   params: { surveyId: 'any_id' },
+  body: { answer: 'any_answer' },
 })
 const makeFakeSurvey = (): SurveyModel => ({
   id: 'any_id',
@@ -84,5 +85,17 @@ describe('SaveSurveyResultController', () => {
     vi.spyOn(loadSurveysStub, 'loadById')
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(ok(makeFakeSurvey()))
+  })
+
+  test('Should return  403 if an invalid answer is provided', async () => {
+    const { sut, loadSurveysStub } = makeSut()
+    vi.spyOn(loadSurveysStub, 'loadById')
+    const httpResponse = await sut.handle({
+      params: { surveyId: 'any_id' },
+      body: {
+        answer: 'wrong_answer',
+      },
+    })
+    expect(httpResponse).toEqual(forbidden(new InvalidParamError('answer')))
   })
 })
