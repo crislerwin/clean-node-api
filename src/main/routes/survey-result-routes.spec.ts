@@ -32,12 +32,11 @@ afterAll(async () => {
 
 describe('PUT /surveys/:surveyId/results', () => {
   test('Should return 403 on save survey result without accessToken', async () => {
-    // to do fix this return
     await server
       .put('/api/surveys/any_id/results')
       .send({
         answer: 'any_answer',
       })
-      .expect(404)
+      .expect(403)
   })
 })
