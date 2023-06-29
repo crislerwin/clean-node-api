@@ -3,7 +3,7 @@ import { SaveSurveyResultModel, SurveyResultModel } from '@/domain/models/survey
 import { MongoHelper } from '../helpers/mongo-helper'
 import { ObjectId } from 'mongodb'
 
-export class SurveyMongoResultRepository implements SaveSurveyResultRepository {
+export class SurveyResultMongoRepository implements SaveSurveyResultRepository {
   async save(data: SaveSurveyResultModel): Promise<SurveyResultModel> {
     const surveyCollection = await MongoHelper.getCollection('surveyResults')
     const { value } = await surveyCollection.findOneAndUpdate(
