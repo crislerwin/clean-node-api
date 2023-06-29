@@ -5,6 +5,8 @@ import { setupApp } from '../config/app'
 import { Express } from 'express'
 import { agent, SuperAgentTest } from 'supertest'
 import { Collection } from 'mongodb'
+import { sign } from 'jsonwebtoken'
+import env from '../config/env'
 
 let app: Express
 let server: SuperAgentTest
@@ -21,6 +23,28 @@ beforeAll(async () => {
   server = agent(app)
 })
 
+const makeAccessToken = async (): Promise<string> => {
+  const res = await accountCollection.insertOne({
+    name: 'any_name',
+    email: 'any_email@email.com',
+    password: 'any_password',
+    role: 'admin',
+  })
+  const id = res.insertedId
+  const accessToken = sign({ id }, env.jwtSecret)
+  await accountCollection.updateOne(
+    {
+      _id: id,
+    },
+    {
+      $set: {
+        accessToken,
+      },
+    },
+  )
+  return accessToken
+}
+
 beforeEach(async () => {
   await surveyCollection.deleteMany({})
   await accountCollection.deleteMany({})
@@ -31,6 +55,20 @@ afterAll(async () => {
 })
 
 describe('PUT /surveys/:surveyId/results', () => {
+  test('Should return 200 on save survey result with accessToken', async () => {
+    const accessToken = await makeAccessToken()
+    const { insertedId } = await surveyCollection.insertOne({
+      question: 'Question',
+      answers: [{ image: 'http://image-name.com', answer: 'Answer 1' }, { answer: 'Answer 2' }],
+    })
+    await server
+      .put(`/api/surveys/${insertedId.toString()}/results`)
+      .set('x-access-token', accessToken)
+      .send({
+        answer: 'Answer 1',
+      })
+      .expect(200)
+  })
   test('Should return 403 on save survey result without accessToken', async () => {
     await server
       .put('/api/surveys/any_id/results')
