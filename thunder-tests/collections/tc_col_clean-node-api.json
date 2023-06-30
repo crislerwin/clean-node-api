@@ -1,0 +1,86 @@
+{
+    "_id": "a76547a4-f33d-4481-9587-202afd2b3707",
+    "colName": "clean-node-api",
+    "created": "2023-06-29T12:18:52.467Z",
+    "sortNum": 10000,
+    "folders": [],
+    "requests": [
+        {
+            "_id": "d0fdc438-4705-4cdf-ab41-34a3e32bebfc",
+            "colId": "a76547a4-f33d-4481-9587-202afd2b3707",
+            "containerId": "",
+            "name": "GET /surveys",
+            "url": "http://localhost:5050/api/surveys",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-06-29T12:18:52.469Z",
+            "modified": "2023-06-30T11:48:52.713Z",
+            "headers": [
+                {
+                    "name": "x-access-token",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzlkZDlkNjkyZWMwYmM4YWM3NDZkNiIsImlhdCI6MTY4ODEyNTY4MX0.IA1juZDS-_LONPlMZrS5eEMQ0xZCJj0HR4A_koNlJn0"
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "4d5b2fe8-7e42-4315-8f4d-76e1a8e7c14c",
+            "colId": "a76547a4-f33d-4481-9587-202afd2b3707",
+            "containerId": "",
+            "name": "POST /login",
+            "url": "http://localhost:5050/api/login",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2023-06-29T12:23:29.594Z",
+            "modified": "2023-06-29T12:23:29.594Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\": \"crislerwintler@gmail.com\",\n  \"password\": \"123456\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "ee5e4aa2-e894-42db-a7c6-2a23de7b10b2",
+            "colId": "a76547a4-f33d-4481-9587-202afd2b3707",
+            "containerId": "",
+            "name": "put /surveys/:resultId",
+            "url": "http://localhost:5050/api/surveys/647dd01af00bc0186e289e39/results",
+            "method": "PUT",
+            "sortNum": 30000,
+            "created": "2023-06-30T11:47:37.694Z",
+            "modified": "2023-06-30T11:47:37.694Z",
+            "headers": [
+                {
+                    "name": "x-access-token",
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzlkZDlkNjkyZWMwYmM4YWM3NDZkNiIsImlhdCI6MTY4ODEyNTM4NX0.j_51fPUVr6bL_Ng5YXLXoe8OnBwbAeeH9yLIzhQBBaA"
+                },
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                }
+            ],
+            "params": [],
+            "tests": []
+        }
+    ]
+}
