@@ -9,7 +9,7 @@ import {
   serverError,
 } from './save-survey-result-protocols'
 import { SaveSurveyResult } from '@/domain/usecases/survey-result/save-survey-result'
-import { SaveSurveyResultModel, SurveyResultModel } from '@/domain/models/survey-result'
+import { SaveSurveyResultParams, SurveyResultModel } from '@/domain/models/survey-result'
 
 const makeFakeResultModel = (): SurveyResultModel => ({
   surveyId: 'any_survey_id',
@@ -50,7 +50,7 @@ const makeLoadSurveyById = (): LoadSurveyById => {
 
 const makeSurveyResult = (): SaveSurveyResult => {
   class SurveyResultStub implements SaveSurveyResult {
-    async save(_data: SaveSurveyResultModel): Promise<SurveyResultModel> {
+    async save(_data: SaveSurveyResultParams): Promise<SurveyResultModel> {
       return await new Promise((resolve) => {
         resolve(makeFakeResultModel())
       })

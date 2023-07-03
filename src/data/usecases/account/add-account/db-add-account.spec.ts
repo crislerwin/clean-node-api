@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { DbAddAccount } from './db-add-account'
 import {
   AddAccountRepository,
-  AddAccountModel,
+  AddAccountParams,
   LoadAccountByEmailRepository,
   AccountModel,
   Hasher,
@@ -36,7 +36,7 @@ const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
 
 const makeAddAccountRepository = (): AddAccountRepository => {
   class AddAccountRepositoryStub implements AddAccountRepository {
-    async add(accountData: AddAccountModel): Promise<AccountModel> {
+    async add(accountData: AddAccountParams): Promise<AccountModel> {
       return await new Promise((resolve) => {
         resolve(makeFakeAccount())
       })

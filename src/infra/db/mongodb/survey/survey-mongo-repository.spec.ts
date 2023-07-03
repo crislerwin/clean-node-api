@@ -4,9 +4,9 @@ import { MongoMemoryServer } from 'mongodb-memory-server'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { Collection } from 'mongodb'
 import { SurveyMongoRepository } from './survey-mongo-repository'
-import { AddSurveyModel } from '@/domain/usecases/survey/add-survey'
+import { AddSurveyParams } from '@/domain/usecases/survey/add-survey'
 
-const makeFakeSurveyData = (): AddSurveyModel => ({
+const makeFakeSurveyData = (): AddSurveyParams => ({
   question: 'any_question',
   answers: [
     {

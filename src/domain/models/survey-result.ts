@@ -6,4 +6,4 @@ export type SurveyResultModel = {
   date: Date
 }
 
-export type SaveSurveyResultModel = Omit<SurveyResultModel, 'id'>
+export type SaveSurveyResultParams = Omit<SurveyResultModel, 'id'>

@@ -9,9 +9,9 @@ import {
   serverError,
   EmailValidator,
   AddAccount,
-  AddAccountModel,
+  AddAccountParams,
   Authentication,
-  AuthenticationModel,
+  AuthenticationParams,
 } from './signup-controller-protocols'
 import { EmailInUseError, MissingPararmError, ServerError } from '@/presentation/errors'
 
@@ -41,7 +41,7 @@ const makeEmailValidator = (): EmailValidator => {
 
 const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
-    async add(_account: AddAccountModel): Promise<AccountModel> {
+    async add(_account: AddAccountParams): Promise<AccountModel> {
       const fakeAccount = makeFakeAccount()
       return await new Promise((resolve) => {
         resolve(fakeAccount)
@@ -69,7 +69,7 @@ const makeValidation = (): Validation => {
 }
 const makeAuthentication = (): Authentication => {
   class AuthenticationStub implements Authentication {
-    async auth(authentication: AuthenticationModel): Promise<string> {
+    async auth(authentication: AuthenticationParams): Promise<string> {
       return 'any_token'
     }
   }
