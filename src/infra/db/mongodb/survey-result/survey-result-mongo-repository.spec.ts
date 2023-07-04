@@ -25,8 +25,8 @@ const makeFakeSurvey = async (): Promise<SurveyModel> => {
 
 const makeFakeAccount = async (): Promise<AccountModel | null> => {
   const { insertedId } = await accountCollection.insertOne({
-    name: 'valid_name',
-    email: 'valid_email@mail.com',
+    name: 'any_name',
+    email: 'any_email@mail.com',
     password: 'hashed_password',
   })
   const result = await accountCollection.findOne({

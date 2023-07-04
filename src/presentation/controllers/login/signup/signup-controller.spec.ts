@@ -14,19 +14,14 @@ import {
   AuthenticationParams,
 } from './signup-controller-protocols'
 import { EmailInUseError, MissingPararmError, ServerError } from '@/presentation/errors'
+import { mockAccount } from '@/domain/test'
 
-const makeFakeAccount = (): AccountModel => ({
-  id: 'valid_id',
-  name: 'valid_name',
-  email: 'valid_email',
-  password: 'valid_password',
-})
 const makeFakeRequest = (): HttpRequest => ({
   body: {
-    name: 'valid_name',
-    email: 'valid_email',
-    password: 'valid_password',
-    passwordConfirmation: 'valid_password',
+    name: 'any_name',
+    email: 'any_email',
+    password: 'any_password',
+    passwordConfirmation: 'any_password',
   },
 })
 
@@ -42,7 +37,7 @@ const makeEmailValidator = (): EmailValidator => {
 const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
     async add(_account: AddAccountParams): Promise<AccountModel> {
-      const fakeAccount = makeFakeAccount()
+      const fakeAccount = mockAccount()
       return await new Promise((resolve) => {
         resolve(fakeAccount)
       })
@@ -98,9 +93,9 @@ describe('Signup Controller', () => {
     const httpRequest = makeFakeRequest()
     await sut.handle(httpRequest)
     expect(addSpy).toHaveBeenCalledWith({
-      name: 'valid_name',
-      email: 'valid_email',
-      password: 'valid_password',
+      name: 'any_name',
+      email: 'any_email',
+      password: 'any_password',
     })
   })
   test('Should return 500 if AddAccount throws', async () => {
@@ -148,8 +143,8 @@ describe('Signup Controller', () => {
     const authSpy = vi.spyOn(authenticationStub, 'auth')
     await sut.handle(makeFakeRequest())
     expect(authSpy).toHaveBeenCalledWith({
-      email: 'valid_email',
-      password: 'valid_password',
+      email: 'any_email',
+      password: 'any_password',
     })
   })
 

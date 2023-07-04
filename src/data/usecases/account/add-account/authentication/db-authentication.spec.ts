@@ -8,18 +8,13 @@ import {
   AccountModel,
   AuthenticationParams,
 } from './db-authentication-protocols'
+import { mockAccount, throwError } from '@/domain/test'
 
-const makeFakeAccount = (): AccountModel => ({
-  id: 'any_id',
-  name: 'any_name',
-  email: 'any_email',
-  password: 'hashed_password',
-})
 const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
     async loadByEmail(email: string): Promise<AccountModel> {
       return await new Promise((resolve) => {
-        resolve(makeFakeAccount())
+        resolve(mockAccount())
       })
     }
   }
@@ -101,11 +96,7 @@ describe('DbAuthentication Usecase', () => {
   })
   test('Should  throw if LoadAccountByEmailRepository throws', async () => {
     const { loadAccountByEmailRepositoryStub, sut } = makeSut()
-    vi.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockReturnValueOnce(
-      new Promise((resolve, reject) => {
-        reject(new Error())
-      }),
-    )
+    vi.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockImplementationOnce(throwError)
     const promise = sut.auth(makeFakeAuthentication())
     await expect(promise).rejects.toThrow()
   })
@@ -125,11 +116,7 @@ describe('DbAuthentication Usecase', () => {
   })
   test('Should  throw if LoadAccountByEmailRepository throws', async () => {
     const { hashCompareStub, sut } = makeSut()
-    vi.spyOn(hashCompareStub, 'compare').mockReturnValueOnce(
-      new Promise((resolve, reject) => {
-        reject(new Error())
-      }),
-    )
+    vi.spyOn(hashCompareStub, 'compare').mockImplementationOnce(throwError)
     const promise = sut.auth(makeFakeAuthentication())
     await expect(promise).rejects.toThrow()
   })
@@ -151,11 +138,7 @@ describe('DbAuthentication Usecase', () => {
   })
   test('Should  throw if Encrypter throws', async () => {
     const { encrypterStub, sut } = makeSut()
-    vi.spyOn(encrypterStub, 'encrypt').mockReturnValueOnce(
-      new Promise((resolve, reject) => {
-        reject(new Error())
-      }),
-    )
+    vi.spyOn(encrypterStub, 'encrypt').mockImplementationOnce(throwError)
     const promise = sut.auth(makeFakeAuthentication())
     await expect(promise).rejects.toThrow()
   })
@@ -172,10 +155,8 @@ describe('DbAuthentication Usecase', () => {
   })
   test('Should  throw if UpdateAccessTokeRepository throws', async () => {
     const { updateAccessTokenRepositoryStub, sut } = makeSut()
-    vi.spyOn(updateAccessTokenRepositoryStub, 'updateAccessToken').mockReturnValueOnce(
-      new Promise((resolve, reject) => {
-        reject(new Error())
-      }),
+    vi.spyOn(updateAccessTokenRepositoryStub, 'updateAccessToken').mockImplementationOnce(
+      throwError,
     )
     const promise = sut.auth(makeFakeAuthentication())
     await expect(promise).rejects.toThrow()

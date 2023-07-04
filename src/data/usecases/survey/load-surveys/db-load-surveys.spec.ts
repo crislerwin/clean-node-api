@@ -1,7 +1,7 @@
 import { LoadSurveysRepository, SurveyModel } from './db-load-survey-protocols'
-
 import { beforeAll, describe, expect, test, vi } from 'vitest'
 import { DbLoadSurveys } from './db-load-surveys'
+import { throwError } from '@/domain/test'
 
 const makeFakeSurveys = (): SurveyModel[] => [
   {
@@ -59,11 +59,7 @@ describe('DbLoadSurveys', () => {
   })
   test('Should  throw if LoadSurveysRepository throws', async () => {
     const { loadSurveysRepository, sut } = makeSut()
-    vi.spyOn(loadSurveysRepository, 'loadAll').mockReturnValueOnce(
-      new Promise((resolve, reject) => {
-        reject(new Error())
-      }),
-    )
+    vi.spyOn(loadSurveysRepository, 'loadAll').mockImplementationOnce(throwError)
     const promise = sut.load()
     await expect(promise).rejects.toThrow()
   })

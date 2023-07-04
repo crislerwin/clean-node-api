@@ -11,6 +11,7 @@ import {
   unauthorized,
 } from './login-controller-protocols'
 import { LoginController } from './login-controller'
+import { throwError } from '@/domain/test'
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -82,11 +83,7 @@ describe('Login Controller', () => {
   })
   test('Should return 500 if Authentication throws', async () => {
     const { sut, authenticationStub } = makeSut()
-    vi.spyOn(authenticationStub, 'auth').mockReturnValueOnce(
-      new Promise((resolve, reject) => {
-        reject(new Error())
-      }),
-    )
+    vi.spyOn(authenticationStub, 'auth').mockImplementationOnce(throwError)
     const httpRequest = makeFakeRequest()
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(serverError(new Error()))
