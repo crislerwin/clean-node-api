@@ -32,7 +32,7 @@ const makeFakeAccount = async (): Promise<AccountModel | null> => {
   const result = await accountCollection.findOne({
     _id: insertedId,
   })
-  return result && (await MongoHelper.map(result))
+  return await MongoHelper.map(result)
 }
 
 describe('SurveyMongoResultRepository()', async () => {

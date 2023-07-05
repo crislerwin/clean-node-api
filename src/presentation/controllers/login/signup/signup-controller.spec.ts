@@ -14,7 +14,7 @@ import {
   AuthenticationParams,
 } from './signup-controller-protocols'
 import { EmailInUseError, MissingPararmError, ServerError } from '@/presentation/errors'
-import { mockAccount } from '@/domain/test'
+import { mockAccountModel } from '@/domain/test'
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -37,7 +37,7 @@ const makeEmailValidator = (): EmailValidator => {
 const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
     async add(_account: AddAccountParams): Promise<AccountModel> {
-      const fakeAccount = mockAccount()
+      const fakeAccount = mockAccountModel()
       return await new Promise((resolve) => {
         resolve(fakeAccount)
       })

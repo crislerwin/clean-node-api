@@ -8,13 +8,13 @@ import {
   AccountModel,
   AuthenticationParams,
 } from './db-authentication-protocols'
-import { mockAccount, throwError } from '@/domain/test'
+import { mockAccountModel, throwError } from '@/domain/test'
 
 const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
     async loadByEmail(email: string): Promise<AccountModel> {
       return await new Promise((resolve) => {
-        resolve(mockAccount())
+        resolve(mockAccountModel())
       })
     }
   }

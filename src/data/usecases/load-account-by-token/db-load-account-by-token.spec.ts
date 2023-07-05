@@ -5,7 +5,7 @@ import {
   Decrypter,
   AccountModel,
 } from './db-load-account-by-token-protocols'
-import { mockAccount, throwError } from '@/domain/test'
+import { mockAccountModel, throwError } from '@/domain/test'
 
 const makeDecrypter = (): Decrypter => {
   class DecrypterStub implements Decrypter {
@@ -28,7 +28,7 @@ const makeLoadAccountByTokenRepository = (): LoadAccountByTokenRepository => {
   class LoadAccountByTokenRepositoryStub implements LoadAccountByTokenRepository {
     async loadByToken(token: string, role?: string): Promise<AccountModel> {
       return await new Promise((resolve) => {
-        resolve(mockAccount())
+        resolve(mockAccountModel())
       })
     }
   }
@@ -84,7 +84,7 @@ describe('DbLoadAccountByToken UseCase', () => {
   test('Should return an account on success', async () => {
     const { sut } = makeSut()
     const account = await sut.load('any_token', 'any_role')
-    expect(account).toEqual(mockAccount())
+    expect(account).toEqual(mockAccountModel())
   })
 
   test('Should throw if Decrypter throws', async () => {

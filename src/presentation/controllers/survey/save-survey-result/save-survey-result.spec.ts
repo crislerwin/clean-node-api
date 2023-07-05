@@ -1,4 +1,4 @@
-import { describe, expect, test, vi } from 'vitest'
+import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { SaveSurveyResultController } from './save-survey-result-controller'
 import {
   HttpRequest,
@@ -78,6 +78,10 @@ const makeSut = (): Sutypes => {
 }
 
 describe('SaveSurveyResultController', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
   test('Should call LoadSurveyById with correct values', async () => {
     const { sut, loadSurveysStub } = makeSut()
     const loadByIdSpy = vi.spyOn(loadSurveysStub, 'loadById')

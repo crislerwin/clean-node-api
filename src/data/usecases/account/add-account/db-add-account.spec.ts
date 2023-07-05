@@ -7,7 +7,7 @@ import {
   AccountModel,
   Hasher,
 } from './db-add-account-protocols'
-import { mockAccount } from '@/domain/test'
+import { mockAccountModel } from '@/domain/test'
 
 type SutTypes = {
   sut: DbAddAccount
@@ -32,7 +32,7 @@ const makeAddAccountRepository = (): AddAccountRepository => {
   class AddAccountRepositoryStub implements AddAccountRepository {
     async add(accountData: AddAccountParams): Promise<AccountModel> {
       return await new Promise((resolve) => {
-        resolve(mockAccount())
+        resolve(mockAccountModel())
       })
     }
   }
@@ -83,7 +83,7 @@ describe('DbAddAccount UseCase', () => {
     const { sut, hasherStub } = makeSut()
     const encryptSpy = vi.spyOn(hasherStub, 'hash')
 
-    await sut.add(mockAccount())
+    await sut.add(mockAccountModel())
     expect(encryptSpy).toHaveBeenCalledWith('hashed_password')
   })
   test('Should throw if Hasher throws', async () => {
@@ -94,13 +94,13 @@ describe('DbAddAccount UseCase', () => {
       })
     })
 
-    const promise = sut.add(mockAccount())
+    const promise = sut.add(mockAccountModel())
     await expect(promise).rejects.toThrow()
   })
   test('Should call AddAccountRepository with correct values', async () => {
     const { sut, addAccountRepositoryStub } = makeSut()
     const addSpy = vi.spyOn(addAccountRepositoryStub, 'add')
-    const accountData = mockAccount()
+    const accountData = mockAccountModel()
     await sut.add(accountData)
     expect(addSpy).toHaveBeenCalledWith(accountData)
   })
@@ -115,30 +115,30 @@ describe('DbAddAccount UseCase', () => {
     vi.spyOn(addAccountRepositoryStub, 'add').mockReturnValueOnce(
       addAccount as unknown as Promise<AccountModel>,
     )
-    const accountData = mockAccount()
+    const accountData = mockAccountModel()
     const promise = await sut.add(accountData)
     await expect(promise).rejects.toThrow()
   })
   test('Should return an account on success', async () => {
     const { sut } = makeSut()
-    const accountData = mockAccount()
+    const accountData = mockAccountModel()
     const account = await sut.add(accountData)
-    expect(account).toEqual(mockAccount())
+    expect(account).toEqual(mockAccountModel())
   })
   test('Should  call LoadAccountByEmailRepository with correct email', async () => {
     const { loadAccountByEmailRepositoryStub, sut } = makeSut()
     const loadSpy = vi.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
-    await sut.add(mockAccount())
+    await sut.add(mockAccountModel())
     expect(loadSpy).toBeCalledWith('any_email@mail.com')
   })
   test('Should return null if  LoadAccountByEmailRepository not return null', async () => {
     const { loadAccountByEmailRepositoryStub, sut } = makeSut()
     vi.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockReturnValueOnce(
       new Promise((resolve) => {
-        resolve(mockAccount())
+        resolve(mockAccountModel())
       }),
     )
-    const account = await sut.add(mockAccount())
+    const account = await sut.add(mockAccountModel())
     expect(account).toBeNull()
   })
 })

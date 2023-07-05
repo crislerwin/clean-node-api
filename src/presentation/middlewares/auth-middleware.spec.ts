@@ -3,7 +3,7 @@ import { forbidden, ok, serverError } from '../helpers/http/http-helper'
 import { AccessDeniedError } from '../errors'
 import { AuthMiddleware } from './auth-middleware'
 import { AccountModel, HttpRequest, LoadAccountByToken } from './auth-middleware-protocols'
-import { mockAccount, throwError } from '@/domain/test'
+import { mockAccountModel, throwError } from '@/domain/test'
 
 type SutTypes = {
   sut: AuthMiddleware
@@ -19,7 +19,7 @@ const makeLoadAccountByToken = (): LoadAccountByToken => {
   class LoadAccountByTokenStub implements LoadAccountByToken {
     async load(accessToken: string, role?: string): Promise<AccountModel> {
       return await new Promise((resolve) => {
-        resolve(mockAccount())
+        resolve(mockAccountModel())
       })
     }
   }
