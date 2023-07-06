@@ -2,6 +2,7 @@ import { describe, test, vi, expect, beforeEach, afterEach } from 'vitest'
 import { DbAddSurvey } from './db-add-survey'
 import { AddSurveyParams } from './add-survey-protocols'
 import { AddSurveyRepository } from '@/data/protocols/db/survey/add-survey-repository'
+import { mockAddSurveyRepository } from '@/domain/test'
 
 type SutTypes = {
   sut: DbAddSurvey
@@ -19,19 +20,8 @@ const makeFakeSurveyData = (): AddSurveyParams => ({
   date: new Date(),
 })
 
-const makeAddSurveyRepository = (): AddSurveyRepository => {
-  class AddSurveyRepositoryStub implements AddSurveyRepository {
-    async add(data: AddSurveyParams): Promise<void> {
-      await new Promise((resolve) => {
-        resolve(null)
-      })
-    }
-  }
-  return new AddSurveyRepositoryStub()
-}
-
 const makeSut = (): SutTypes => {
-  const addSurveyRepositoryStub = makeAddSurveyRepository()
+  const addSurveyRepositoryStub = mockAddSurveyRepository()
   const sut = new DbAddSurvey(addSurveyRepositoryStub)
   return {
     sut,

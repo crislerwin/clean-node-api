@@ -3,21 +3,12 @@ import { describe, expect, test, vi } from 'vitest'
 import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
 import { serverError } from '@/presentation/helpers/http/http-helper'
 import { LogErrorRepository } from '@/data/protocols/db/log/log-error-repository'
+import { mockLogErrorRepository } from '@/domain/test'
 
 type SutTypes = {
   sut: LogControllerDecorator
   controllerStub: Controller
   logErrorRepositoryStub: LogErrorRepository
-}
-const makeLogErrorRepository = (): LogErrorRepository => {
-  class LogErrorRepositoryStub implements LogErrorRepository {
-    async logError(stack: string): Promise<void> {
-      await new Promise((resolve) => {
-        resolve(null)
-      })
-    }
-  }
-  return new LogErrorRepositoryStub()
 }
 
 const makeFakeRequest = (): HttpRequest => ({
@@ -53,7 +44,7 @@ const makeSut = (): SutTypes => {
     }
   }
   const controllerStub = new ControllerStub()
-  const logErrorRepositoryStub = makeLogErrorRepository()
+  const logErrorRepositoryStub = mockLogErrorRepository()
   const sut = new LogControllerDecorator(controllerStub, logErrorRepositoryStub)
   return {
     sut,
