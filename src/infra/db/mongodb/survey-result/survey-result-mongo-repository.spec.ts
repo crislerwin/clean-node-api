@@ -23,7 +23,7 @@ const makeFakeSurvey = async (): Promise<SurveyModel> => {
   return MongoHelper.map<SurveyModel>(result)
 }
 
-const makeFakeAccount = async (): Promise<AccountModel | null> => {
+const makeFakeAccountModel = async (): Promise<AccountModel | null> => {
   const { insertedId } = await accountCollection.insertOne({
     name: 'any_name',
     email: 'any_email@mail.com',
@@ -55,7 +55,7 @@ describe('SurveyMongoResultRepository()', async () => {
 
   describe('save()', () => {
     test('Should add a survey result if its new', async () => {
-      const account = await makeFakeAccount()
+      const account = await makeFakeAccountModel()
       const sut = makeSut()
       const survey = await makeFakeSurvey()
       if (!survey) return

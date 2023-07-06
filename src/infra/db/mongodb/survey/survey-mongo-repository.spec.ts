@@ -1,21 +1,9 @@
 import { test, describe, expect, beforeAll, afterAll, beforeEach } from 'vitest'
-
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { Collection } from 'mongodb'
 import { SurveyMongoRepository } from './survey-mongo-repository'
-import { AddSurveyParams } from '@/domain/usecases/survey/add-survey'
-
-const makeFakeSurveyData = (): AddSurveyParams => ({
-  question: 'any_question',
-  answers: [
-    {
-      image: 'any_image',
-      answer: 'any_answer',
-    },
-  ],
-  date: new Date(),
-})
+import { mockAddSurveyParams } from '@/domain/test'
 
 const makeSut = (): SurveyMongoRepository => new SurveyMongoRepository()
 
@@ -39,7 +27,7 @@ describe('Account Mongo Repository', async () => {
   describe('add()', () => {
     test('Should add a survey on success', async () => {
       const sut = makeSut()
-      await sut.add(makeFakeSurveyData())
+      await sut.add(mockAddSurveyParams())
       const survey = await surveyCollection.findOne({ question: 'any_question' })
       expect(survey).toBeTruthy()
     })

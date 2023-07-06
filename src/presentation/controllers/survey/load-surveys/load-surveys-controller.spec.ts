@@ -1,34 +1,8 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import { SurveyModel, LoadSurveys } from './load-surveys-controller-protocols'
+import { LoadSurveys } from './load-surveys-controller-protocols'
 import { LoadSurveysController } from './load-surveys-controller'
 import { noContent, ok, serverError } from '@/presentation/helpers/http/http-helper'
-import { throwError } from '@/domain/test'
-
-const makeFakeSurveys = (): SurveyModel[] => [
-  {
-    id: 'any_id',
-    question: 'any_question',
-    answers: [
-      {
-        image: 'any_image',
-        answer: 'any_answer',
-      },
-    ],
-    date: new Date(),
-  },
-]
-
-const makeLoadSurveys = (): LoadSurveys => {
-  class LoadSurveysStub implements LoadSurveys {
-    async load(): Promise<SurveyModel[]> {
-      return await new Promise((resolve) => {
-        resolve(makeFakeSurveys())
-      })
-    }
-  }
-
-  return new LoadSurveysStub()
-}
+import { mockLoadSurveys, mockSurveyModels, throwError } from '@/domain/test'
 
 type SutTypes = {
   sut: LoadSurveysController
@@ -36,7 +10,7 @@ type SutTypes = {
 }
 
 const makeSut = (): SutTypes => {
-  const loadSurveysStub = makeLoadSurveys()
+  const loadSurveysStub = mockLoadSurveys()
   const sut = new LoadSurveysController(loadSurveysStub)
   return {
     sut,
@@ -58,12 +32,12 @@ describe('LoadSurveys Controller', () => {
   test('Should return 200 on successs', async () => {
     const { sut } = makeSut()
     const httpRespose = await sut.handle({})
-    expect(httpRespose).toEqual(ok(makeFakeSurveys()))
+    expect(httpRespose).toEqual(ok(mockSurveyModels()))
   })
   test('Should return 204 if LoadSurveys returns empty', async () => {
     const { sut, loadSurveysStub } = makeSut()
     vi.spyOn(loadSurveysStub, 'load').mockReturnValueOnce(
-      new Promise((resolve, reject) => {
+      new Promise((resolve) => {
         resolve([])
       }),
     )

@@ -2,62 +2,19 @@ import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { SaveSurveyResultController } from './save-survey-result-controller'
 import {
   HttpRequest,
-  SurveyModel,
   forbidden,
   InvalidParamError,
   LoadSurveyById,
   serverError,
 } from './save-survey-result-protocols'
 import { SaveSurveyResult } from '@/domain/usecases/survey-result/save-survey-result'
-import { SaveSurveyResultParams, SurveyResultModel } from '@/domain/models/survey-result'
-
-const makeFakeResultModel = (): SurveyResultModel => ({
-  surveyId: 'any_survey_id',
-  accountId: 'any_account_id',
-  answer: 'any_answer',
-  date: new Date(),
-  id: 'any_id',
-})
+import { mockSurveyResult, mockLoadSurveyByIdRepository } from '@/domain/test'
 
 const makeFakeRequest = (): HttpRequest => ({
   params: { surveyId: 'any_id' },
   body: { answer: 'any_answer' },
   accountId: 'any_account_id',
 })
-
-const makeFakeSurvey = (): SurveyModel => ({
-  id: 'any_id',
-  question: 'any_question',
-  answers: [
-    {
-      image: 'any_image',
-      answer: 'any_answer',
-    },
-  ],
-  date: new Date(),
-})
-
-const makeLoadSurveyById = (): LoadSurveyById => {
-  class LoadSurveyByIdStub implements LoadSurveyById {
-    async loadById(id: string): Promise<SurveyModel> {
-      return await new Promise((resolve) => {
-        resolve(makeFakeSurvey())
-      })
-    }
-  }
-  return new LoadSurveyByIdStub()
-}
-
-const makeSurveyResult = (): SaveSurveyResult => {
-  class SurveyResultStub implements SaveSurveyResult {
-    async save(_data: SaveSurveyResultParams): Promise<SurveyResultModel> {
-      return await new Promise((resolve) => {
-        resolve(makeFakeResultModel())
-      })
-    }
-  }
-  return new SurveyResultStub()
-}
 
 type Sutypes = {
   sut: SaveSurveyResultController
@@ -66,8 +23,8 @@ type Sutypes = {
 }
 
 const makeSut = (): Sutypes => {
-  const loadSurveysStub = makeLoadSurveyById()
-  const saveSurveyResultStub = makeSurveyResult()
+  const loadSurveysStub = mockLoadSurveyByIdRepository()
+  const saveSurveyResultStub = mockSurveyResult()
   const sut = new SaveSurveyResultController(loadSurveysStub, saveSurveyResultStub)
 
   return {

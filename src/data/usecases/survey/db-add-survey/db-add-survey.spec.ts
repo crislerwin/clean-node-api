@@ -1,24 +1,12 @@
 import { describe, test, vi, expect, beforeEach, afterEach } from 'vitest'
 import { DbAddSurvey } from './db-add-survey'
-import { AddSurveyParams } from './add-survey-protocols'
 import { AddSurveyRepository } from '@/data/protocols/db/survey/add-survey-repository'
-import { mockAddSurveyRepository } from '@/domain/test'
+import { mockAddSurveyParams, mockAddSurveyRepository } from '@/domain/test'
 
 type SutTypes = {
   sut: DbAddSurvey
   addSurveyRepositoryStub: AddSurveyRepository
 }
-
-const makeFakeSurveyData = (): AddSurveyParams => ({
-  question: 'any_question',
-  answers: [
-    {
-      image: 'any_image',
-      answer: 'any_answer',
-    },
-  ],
-  date: new Date(),
-})
 
 const makeSut = (): SutTypes => {
   const addSurveyRepositoryStub = mockAddSurveyRepository()
@@ -39,8 +27,8 @@ describe('DbAddSurvey', () => {
   test('should call AddSurveyRepository with correct values', async () => {
     const { addSurveyRepositoryStub, sut } = makeSut()
     const addSpy = vi.spyOn(addSurveyRepositoryStub, 'add')
-    await sut.add(makeFakeSurveyData())
-    expect(addSpy).toHaveBeenCalledWith(makeFakeSurveyData())
+    await sut.add(mockAddSurveyParams())
+    expect(addSpy).toHaveBeenCalledWith(mockAddSurveyParams())
   })
   test('Should throw if Hasher throws', async () => {
     const { sut, addSurveyRepositoryStub } = makeSut()
@@ -50,7 +38,7 @@ describe('DbAddSurvey', () => {
       })
     })
 
-    const promise = sut.add(makeFakeSurveyData())
+    const promise = sut.add(mockAddSurveyParams())
     await expect(promise).rejects.toThrow()
   })
 })
