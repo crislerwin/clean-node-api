@@ -5,16 +5,14 @@ import {
   badRequest,
   forbidden,
   ok,
-  AccountModel,
   serverError,
   EmailValidator,
   AddAccount,
-  AddAccountParams,
   Authentication,
   AuthenticationParams,
 } from './signup-controller-protocols'
 import { EmailInUseError, MissingPararmError, ServerError } from '@/presentation/errors'
-import { mockAccountModel } from '@/domain/test'
+import { mockAddAccount } from '@/domain/test'
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {
@@ -32,18 +30,6 @@ const makeEmailValidator = (): EmailValidator => {
     }
   }
   return new EmailValidatorStub()
-}
-
-const makeAddAccount = (): AddAccount => {
-  class AddAccountStub implements AddAccount {
-    async add(_account: AddAccountParams): Promise<AccountModel> {
-      const fakeAccount = mockAccountModel()
-      return await new Promise((resolve) => {
-        resolve(fakeAccount)
-      })
-    }
-  }
-  return new AddAccountStub()
 }
 
 type SutTypes = {
@@ -72,7 +58,7 @@ const makeAuthentication = (): Authentication => {
 }
 
 const makeSut = (): SutTypes => {
-  const addAcountStub = makeAddAccount()
+  const addAcountStub = mockAddAccount()
   const emailValidatorStub = makeEmailValidator()
   const validationStub = makeValidation()
   const authenticationStub = makeAuthentication()

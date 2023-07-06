@@ -2,12 +2,11 @@ import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { DbAddAccount } from './db-add-account'
 import {
   AddAccountRepository,
-  AddAccountParams,
   LoadAccountByEmailRepository,
   AccountModel,
   Hasher,
 } from './db-add-account-protocols'
-import { mockHasher, mockAccountModel } from '@/domain/test'
+import { mockHasher, mockAccountModel, mockAddAccountRepository } from '@/domain/test'
 
 type SutTypes = {
   sut: DbAddAccount
@@ -28,21 +27,9 @@ const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
   return new LoadAccountByEmailRepositoryStub()
 }
 
-const makeAddAccountRepository = (): AddAccountRepository => {
-  class AddAccountRepositoryStub implements AddAccountRepository {
-    async add(accountData: AddAccountParams): Promise<AccountModel> {
-      return await new Promise((resolve) => {
-        resolve(mockAccountModel())
-      })
-    }
-  }
-  const addAccountRepositoryStub = new AddAccountRepositoryStub()
-  return addAccountRepositoryStub
-}
-
 const makeSut = (): SutTypes => {
   const hasherStub = mockHasher()
-  const addAccountRepositoryStub = makeAddAccountRepository()
+  const addAccountRepositoryStub = mockAddAccountRepository()
   const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository()
   const sut = new DbAddAccount(
     hasherStub,

@@ -6,20 +6,15 @@ import {
   Encrypter,
   HashComparer,
   AccountModel,
-  AuthenticationParams,
 } from './db-authentication-protocols'
-import { mockEncrypter, mockAccountModel, throwError, mockHashComparer } from '@/domain/test'
-
-const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
-  class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
-    async loadByEmail(email: string): Promise<AccountModel> {
-      return await new Promise((resolve) => {
-        resolve(mockAccountModel())
-      })
-    }
-  }
-  return new LoadAccountByEmailRepositoryStub()
-}
+import {
+  mockEncrypter,
+  throwError,
+  mockHashComparer,
+  mockLoadAccountByEmailRepository,
+  mockUpdateAccessTokenRepository,
+  mockAuthentication,
+} from '@/domain/test'
 
 type SutTypes = {
   sut: DbAuthentication
@@ -29,22 +24,11 @@ type SutTypes = {
   updateAccessTokenRepositoryStub: UpdateAccessTokenRepository
 }
 
-const makeUpdateAccessTokenRepository = (): UpdateAccessTokenRepository => {
-  class UpdateAccessTokenRepositoryStub implements UpdateAccessTokenRepository {
-    async updateAccessToken(id: string, token: string): Promise<void> {
-      await new Promise((resolve) => {
-        resolve('any_token')
-      })
-    }
-  }
-  return new UpdateAccessTokenRepositoryStub()
-}
-
 const makeSut = (): SutTypes => {
-  const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository()
+  const loadAccountByEmailRepositoryStub = mockLoadAccountByEmailRepository()
   const hashCompareStub = mockHashComparer()
   const encrypterStub = mockEncrypter()
-  const updateAccessTokenRepositoryStub = makeUpdateAccessTokenRepository()
+  const updateAccessTokenRepositoryStub = mockUpdateAccessTokenRepository()
   const sut = new DbAuthentication(
     loadAccountByEmailRepositoryStub,
     hashCompareStub,
@@ -60,22 +44,18 @@ const makeSut = (): SutTypes => {
     updateAccessTokenRepositoryStub,
   }
 }
-const makeFakeAuthentication = (): AuthenticationParams => ({
-  email: 'any_email@mail.com',
-  password: 'any_password',
-})
 
 describe('DbAuthentication Usecase', () => {
   test('Should  call LoadAccountByEmailRepository with correct email', async () => {
     const { loadAccountByEmailRepositoryStub, sut } = makeSut()
     const loadSpy = vi.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail')
-    await sut.auth(makeFakeAuthentication())
+    await sut.auth(mockAuthentication())
     expect(loadSpy).toBeCalledWith('any_email@mail.com')
   })
   test('Should  throw if LoadAccountByEmailRepository throws', async () => {
     const { loadAccountByEmailRepositoryStub, sut } = makeSut()
     vi.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockImplementationOnce(throwError)
-    const promise = sut.auth(makeFakeAuthentication())
+    const promise = sut.auth(mockAuthentication())
     await expect(promise).rejects.toThrow()
   })
   test('Should return null if LoadAccountByEmailRepository returns null', async () => {
@@ -83,19 +63,19 @@ describe('DbAuthentication Usecase', () => {
     vi.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockReturnValueOnce(
       null as unknown as Promise<AccountModel>,
     )
-    const accessToken = await sut.auth(makeFakeAuthentication())
+    const accessToken = await sut.auth(mockAuthentication())
     expect(accessToken).toBeNull()
   })
   test('Should call HashComparer with correct values', async () => {
     const { sut, hashCompareStub } = makeSut()
     const compareSpy = vi.spyOn(hashCompareStub, 'compare')
-    await sut.auth(makeFakeAuthentication())
+    await sut.auth(mockAuthentication())
     expect(compareSpy).toHaveBeenCalledWith('any_password', 'hashed_password')
   })
   test('Should  throw if LoadAccountByEmailRepository throws', async () => {
     const { hashCompareStub, sut } = makeSut()
     vi.spyOn(hashCompareStub, 'compare').mockImplementationOnce(throwError)
-    const promise = sut.auth(makeFakeAuthentication())
+    const promise = sut.auth(mockAuthentication())
     await expect(promise).rejects.toThrow()
   })
   test('Should return null if HashCompare returns false', async () => {
@@ -105,30 +85,30 @@ describe('DbAuthentication Usecase', () => {
         resolve(false)
       }),
     )
-    const accessToken = await sut.auth(makeFakeAuthentication())
+    const accessToken = await sut.auth(mockAuthentication())
     expect(accessToken).toBeNull()
   })
   test('Should call Encrypter with correct id', async () => {
     const { sut, encrypterStub } = makeSut()
     const generateSpy = vi.spyOn(encrypterStub, 'encrypt')
-    await sut.auth(makeFakeAuthentication())
+    await sut.auth(mockAuthentication())
     expect(generateSpy).toHaveBeenCalledWith('any_id')
   })
   test('Should  throw if Encrypter throws', async () => {
     const { encrypterStub, sut } = makeSut()
     vi.spyOn(encrypterStub, 'encrypt').mockImplementationOnce(throwError)
-    const promise = sut.auth(makeFakeAuthentication())
+    const promise = sut.auth(mockAuthentication())
     await expect(promise).rejects.toThrow()
   })
   test('Should call Encrypter with correct id', async () => {
     const { sut } = makeSut()
-    const accessToken = await sut.auth(makeFakeAuthentication())
+    const accessToken = await sut.auth(mockAuthentication())
     expect(accessToken).toBe('any_token')
   })
   test('Should call UpdateAccessTokeRepository  with correct values', async () => {
     const { sut, updateAccessTokenRepositoryStub } = makeSut()
     const updateSpy = vi.spyOn(updateAccessTokenRepositoryStub, 'updateAccessToken')
-    await sut.auth(makeFakeAuthentication())
+    await sut.auth(mockAuthentication())
     expect(updateSpy).toHaveBeenCalledWith('any_id', 'any_token')
   })
   test('Should  throw if UpdateAccessTokeRepository throws', async () => {
@@ -136,7 +116,7 @@ describe('DbAuthentication Usecase', () => {
     vi.spyOn(updateAccessTokenRepositoryStub, 'updateAccessToken').mockImplementationOnce(
       throwError,
     )
-    const promise = sut.auth(makeFakeAuthentication())
+    const promise = sut.auth(mockAuthentication())
     await expect(promise).rejects.toThrow()
   })
 })

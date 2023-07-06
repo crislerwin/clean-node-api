@@ -1,11 +1,12 @@
 import { describe, test, expect, vi } from 'vitest'
 import { DbLoadAccountByToken } from './db-load-account-by-token'
+import { LoadAccountByTokenRepository, Decrypter } from './db-load-account-by-token-protocols'
 import {
-  LoadAccountByTokenRepository,
-  Decrypter,
-  AccountModel,
-} from './db-load-account-by-token-protocols'
-import { mockDecrypter, mockAccountModel, throwError } from '@/domain/test'
+  mockDecrypter,
+  mockAccountModel,
+  throwError,
+  mockLoadAccountByTokenRepository,
+} from '@/domain/test'
 
 type SutTypes = {
   sut: DbLoadAccountByToken
@@ -13,20 +14,9 @@ type SutTypes = {
   loadAccountByTokenRepositoryStub: LoadAccountByTokenRepository
 }
 
-const makeLoadAccountByTokenRepository = (): LoadAccountByTokenRepository => {
-  class LoadAccountByTokenRepositoryStub implements LoadAccountByTokenRepository {
-    async loadByToken(token: string, role?: string): Promise<AccountModel> {
-      return await new Promise((resolve) => {
-        resolve(mockAccountModel())
-      })
-    }
-  }
-  return new LoadAccountByTokenRepositoryStub()
-}
-
 const makeSut = (): SutTypes => {
   const decrypterStub = mockDecrypter()
-  const loadAccountByTokenRepositoryStub = makeLoadAccountByTokenRepository()
+  const loadAccountByTokenRepositoryStub = mockLoadAccountByTokenRepository()
   const sut = new DbLoadAccountByToken(decrypterStub, loadAccountByTokenRepositoryStub)
   return {
     sut,
