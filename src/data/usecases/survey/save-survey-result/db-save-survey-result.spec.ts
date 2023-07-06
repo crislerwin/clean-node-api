@@ -1,30 +1,19 @@
 import { describe, test, vi, expect, beforeEach, afterEach } from 'vitest'
 import { DbSaveSurveyResult } from './db-save-survey-result'
+import { SaveSurveyResultRepository, SurveyResultModel } from './db-save-survey-result.protocols'
 import {
-  SaveSurveyResultRepository,
-  SaveSurveyResultParams,
-  SurveyResultModel,
-} from './db-save-survey-result.protocols'
-import { mockSurveyResultModel, mockSaveSurveyResultParams } from '@/domain/test'
+  mockSurveyResultModel,
+  mockSaveSurveyResultParams,
+  mockSaveSurveyResultRepository,
+} from '@/domain/test'
 
 type SutTypes = {
   sut: DbSaveSurveyResult
   saveSurveyResultRepositoryStub: SaveSurveyResultRepository
 }
 
-const makeSaveSurveyResultRepository = (): SaveSurveyResultRepository => {
-  class SaveSurveyRepositoryStub implements SaveSurveyResultRepository {
-    async save(data: SaveSurveyResultParams): Promise<SurveyResultModel> {
-      return await new Promise((resolve) => {
-        resolve(mockSurveyResultModel())
-      })
-    }
-  }
-  return new SaveSurveyRepositoryStub()
-}
-
 const makeSut = (): SutTypes => {
-  const saveSurveyResultRepositoryStub = makeSaveSurveyResultRepository()
+  const saveSurveyResultRepositoryStub = mockSaveSurveyResultRepository()
   const sut = new DbSaveSurveyResult(saveSurveyResultRepositoryStub)
   return {
     sut,
