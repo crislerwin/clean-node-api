@@ -6,7 +6,7 @@ import {
   AccountModel,
   Hasher,
 } from './db-add-account-protocols'
-import { mockHasher, mockAccountModel, mockAddAccountRepository } from '@/domain/test'
+import { mockHasher, mockAccountModel, mockAddAccount } from '@/domain/test'
 
 type SutTypes = {
   sut: DbAddAccount
@@ -29,7 +29,7 @@ const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
 
 const makeSut = (): SutTypes => {
   const hasherStub = mockHasher()
-  const addAccountRepositoryStub = mockAddAccountRepository()
+  const addAccountRepositoryStub = mockAddAccount()
   const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository()
   const sut = new DbAddAccount(
     hasherStub,

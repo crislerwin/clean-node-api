@@ -11,7 +11,7 @@ import {
   mockEncrypter,
   throwError,
   mockHashComparer,
-  mockLoadAccountByEmailRepository,
+  mockLoadAccountByEmail,
   mockUpdateAccessTokenRepository,
   mockAuthentication,
 } from '@/domain/test'
@@ -25,7 +25,7 @@ type SutTypes = {
 }
 
 const makeSut = (): SutTypes => {
-  const loadAccountByEmailRepositoryStub = mockLoadAccountByEmailRepository()
+  const loadAccountByEmailRepositoryStub = mockLoadAccountByEmail()
   const hashCompareStub = mockHashComparer()
   const encrypterStub = mockEncrypter()
   const updateAccessTokenRepositoryStub = mockUpdateAccessTokenRepository()

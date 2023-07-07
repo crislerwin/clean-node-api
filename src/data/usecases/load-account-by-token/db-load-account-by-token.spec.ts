@@ -1,12 +1,7 @@
 import { describe, test, expect, vi } from 'vitest'
 import { DbLoadAccountByToken } from './db-load-account-by-token'
 import { LoadAccountByTokenRepository, Decrypter } from './db-load-account-by-token-protocols'
-import {
-  mockDecrypter,
-  mockAccountModel,
-  throwError,
-  mockLoadAccountByTokenRepository,
-} from '@/domain/test'
+import { mockDecrypter, mockAccountModel, throwError, mockLoadAccountByToken } from '@/domain/test'
 
 type SutTypes = {
   sut: DbLoadAccountByToken
@@ -16,7 +11,7 @@ type SutTypes = {
 
 const makeSut = (): SutTypes => {
   const decrypterStub = mockDecrypter()
-  const loadAccountByTokenRepositoryStub = mockLoadAccountByTokenRepository()
+  const loadAccountByTokenRepositoryStub = mockLoadAccountByToken()
   const sut = new DbLoadAccountByToken(decrypterStub, loadAccountByTokenRepositoryStub)
   return {
     sut,
