@@ -13,7 +13,6 @@ export class AddSurveyController implements Controller {
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const { question, answers } = httpRequest.body
-
       await this.addSurvey.add({
         question,
         answers,
