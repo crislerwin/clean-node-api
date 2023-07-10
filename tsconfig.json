@@ -7,13 +7,15 @@
     "incremental": false,
     "noEmit": true,
     "resolveJsonModule": true,
+    "rootDirs": ["src", "tests"],
     "outDir": "dist",
     "baseUrl": "src",
     "sourceMap": true,
     "paths": {
+      "@/tests/*": ["../tests/*"],
       "@/*": ["*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "tests"],
   "exclude": []
 }

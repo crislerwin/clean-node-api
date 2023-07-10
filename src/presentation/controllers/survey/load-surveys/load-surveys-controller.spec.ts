@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { LoadSurveys } from './load-surveys-controller-protocols'
 import { LoadSurveysController } from './load-surveys-controller'
 import { noContent, ok, serverError } from '@/presentation/helpers/http/http-helper'
-import { mockLoadSurveys, mockSurveyModels, throwError } from '@/domain/test'
+import { mockLoadSurveys, mockSurveyModels, throwError } from '@/tests/domain/mocks'
 
 type SutTypes = {
   sut: LoadSurveysController

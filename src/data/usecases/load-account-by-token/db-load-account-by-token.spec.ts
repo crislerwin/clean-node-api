@@ -1,7 +1,8 @@
 import { describe, test, expect, vi } from 'vitest'
 import { DbLoadAccountByToken } from './db-load-account-by-token'
 import { LoadAccountByTokenRepository, Decrypter } from './db-load-account-by-token-protocols'
-import { mockDecrypter, mockAccountModel, throwError, mockLoadAccountByToken } from '@/domain/test'
+import { mockDecrypter, mockLoadAccountByToken } from '@/tests/data/mocks'
+import { mockAccountModel, throwError } from '@/tests/domain/mocks'
 
 type SutTypes = {
   sut: DbLoadAccountByToken

@@ -6,7 +6,8 @@ import {
   AccountModel,
   Hasher,
 } from './db-add-account-protocols'
-import { mockHasher, mockAccountModel, mockAddAccount } from '@/domain/test'
+import { mockAddAccount, mockHasher } from '@/tests/data/mocks'
+import { mockAccountModel } from '@/tests/domain/mocks'
 
 type SutTypes = {
   sut: DbAddAccount

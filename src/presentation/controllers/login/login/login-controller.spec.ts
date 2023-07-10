@@ -11,7 +11,7 @@ import {
   unauthorized,
 } from './login-controller-protocols'
 import { LoginController } from './login-controller'
-import { throwError } from '@/domain/test'
+import { throwError } from '@/tests/domain/mocks'
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {

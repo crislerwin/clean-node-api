@@ -1,11 +1,8 @@
 import { describe, test, vi, expect, beforeEach, afterEach } from 'vitest'
 import { DbSaveSurveyResult } from './db-save-survey-result'
 import { SaveSurveyResultRepository, SurveyResultModel } from './db-save-survey-result.protocols'
-import {
-  mockSurveyResultModel,
-  mockSaveSurveyResultParams,
-  mockSaveSurveyResultRepository,
-} from '@/domain/test'
+import { mockSaveSurveyResultRepository } from '@/tests/data/mocks'
+import { mockSaveSurveyResultParams, mockSurveyResultModel } from '@/tests/domain/mocks'
 
 type SutTypes = {
   sut: DbSaveSurveyResult

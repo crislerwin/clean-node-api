@@ -1,7 +1,8 @@
 import { beforeAll, describe, expect, test, vi } from 'vitest'
 import { DbLoadSurveyById } from './db-load-survey-by-id'
 import { LoadSurveyByIdRepository } from './db-load-survey-by-id-protocols'
-import { mockSurveyModel, mockLoadSurveyByIdRepository, throwError } from '@/domain/test'
+import { mockLoadSurveyByIdRepository } from '@/tests/data/mocks'
+import { mockSurveyModel, throwError } from '@/tests/domain/mocks'
 
 type SutTypes = {
   sut: DbLoadSurveyById

@@ -8,7 +8,8 @@ import {
   serverError,
 } from './save-survey-result-protocols'
 import { SaveSurveyResult } from '@/domain/usecases/survey-result/save-survey-result'
-import { mockSurveyResult, mockLoadSurveyByIdRepository } from '@/domain/test'
+import { mockSurveyResult } from '@/tests/domain/mocks'
+import { mockLoadSurveyByIdRepository } from '@/tests/data/mocks'
 
 const makeFakeRequest = (): HttpRequest => ({
   params: { surveyId: 'any_id' },

@@ -3,7 +3,7 @@ import { describe, expect, test, vi } from 'vitest'
 import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
 import { serverError } from '@/presentation/helpers/http/http-helper'
 import { LogErrorRepository } from '@/data/protocols/db/log/log-error-repository'
-import { mockLogErrorRepository } from '@/domain/test'
+import { mockLogErrorRepository } from '@/tests/data/mocks'
 
 type SutTypes = {
   sut: LogControllerDecorator

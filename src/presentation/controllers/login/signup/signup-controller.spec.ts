@@ -12,7 +12,7 @@ import {
   AuthenticationParams,
 } from './signup-controller-protocols'
 import { EmailInUseError, MissingPararmError, ServerError } from '@/presentation/errors'
-import { mockAddAccount } from '@/domain/test'
+import { mockAddAccount } from '@/tests/data/mocks'
 
 const makeFakeRequest = (): HttpRequest => ({
   body: {

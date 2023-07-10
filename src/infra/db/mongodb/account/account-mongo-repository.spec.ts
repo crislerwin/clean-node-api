@@ -3,7 +3,7 @@ import { AccountMongoRepository } from './account-mongo-repository'
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { Collection } from 'mongodb'
-import { mockAddAccountParams } from '@/domain/test'
+import { mockAddAccountParams } from '@/tests/domain/mocks'
 
 describe('Account Mongo Repository', async () => {
   let accountCollection: Collection

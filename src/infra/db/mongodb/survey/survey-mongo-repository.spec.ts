@@ -3,7 +3,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { Collection } from 'mongodb'
 import { SurveyMongoRepository } from './survey-mongo-repository'
-import { mockAddSurveyParams } from '@/domain/test'
+import { mockAddSurveyParams } from '@/tests/domain/mocks'
 
 const makeSut = (): SurveyMongoRepository => new SurveyMongoRepository()
 

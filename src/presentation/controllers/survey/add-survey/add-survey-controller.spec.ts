@@ -8,7 +8,7 @@ import {
   Validation,
 } from './add-survey-controller-protocols'
 import { AddSurveyController } from './add-survey-controller'
-import { throwError } from '@/domain/test'
+import { throwError } from '@/tests/domain/mocks'
 
 type SutTypes = {
   sut: AddSurveyController

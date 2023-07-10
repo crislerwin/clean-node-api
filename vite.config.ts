@@ -5,7 +5,10 @@ import alias from '@rollup/plugin-alias'
 export default defineConfig({
   plugins: [
     alias({
-      entries: [{ find: '@', replacement: path.resolve(__dirname, './src') }],
+      entries: [
+        { find: '@/tests', replacement: path.resolve(__dirname, './tests') },
+        { find: /@(?!\/tests)/, replacement: path.resolve(__dirname, './src') },
+      ],
     }),
   ],
 

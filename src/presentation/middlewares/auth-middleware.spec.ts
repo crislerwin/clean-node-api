@@ -3,7 +3,7 @@ import { forbidden, ok, serverError } from '../helpers/http/http-helper'
 import { AccessDeniedError } from '../errors'
 import { AuthMiddleware } from './auth-middleware'
 import { AccountModel, HttpRequest, LoadAccountByToken } from './auth-middleware-protocols'
-import { mockAccountModel, throwError } from '@/domain/test'
+import { mockAccountModel, throwError } from '@/tests/domain/mocks'
 
 type SutTypes = {
   sut: AuthMiddleware

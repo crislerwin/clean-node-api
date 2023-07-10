@@ -9,12 +9,11 @@ import {
 } from './db-authentication-protocols'
 import {
   mockEncrypter,
-  throwError,
   mockHashComparer,
   mockLoadAccountByEmail,
   mockUpdateAccessTokenRepository,
-  mockAuthentication,
-} from '@/domain/test'
+} from '@/tests/data/mocks'
+import { mockAuthentication, throwError } from '@/tests/domain/mocks'
 
 type SutTypes = {
   sut: DbAuthentication
