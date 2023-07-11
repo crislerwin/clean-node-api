@@ -1,6 +1,6 @@
 import { describe, expect, test, vi } from 'vitest'
 import jwt from 'jsonwebtoken'
-import { JwtAdapter } from './jwt-adapter'
+import { JwtAdapter } from '@/infra/criptography/jwt-adapter/jwt-adapter'
 
 const makeSut = (): JwtAdapter => {
   return new JwtAdapter('secret')

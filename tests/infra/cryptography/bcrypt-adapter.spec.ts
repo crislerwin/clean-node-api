@@ -1,5 +1,5 @@
 import { describe, expect, test, vi } from 'vitest'
-import { BcryptAdapter } from './encrypt-adapter'
+import { BcryptAdapter } from '@/infra/criptography/bcrypt-adapter/encrypt-adapter'
 import bcrypt from 'bcrypt'
 
 const salt = 12

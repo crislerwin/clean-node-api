@@ -8,16 +8,10 @@ import {
   Validation,
   EmailValidator,
 } from '@/validation/validators'
+import { EmailValidatorSpy } from '../validation/mocks'
 vi.mock('@/validation/validators/validation-composite')
 
-const makeEmailValidator = (): EmailValidator => {
-  class EmailValidatorStub implements EmailValidator {
-    isValid(mail: string): boolean {
-      return true
-    }
-  }
-  return new EmailValidatorStub()
-}
+const makeEmailValidator = (): EmailValidator => new EmailValidatorSpy()
 
 describe('SignUp Validation', () => {
   test('Should call Validation Composite with all validations', () => {
