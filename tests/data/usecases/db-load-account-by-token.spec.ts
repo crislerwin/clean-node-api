@@ -1,6 +1,9 @@
 import { describe, test, expect, vi } from 'vitest'
-import { DbLoadAccountByToken } from './db-load-account-by-token'
-import { LoadAccountByTokenRepository, Decrypter } from './db-load-account-by-token-protocols'
+import { DbLoadAccountByToken } from '@/data/usecases/load-account-by-token/db-load-account-by-token'
+import {
+  LoadAccountByTokenRepository,
+  Decrypter,
+} from '@/data/usecases/load-account-by-token/db-load-account-by-token-protocols'
 import { mockDecrypter, mockLoadAccountByToken } from '@/tests/data/mocks'
 import { mockAccountModel, throwError } from '@/tests/domain/mocks'
 

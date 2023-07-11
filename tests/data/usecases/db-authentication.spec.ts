@@ -1,12 +1,12 @@
 import { describe, expect, test, vi } from 'vitest'
-import { DbAuthentication } from './db-authentication'
+import { DbAuthentication } from '@/data/usecases/account/add-account/authentication/db-authentication'
 import {
   UpdateAccessTokenRepository,
   LoadAccountByEmailRepository,
   Encrypter,
   HashComparer,
   AccountModel,
-} from './db-authentication-protocols'
+} from '@/data/usecases/account/add-account/authentication/db-authentication-protocols'
 import {
   mockEncrypter,
   mockHashComparer,

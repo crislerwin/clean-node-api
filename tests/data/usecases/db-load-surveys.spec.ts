@@ -1,6 +1,6 @@
-import { LoadSurveysRepository } from './db-load-survey-protocols'
+import { LoadSurveysRepository } from '@/data/usecases/survey/load-surveys/db-load-survey-protocols'
 import { beforeAll, describe, expect, test, vi } from 'vitest'
-import { DbLoadSurveys } from './db-load-surveys'
+import { DbLoadSurveys } from '@/data/usecases/survey/load-surveys/db-load-surveys'
 import { mockLoadSurveysRepository } from '@/tests/data/mocks'
 import { mockSurveyModels, throwError } from '@/tests/domain/mocks'
 

@@ -1,6 +1,9 @@
 import { describe, test, vi, expect, beforeEach, afterEach } from 'vitest'
-import { DbSaveSurveyResult } from './db-save-survey-result'
-import { SaveSurveyResultRepository, SurveyResultModel } from './db-save-survey-result.protocols'
+import { DbSaveSurveyResult } from '@/data/usecases/survey/save-survey-result/db-save-survey-result'
+import {
+  SaveSurveyResultRepository,
+  SurveyResultModel,
+} from '@/data/usecases/survey/save-survey-result/db-save-survey-result.protocols'
 import { mockSaveSurveyResultRepository } from '@/tests/data/mocks'
 import { mockSaveSurveyResultParams, mockSurveyResultModel } from '@/tests/domain/mocks'
 

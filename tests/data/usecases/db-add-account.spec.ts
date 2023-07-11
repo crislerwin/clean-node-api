@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import { DbAddAccount } from './db-add-account'
+import { DbAddAccount } from '@/data/usecases/account/add-account/db-add-account'
 import {
   AddAccountRepository,
   LoadAccountByEmailRepository,
   AccountModel,
   Hasher,
-} from './db-add-account-protocols'
+} from '@/data/usecases/account/add-account/db-add-account-protocols'
 import { mockAddAccount, mockHasher } from '@/tests/data/mocks'
 import { mockAccountModel } from '@/tests/domain/mocks'
 
