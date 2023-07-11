@@ -6,8 +6,8 @@ import {
   AddSurvey,
   HttpRequest,
   Validation,
-} from './add-survey-controller-protocols'
-import { AddSurveyController } from './add-survey-controller'
+} from '@/presentation/controllers/survey/add-survey/add-survey-controller-protocols'
+import { AddSurveyController } from '@/presentation/controllers/survey/add-survey/add-survey-controller'
 import { throwError } from '@/tests/domain/mocks'
 
 type SutTypes = {

@@ -1,4 +1,4 @@
-import { LogControllerDecorator } from './log-controller-decorator'
+import { LogControllerDecorator } from '../../../src/main/decorators/log-controller-decorator'
 import { describe, expect, test, vi } from 'vitest'
 import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
 import { serverError } from '@/presentation/helpers/http/http-helper'

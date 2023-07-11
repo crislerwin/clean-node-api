@@ -1,5 +1,5 @@
 import { describe, expect, test, vi } from 'vitest'
-import { SignupController } from './signup-controller'
+import { SignupController } from '@/presentation/controllers/login/signup/signup-controller'
 import { HttpRequest, Validation } from '@/presentation/protocols'
 import {
   badRequest,
@@ -10,7 +10,7 @@ import {
   AddAccount,
   Authentication,
   AuthenticationParams,
-} from './signup-controller-protocols'
+} from '@/presentation/controllers/login/signup/signup-controller-protocols'
 import { EmailInUseError, MissingPararmError, ServerError } from '@/presentation/errors'
 import { mockAddAccount } from '@/tests/data/mocks'
 

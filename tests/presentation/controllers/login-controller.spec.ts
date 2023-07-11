@@ -9,8 +9,8 @@ import {
   ok,
   serverError,
   unauthorized,
-} from './login-controller-protocols'
-import { LoginController } from './login-controller'
+} from '@/presentation/controllers/login/login/login-controller-protocols'
+import { LoginController } from '@/presentation/controllers/login/login/login-controller'
 import { throwError } from '@/tests/domain/mocks'
 
 const makeFakeRequest = (): HttpRequest => ({

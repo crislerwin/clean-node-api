@@ -1,30 +1,32 @@
-import { makeLoginValidation } from './login-validation-factory'
+import { makeSignUpValidation } from '@/main/factories/controllers/signup/signup/signup-validation-factory'
 import { describe, test, expect, vi } from 'vitest'
 import {
   ValidationComposite,
-  EmailValidation,
-  EmailValidator,
-  Validation,
   RequiredFieldValidation,
+  EmailValidation,
+  CompareFieldsValidation,
+  Validation,
+  EmailValidator,
 } from '@/validation/validators'
 vi.mock('@/validation/validators/validation-composite')
 
 const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
-    isValid(_mail: string): boolean {
+    isValid(mail: string): boolean {
       return true
     }
   }
   return new EmailValidatorStub()
 }
 
-describe('LoginValidations', () => {
+describe('SignUp Validation', () => {
   test('Should call Validation Composite with all validations', () => {
-    makeLoginValidation()
+    makeSignUpValidation()
     const validations: Validation[] = []
-    for (const field of ['email', 'password']) {
+    for (const field of ['name', 'email', 'password', 'passwordConfirmation']) {
       validations.push(new RequiredFieldValidation(field))
     }
+    validations.push(new CompareFieldsValidation('password', 'passwordConfirmation'))
     validations.push(new EmailValidation('email', makeEmailValidator()))
     expect(ValidationComposite).toHaveBeenCalledWith(validations)
   })

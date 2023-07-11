@@ -1,6 +1,6 @@
-import { MissingPararmError } from '@/presentation/errors'
 import { describe, expect, test } from 'vitest'
-import { RequiredFieldValidation } from './required-field-validation'
+import { MissingPararmError } from '@/presentation/errors'
+import { RequiredFieldValidation } from '@/validation/validators'
 
 const makeSut = (): RequiredFieldValidation => {
   return new RequiredFieldValidation('field')

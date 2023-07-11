@@ -1,7 +1,7 @@
 import { test, describe, expect, beforeAll, afterAll, beforeEach } from 'vitest'
-import { AccountMongoRepository } from './account-mongo-repository'
+import { AccountMongoRepository } from '@/infra/db/mongodb/account/account-mongo-repository'
 import { MongoMemoryServer } from 'mongodb-memory-server'
-import { MongoHelper } from '../helpers/mongo-helper'
+import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper'
 import { Collection } from 'mongodb'
 import { mockAddAccountParams } from '@/tests/domain/mocks'
 

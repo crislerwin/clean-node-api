@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import { LoadSurveys } from './load-surveys-controller-protocols'
-import { LoadSurveysController } from './load-surveys-controller'
+import { LoadSurveys } from '@/presentation/controllers/survey/load-surveys/load-surveys-controller-protocols'
+import { LoadSurveysController } from '@/presentation/controllers/survey/load-surveys/load-surveys-controller'
 import { noContent, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { mockLoadSurveys, mockSurveyModels, throwError } from '@/tests/domain/mocks'
 

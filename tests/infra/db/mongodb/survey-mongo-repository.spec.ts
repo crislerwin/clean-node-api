@@ -1,8 +1,8 @@
 import { test, describe, expect, beforeAll, afterAll, beforeEach } from 'vitest'
 import { MongoMemoryServer } from 'mongodb-memory-server'
-import { MongoHelper } from '../helpers/mongo-helper'
+import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper'
 import { Collection } from 'mongodb'
-import { SurveyMongoRepository } from './survey-mongo-repository'
+import { SurveyMongoRepository } from '@/infra/db/mongodb/survey/survey-mongo-repository'
 import { mockAddSurveyParams } from '@/tests/domain/mocks'
 
 const makeSut = (): SurveyMongoRepository => new SurveyMongoRepository()

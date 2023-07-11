@@ -1,7 +1,7 @@
 import { MissingPararmError } from '@/presentation/errors'
 import { describe, expect, test, vi } from 'vitest'
 import { Validation } from '@/presentation/protocols'
-import { ValidationComposite } from './validation-composite'
+import { ValidationComposite } from '@/validation/validators/validation-composite'
 
 type SutTypes = {
   sut: ValidationComposite

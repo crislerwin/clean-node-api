@@ -1,12 +1,12 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import { SaveSurveyResultController } from './save-survey-result-controller'
+import { SaveSurveyResultController } from '@/presentation/controllers/survey/save-survey-result/save-survey-result-controller'
 import {
   HttpRequest,
   forbidden,
   InvalidParamError,
   LoadSurveyById,
   serverError,
-} from './save-survey-result-protocols'
+} from '@/presentation/controllers/survey/save-survey-result/save-survey-result-protocols'
 import { SaveSurveyResult } from '@/domain/usecases/survey-result/save-survey-result'
 import { mockSurveyResult } from '@/tests/domain/mocks'
 import { mockLoadSurveyByIdRepository } from '@/tests/data/mocks'

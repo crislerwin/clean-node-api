@@ -1,7 +1,7 @@
 import { InvalidParamError } from '@/presentation/errors'
 import { expect, describe, test, vi } from 'vitest'
-import { EmailValidation } from './email-validation'
-import { EmailValidator } from '../protocols/email-validator'
+import { EmailValidation } from '@/validation/validators/email-validation'
+import { EmailValidator } from '@/validation/protocols/email-validator'
 
 const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
