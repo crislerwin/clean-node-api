@@ -15,6 +15,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'error',
     '@typescript-eslint/strict-boolean-expressions': 'off',
     '@typescript-eslint/consistent-type-imports': 'off',
+    '@typescript-eslint/no-confusing-void-expression': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/consistent-type-definitions': 'off',
     '@typescript-eslint/no-misused-promises': [
