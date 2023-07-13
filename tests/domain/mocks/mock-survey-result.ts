@@ -5,9 +5,7 @@ import { AddSurveyParams } from '@/domain/usecases/survey/add-survey'
 export const mockSurveyResult = (): SaveSurveyResult => {
   class SurveyResultStub implements SaveSurveyResult {
     async save(_data: SaveSurveyResultParams): Promise<SurveyResultModel> {
-      return await new Promise((resolve) => {
-        resolve(mockSurveyResultModel())
-      })
+      return await Promise.resolve(mockSurveyResultModel())
     }
   }
   return new SurveyResultStub()

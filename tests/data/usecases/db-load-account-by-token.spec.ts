@@ -32,12 +32,8 @@ describe('DbLoadAccountByToken UseCase', () => {
   })
   test('Should return null if Decrypter returns null', async () => {
     const { decrypterStub, sut } = makeSut()
-    vi.spyOn(decrypterStub, 'decrypt').mockReturnValueOnce(
-      new Promise((resolve) => {
-        // @ts-expect-error
-        resolve(null)
-      }),
-    )
+    // @ts-expect-error
+    vi.spyOn(decrypterStub, 'decrypt').mockReturnValueOnce(Promise.resolve(null))
     const account = await sut.load('any_token')
     expect(account).toBeNull()
   })
@@ -50,10 +46,8 @@ describe('DbLoadAccountByToken UseCase', () => {
   test('Should return null LoadAccountByTokenRepository returns null.', async () => {
     const { sut, loadAccountByTokenRepositoryStub } = makeSut()
     vi.spyOn(loadAccountByTokenRepositoryStub, 'loadByToken').mockReturnValueOnce(
-      new Promise((resolve) => {
-        // @ts-expect-error
-        resolve(null)
-      }),
+      // @ts-expect-error
+      Promise.resolve(null),
     )
     const account = await sut.load('any_token', 'any_role')
     expect(account).toBeNull()

@@ -87,9 +87,7 @@ describe('Signup Controller', () => {
   test('Should return 500 if AddAccount throws', async () => {
     const { sut, addAcountStub } = makeSut()
     const addAccountMock = async (): Promise<any> => {
-      return await new Promise((resolve, reject) => {
-        reject(new Error())
-      })
+      return await Promise.reject(new Error())
     }
     vi.spyOn(addAcountStub, 'add').mockImplementationOnce(addAccountMock)
     const httpRequest = makeFakeRequest()

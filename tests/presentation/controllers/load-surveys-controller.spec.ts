@@ -36,11 +36,7 @@ describe('LoadSurveys Controller', () => {
   })
   test('Should return 204 if LoadSurveys returns empty', async () => {
     const { sut, loadSurveysStub } = makeSut()
-    vi.spyOn(loadSurveysStub, 'load').mockReturnValueOnce(
-      new Promise((resolve) => {
-        resolve([])
-      }),
-    )
+    vi.spyOn(loadSurveysStub, 'load').mockReturnValueOnce(Promise.resolve([]))
     const httpRespose = await sut.handle({})
     expect(httpRespose).toEqual(noContent())
   })

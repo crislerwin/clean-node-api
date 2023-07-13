@@ -30,16 +30,14 @@ const makeFakeServerError = (): HttpResponse => {
 const makeSut = (): SutTypes => {
   class ControllerStub implements Controller {
     async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-      return await new Promise((resolve) => {
-        resolve({
-          statusCode: 200,
-          body: {
-            name: 'any_name',
-            email: 'any_email@email.com',
-            password: 'any_password',
-            passwordConfirmation: 'any_password',
-          },
-        })
+      return await Promise.resolve({
+        statusCode: 200,
+        body: {
+          name: 'any_name',
+          email: 'any_email@email.com',
+          password: 'any_password',
+          passwordConfirmation: 'any_password',
+        },
       })
     }
   }
@@ -80,11 +78,7 @@ describe('LogController Decorator', () => {
     const { sut, logErrorRepositoryStub, controllerStub } = makeSut()
 
     const logSpy = vi.spyOn(logErrorRepositoryStub, 'logError')
-    vi.spyOn(controllerStub, 'handle').mockReturnValueOnce(
-      new Promise((resolve) => {
-        resolve(makeFakeServerError())
-      }),
-    )
+    vi.spyOn(controllerStub, 'handle').mockReturnValueOnce(Promise.resolve(makeFakeServerError()))
     const httpRequest = makeFakeRequest()
     await sut.handle(httpRequest)
     expect(logSpy).toHaveBeenCalledWith('any_stack')

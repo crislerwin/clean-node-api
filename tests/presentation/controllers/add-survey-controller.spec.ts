@@ -41,9 +41,7 @@ const makeValidation = (): Validation => {
 const makeAddSurvey = (): AddSurvey => {
   class AddSurveyStub implements AddSurvey {
     async add(_input: any): Promise<void> {
-      await new Promise((resolve) => {
-        resolve(null)
-      })
+      await Promise.resolve(null)
     }
   }
   return new AddSurveyStub()

@@ -79,11 +79,7 @@ describe('DbAuthentication Usecase', () => {
   })
   test('Should return null if HashCompare returns false', async () => {
     const { hashCompareStub, sut } = makeSut()
-    vi.spyOn(hashCompareStub, 'compare').mockReturnValueOnce(
-      new Promise((resolve) => {
-        resolve(false)
-      }),
-    )
+    vi.spyOn(hashCompareStub, 'compare').mockReturnValueOnce(Promise.resolve(false))
     const accessToken = await sut.auth(mockAuthentication())
     expect(accessToken).toBeNull()
   })

@@ -22,8 +22,9 @@ const makeSut = (): SutTypes => {
   const loadAccountByEmailRepositoryStub = mockLoadAccountByEmail()
   vi.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockReturnValueOnce(
     // @ts-expect-error
-    new Promise((resolve) => resolve(null)),
+    Promise.resolve(null),
   )
+
   const sut = new DbAddAccount(
     hasherStub,
     addAccountRepositoryStub,
@@ -52,9 +53,7 @@ describe('DbAddAccount UseCase', () => {
   test('Should throw if Hasher throws', async () => {
     const { sut, hasherStub } = makeSut()
     vi.spyOn(hasherStub, 'hash').mockImplementationOnce(async (): Promise<string> => {
-      return await new Promise((_resolve, reject) => {
-        reject(new Error())
-      })
+      return await Promise.reject(new Error())
     })
 
     const promise = sut.add(mockAccountModel())
@@ -70,9 +69,7 @@ describe('DbAddAccount UseCase', () => {
   test('Should throw if AddAccountRepository throws', async () => {
     const { sut, addAccountRepositoryStub } = makeSut()
     const addAccount = async (): Promise<AccountModel> => {
-      return await new Promise((resolve, reject) => {
-        reject(new Error())
-      })
+      return await Promise.reject(new Error())
     }
 
     vi.spyOn(addAccountRepositoryStub, 'add').mockReturnValueOnce(
@@ -97,9 +94,7 @@ describe('DbAddAccount UseCase', () => {
   test('Should return null if  LoadAccountByEmailRepository not return null', async () => {
     const { loadAccountByEmailRepositoryStub, sut } = makeSut()
     vi.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockReturnValueOnce(
-      new Promise((resolve) => {
-        resolve(mockAccountModel())
-      }),
+      Promise.resolve(mockAccountModel()),
     )
     const account = await sut.add(mockAccountModel())
     expect(account).toBeNull()

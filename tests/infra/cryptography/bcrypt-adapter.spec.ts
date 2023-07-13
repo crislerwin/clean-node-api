@@ -5,9 +5,7 @@ import bcrypt from 'bcrypt'
 const salt = 12
 const makeSut = (): BcryptAdapter => {
   vi.spyOn(bcrypt, 'compare').mockImplementationOnce(async (): Promise<boolean> => {
-    return await new Promise((resolve) => {
-      resolve(true)
-    })
+    return await Promise.resolve(true)
   })
   return new BcryptAdapter(salt)
 }
@@ -23,9 +21,7 @@ describe('BcryptAdapter', () => {
     test('Should return a valid hash on hash success', async () => {
       const sut = makeSut()
       vi.spyOn(bcrypt, 'hash').mockImplementationOnce(async () => {
-        return await new Promise((resolve) => {
-          resolve('hash')
-        })
+        return await Promise.resolve('hash')
       })
       const hash = await sut.hash('any_value')
       expect(hash).toBe('hash')
@@ -34,9 +30,7 @@ describe('BcryptAdapter', () => {
       const sut = makeSut()
       // @ts-expect-error
       vi.spyOn(bcrypt, 'hash').mockReturnValueOnce(async () => {
-        return await new Promise((resolve, reject) => {
-          reject(new Error())
-        })
+        return await Promise.reject(new Error())
       })
       const promise = await sut.hash('any_value')
       await expect(promise).rejects.toThrow()
@@ -57,9 +51,7 @@ describe('BcryptAdapter', () => {
     test('Should return a false when compare fails', async () => {
       const sut = makeSut()
       vi.spyOn(bcrypt, 'compare').mockImplementationOnce(async () => {
-        return await new Promise((resolve) => {
-          resolve(false)
-        })
+        return await Promise.resolve(false)
       })
 
       const isValid = await sut.compare('any_value', 'any_hash')
@@ -69,9 +61,7 @@ describe('BcryptAdapter', () => {
       const sut = makeSut()
       // @ts-expect-error
       vi.spyOn(bcrypt, 'compare').mockReturnValueOnce(async () => {
-        return await new Promise((resolve, reject) => {
-          reject(new Error())
-        })
+        return await Promise.reject(new Error())
       })
       const promise = await sut.compare('any_value', 'any_hash')
       await expect(promise).rejects.toThrow()

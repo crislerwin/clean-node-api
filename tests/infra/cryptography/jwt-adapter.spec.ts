@@ -22,9 +22,7 @@ describe('Jwt Adapter', () => {
     test('Should throw if sign throws ', async () => {
       const sut = makeSut()
       vi.spyOn(jwt, 'sign').mockImplementationOnce(async () => {
-        return await new Promise((_resolve, reject) => {
-          reject(new Error())
-        })
+        return await Promise.reject(new Error())
       })
 
       const promise = sut.encrypt('any_id')
@@ -48,9 +46,7 @@ describe('Jwt Adapter', () => {
     test('Should throw if verify throws ', async () => {
       const sut = makeSut()
       vi.spyOn(jwt, 'verify').mockImplementationOnce(async () => {
-        return await new Promise((_resolve, reject) => {
-          reject(new Error())
-        })
+        return await Promise.reject(new Error())
       })
 
       const promise = sut.decrypt('any_token')

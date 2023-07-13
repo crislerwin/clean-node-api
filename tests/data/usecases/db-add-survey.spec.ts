@@ -33,11 +33,9 @@ describe('DbAddSurvey', () => {
   })
   test('Should throw if Hasher throws', async () => {
     const { sut, addSurveyRepositoryStub } = makeSut()
-    vi.spyOn(addSurveyRepositoryStub, 'add').mockImplementationOnce(async (): Promise<any> => {
-      return await new Promise((resolve, reject) => {
-        reject(new Error())
-      })
-    })
+    vi.spyOn(addSurveyRepositoryStub, 'add').mockImplementationOnce(
+      async () => await Promise.reject(new Error()),
+    )
 
     const promise = sut.add(mockAddSurveyParams())
     await expect(promise).rejects.toThrow()

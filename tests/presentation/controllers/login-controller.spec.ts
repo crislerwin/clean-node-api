@@ -72,11 +72,7 @@ describe('Login Controller', () => {
   })
   test('Should return 401 if invalid credentials is provided', async () => {
     const { sut, authenticationStub } = makeSut()
-    vi.spyOn(authenticationStub, 'auth').mockReturnValueOnce(
-      new Promise((resolve) => {
-        resolve(null as any)
-      }),
-    )
+    vi.spyOn(authenticationStub, 'auth').mockReturnValueOnce(Promise.resolve(null))
     const httpRequest = makeFakeRequest()
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(unauthorized())

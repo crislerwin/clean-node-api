@@ -40,9 +40,7 @@ describe('DbSaveSurveyResult', () => {
     const { sut, saveSurveyResultRepositoryStub } = makeSut()
     vi.spyOn(saveSurveyResultRepositoryStub, 'save').mockImplementationOnce(
       async (): Promise<SurveyResultModel> => {
-        return await new Promise((resolve, reject) => {
-          reject(new Error())
-        })
+        return await Promise.reject(new Error())
       },
     )
 

@@ -49,12 +49,8 @@ describe('SaveSurveyResultController', () => {
 
   test('Should return  403 if LoadSurveyById returns null', async () => {
     const { sut, loadSurveysStub } = makeSut()
-    vi.spyOn(loadSurveysStub, 'loadById').mockReturnValueOnce(
-      new Promise((resolve) => {
-        // @ts-expect-error
-        resolve(null)
-      }),
-    )
+    // @ts-expect-error
+    vi.spyOn(loadSurveysStub, 'loadById').mockReturnValueOnce(Promise.resolve(null))
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(forbidden(new InvalidParamError('surveyId')))
   })
@@ -62,9 +58,7 @@ describe('SaveSurveyResultController', () => {
   test('Should return  500 if LoadSurveyById throws', async () => {
     const { sut, loadSurveysStub } = makeSut()
     vi.spyOn(loadSurveysStub, 'loadById').mockReturnValueOnce(
-      new Promise((_resolve, reject) => {
-        reject(serverError(new Error()))
-      }),
+      Promise.reject(serverError(new Error())),
     )
     const httpResponse = await sut.handle(makeFakeRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
