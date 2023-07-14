@@ -3,6 +3,7 @@ export const saveSurveyParamsSchema = {
   properties: {
     answer: {
       type: 'string',
+      example: 'any_answer',
     },
   },
   required: ['answer'],

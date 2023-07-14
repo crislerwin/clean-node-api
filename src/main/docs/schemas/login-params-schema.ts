@@ -2,7 +2,7 @@ export const loginParamsSchema = {
   properties: {
     email: {
       type: 'string',
-      example: 'crislerwintler@gmail.com',
+      example: 'johndoe@email.com',
     },
     password: { type: 'string', example: '123456' },
   },
