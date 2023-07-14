@@ -1,6 +1,6 @@
-import { loginPath } from './login-path'
-import { accountSchema } from './schemas/account-schema'
-import { loginParamsSchema } from './schemas/login-params-schema'
+import paths from './paths'
+import schemas from './schemas'
+import components from './components'
 
 export default {
   openapi: '3.0.0',
@@ -11,11 +11,7 @@ export default {
   },
   servers: [{ url: '/api' }],
   tags: [{ name: 'Login' }],
-  paths: {
-    '/login': loginPath,
-  },
-  schemas: {
-    account: accountSchema,
-    loginParams: loginParamsSchema,
-  },
+  paths,
+  schemas,
+  components,
 }
