@@ -2,7 +2,7 @@ import { test, describe, expect, beforeAll, afterAll, beforeEach } from 'vitest'
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import { Collection } from 'mongodb'
 import { SurveyResultMongoRepository } from './survey-result-mongo-repository'
-import { SurveyModel } from '@/domain/models/survey'
+import { SurveyResultModel } from '@/domain/models/survey'
 import { AccountModel } from '@/domain/models/account'
 import { MongoHelper } from '../helpers/mongo-helper'
 
@@ -11,7 +11,7 @@ let accountCollection: Collection
 let surveyCollection: Collection
 const makeSut = (): SurveyResultMongoRepository => new SurveyResultMongoRepository()
 
-const makeFakeSurvey = async (): Promise<SurveyModel> => {
+const makeFakeSurvey = async (): Promise<SurveyResultModel> => {
   const { insertedId } = await surveyResultCollection.insertOne({
     question: 'any_question',
     answers: [{ image: 'any_image', answer: 'any_answer' }, { answer: 'other_answer' }],
@@ -20,7 +20,7 @@ const makeFakeSurvey = async (): Promise<SurveyModel> => {
   const result = await surveyCollection.findOne({
     _id: insertedId,
   })
-  return MongoHelper.map<SurveyModel>(result)
+  return MongoHelper.map<SurveyResultModel>(result)
 }
 
 const makeFakeAccountModel = async (): Promise<AccountModel | null> => {
@@ -62,12 +62,16 @@ describe('SurveyMongoResultRepository()', async () => {
       if (!account) return
       const surveyResult = await sut.save({
         accountId: account.id,
+        count: 1,
+        percent: 100,
         answer: survey.answers[0].answer,
         date: new Date(),
         surveyId: survey.id,
       })
       expect(surveyResult).toBeTruthy()
-      expect(surveyResult.id).toBeTruthy()
+      expect(surveyResult.id).toBe(survey.id)
+      expect(surveyResult.count).toBe(1)
+      expect(surveyResult.percent).toBe(100)
       expect(surveyResult.answer).toBe(survey.answers[0].answer)
     })
   })

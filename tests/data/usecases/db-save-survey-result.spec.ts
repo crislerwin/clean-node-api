@@ -39,6 +39,7 @@ describe('DbSaveSurveyResult', () => {
   test('Should throw if DbSaveSurveyResult throws', async () => {
     const { sut, saveSurveyResultRepositoryStub } = makeSut()
     vi.spyOn(saveSurveyResultRepositoryStub, 'save').mockImplementationOnce(
+      // @ts-expect-error
       async (): Promise<SurveyResultModel> => {
         return await Promise.reject(new Error())
       },
