@@ -18,6 +18,7 @@ module.exports = {
     '@typescript-eslint/no-confusing-void-expression': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/consistent-type-definitions': 'off',
+    '@typescript-eslint/no-namespace': 'off',
     '@typescript-eslint/no-misused-promises': [
       'error',
       {

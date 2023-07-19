@@ -1,17 +1,8 @@
-import { SaveSurveyResultParams, SurveyResultModel } from '@/domain/models/survey-result'
+import { SurveyResultModel } from '@/domain/models/survey-result'
 import { SaveSurveyResult } from '@/domain/usecases/survey-result/save-survey-result'
-import { AddSurveyParams } from '@/domain/usecases/survey/add-survey'
+import { AddSurvey } from '../usecases/survey/add-survey'
 
-export const mockSurveyResult = (): SaveSurveyResult => {
-  class SurveyResultStub implements SaveSurveyResult {
-    async save(_data: SaveSurveyResultParams): Promise<SurveyResultModel> {
-      return await Promise.resolve(mockSurveyResultModel())
-    }
-  }
-  return new SurveyResultStub()
-}
-
-export const mockAddSurveyParams = (): AddSurveyParams => ({
+export const mockAddSurveyParams = (): AddSurvey.Params => ({
   question: 'any_question',
   answers: [
     {
@@ -22,16 +13,24 @@ export const mockAddSurveyParams = (): AddSurveyParams => ({
   date: new Date(),
 })
 
-export const mockSaveSurveyResultParams = (): SaveSurveyResultParams => ({
+export const mockSaveSurveyResultParams = (): SaveSurveyResult.Params => ({
   surveyId: 'any_survey_id',
   accountId: 'any_account_id',
   answer: 'any_answer',
   date: new Date(),
-  count: 0,
-  percent: 0,
 })
 
-export const mockSurveyResultModel = (): SurveyResultModel =>
-  Object.assign({}, mockSaveSurveyResultParams(), {
-    id: 'any_id',
-  })
+export const mockSurveyResultModel = (): SurveyResultModel => ({
+  answers: [
+    {
+      image: 'any_image',
+      answer: 'any_answer',
+      count: 1,
+      isCurrentAccountAnswer: false,
+      percent: 100,
+    },
+  ],
+  date: new Date(),
+  question: 'any_question',
+  id: 'any_id',
+})

@@ -2,9 +2,9 @@ import { test, describe, expect, beforeAll, afterAll, beforeEach } from 'vitest'
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import { Collection, ObjectId } from 'mongodb'
 import { SurveyResultMongoRepository } from '@/infra/db/mongodb/survey-result/survey-result-mongo-repository'
-import { SurveyResultModel } from '@/domain/models/survey'
 import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper'
 import { mockAddAccountParams, mockAddSurveyParams } from '@/tests/domain/mocks'
+import { SurveyResultModel } from '@/domain/models/survey-result'
 
 let surveyResultCollection: Collection
 let accountCollection: Collection

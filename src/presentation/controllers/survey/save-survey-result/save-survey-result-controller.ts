@@ -1,40 +1,38 @@
 import { SaveSurveyResult } from '@/domain/usecases/survey-result/save-survey-result'
 import { forbidden, ok, serverError } from '../add-survey/add-survey-controller-protocols'
-import {
-  Controller,
-  HttpRequest,
-  HttpResponse,
-  InvalidParamError,
-  LoadSurveyById,
-} from './save-survey-result-protocols'
+import { Controller, HttpResponse, InvalidParamError } from './save-survey-result-protocols'
+import { LoadAnswersBySurvey } from '@/domain/usecases/survey/load-answers-by-survey'
 
 export class SaveSurveyResultController implements Controller {
   constructor(
-    private readonly loadSurveyById: LoadSurveyById,
+    private readonly loadAnswersBySurvey: LoadAnswersBySurvey,
     private readonly saveSurveyResult: SaveSurveyResult,
   ) {}
 
-  async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
+  async handle(request: SaveSurveyResultController.Request): Promise<HttpResponse> {
     try {
-      const { surveyId } = httpRequest.params
-      const { answer } = httpRequest.body
-      const { accountId } = httpRequest
-      const survey = await this.loadSurveyById.loadById(surveyId)
-      if (survey) {
-        const answers = survey.answers.map((a) => a.answer)
-        if (!answers.includes(answer)) return forbidden(new InvalidParamError('answer'))
-        const surveyResult = await this.saveSurveyResult.save({
-          surveyId,
-          accountId,
-          date: new Date(),
-          answer,
-        })
-        return ok(surveyResult)
-      } else {
+      const { surveyId, answer } = request
+      const answers = await this.loadAnswersBySurvey.loadAnswers(surveyId)
+      if (!answers.length) {
         return forbidden(new InvalidParamError('surveyId'))
+      } else if (!answers.includes(answer)) {
+        return forbidden(new InvalidParamError('answer'))
       }
+      const surveyResult = await this.saveSurveyResult.save({
+        ...request,
+        date: new Date(),
+      })
+      return ok(surveyResult)
     } catch (error) {
       return serverError(error as Error)
     }
+  }
+}
+
+export namespace SaveSurveyResultController {
+  export type Request = {
+    surveyId: string
+    answer: string
+    accountId: string
   }
 }

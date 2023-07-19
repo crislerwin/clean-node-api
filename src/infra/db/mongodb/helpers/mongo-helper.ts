@@ -17,13 +17,13 @@ export const MongoHelper = {
     }
     return this.client.db().collection(name)
   },
-  map<T>(collection: WithId<Document> | null): T {
-    if (!collection) return null as T
+  map<T extends object>(collection: WithId<Document> | null): T {
+    if (!collection) return null as unknown as T
     const { _id, ...collectionWithoutId } = collection
     return Object.assign({}, collectionWithoutId, { id: _id }) as T
   },
 
-  mapCollection<T>(collection: Array<WithId<Document>> | null): T[] {
+  mapCollection<T extends object>(collection: any[]): T[] {
     return collection?.map((c) => MongoHelper.map(c)) ?? []
   },
 }

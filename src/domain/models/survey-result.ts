@@ -1,9 +1,14 @@
 export type SurveyResultModel = {
   id: string
-  surveyId: string
-  accountId?: string
-  answer: string
+  question: string
+  answers: SurveyResultAnswerModel[]
   date: Date
 }
 
-export type SaveSurveyResultParams = Omit<SurveyResultModel, 'id'>
+type SurveyResultAnswerModel = {
+  image?: string
+  answer: string
+  count: number
+  percent: number
+  isCurrentAccountAnswer: boolean
+}

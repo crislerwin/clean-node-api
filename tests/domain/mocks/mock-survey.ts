@@ -1,5 +1,5 @@
-import { SurveyResultModel } from '@/domain/models/survey'
 import { LoadSurveys } from '@/domain/usecases/survey/load-surveys'
+import { SurveyResultModel } from '../models/survey-result'
 
 export const mockSurveyModel = (): SurveyResultModel => ({
   id: 'any_id',
@@ -8,6 +8,9 @@ export const mockSurveyModel = (): SurveyResultModel => ({
     {
       image: 'any_image',
       answer: 'any_answer',
+      count: 0,
+      isCurrentAccountAnswer: false,
+      percent: 0,
     },
   ],
   date: new Date(),
@@ -23,4 +26,14 @@ export const mockLoadSurveys = (): LoadSurveys => {
   }
 
   return new LoadSurveysStub()
+}
+
+export class LoadSurveysSpy implements LoadSurveys {
+  accountId!: string
+  result = mockSurveyModels()
+
+  async load(accountId: string): Promise<LoadSurveys.Result> {
+    this.accountId = accountId
+    return this.result
+  }
 }

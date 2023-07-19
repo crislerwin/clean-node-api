@@ -1,8 +1,8 @@
+import { LoadSurveyByIdRepository } from '@/data/protocols/db/survey/load-survey-by-id-repository'
 import {
   LoadSurveyById,
   SurveyResultModel,
-  LoadSurveyByIdRepository,
-} from './db-load-survey-by-id-protocols'
+} from '../save-survey-result/db-save-survey-result.protocols'
 
 export class DbLoadSurveyById implements LoadSurveyById {
   constructor(private readonly loadSurveyByIdRepository: LoadSurveyByIdRepository) {}

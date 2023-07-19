@@ -1,25 +1,26 @@
 import { describe, test, vi, expect, beforeEach, afterEach } from 'vitest'
 import { DbSaveSurveyResult } from '@/data/usecases/survey/save-survey-result/db-save-survey-result'
-import {
-  SaveSurveyResultRepository,
-  SurveyResultModel,
-} from '@/data/usecases/survey/save-survey-result/db-save-survey-result.protocols'
-import { mockSaveSurveyResultRepository } from '@/tests/data/mocks'
+import { SurveyResultModel } from '@/data/usecases/survey/save-survey-result/db-save-survey-result.protocols'
+import { LoadSurveyResultRepositorySpy, SaveSurveyResultRepositorySpy } from '@/tests/data/mocks'
 import { mockSaveSurveyResultParams, mockSurveyResultModel } from '@/tests/domain/mocks'
 
 type SutTypes = {
   sut: DbSaveSurveyResult
-  saveSurveyResultRepositoryStub: SaveSurveyResultRepository
+  saveSurveyResultRepositorySpy: SaveSurveyResultRepositorySpy
+  loadSurveyResultRepositorySpy: LoadSurveyResultRepositorySpy
 }
 
 const makeSut = (): SutTypes => {
-  const saveSurveyResultRepositoryStub = mockSaveSurveyResultRepository()
-  const sut = new DbSaveSurveyResult(saveSurveyResultRepositoryStub)
+  const saveSurveyResultRepositorySpy = new SaveSurveyResultRepositorySpy()
+  const loadSurveyResultRepositorySpy = new LoadSurveyResultRepositorySpy()
+  const sut = new DbSaveSurveyResult(saveSurveyResultRepositorySpy, loadSurveyResultRepositorySpy)
   return {
     sut,
-    saveSurveyResultRepositoryStub,
+    saveSurveyResultRepositorySpy,
+    loadSurveyResultRepositorySpy,
   }
 }
+
 describe('DbSaveSurveyResult', () => {
   beforeEach(() => {
     vi.useFakeTimers()
@@ -29,16 +30,16 @@ describe('DbSaveSurveyResult', () => {
     vi.useRealTimers()
   })
   test('should call DbSaveSurveyResult with correct values', async () => {
-    const { saveSurveyResultRepositoryStub, sut } = makeSut()
-    const addSpy = vi.spyOn(saveSurveyResultRepositoryStub, 'save')
+    const { saveSurveyResultRepositorySpy, sut } = makeSut()
+    const addSpy = vi.spyOn(saveSurveyResultRepositorySpy, 'save')
     const surveyData = mockSaveSurveyResultParams()
     await sut.save(surveyData)
     expect(addSpy).toHaveBeenCalledWith(surveyData)
   })
 
   test('Should throw if DbSaveSurveyResult throws', async () => {
-    const { sut, saveSurveyResultRepositoryStub } = makeSut()
-    vi.spyOn(saveSurveyResultRepositoryStub, 'save').mockImplementationOnce(
+    const { sut, saveSurveyResultRepositorySpy } = makeSut()
+    vi.spyOn(saveSurveyResultRepositorySpy, 'save').mockImplementationOnce(
       // @ts-expect-error
       async (): Promise<SurveyResultModel> => {
         return await Promise.reject(new Error())

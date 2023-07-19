@@ -1,12 +1,26 @@
-import { SaveSurveyResultRepository } from '@/data/protocols/db/survey/save-survey-result-repository'
-import { SaveSurveyResultParams, SurveyResultModel } from '@/domain/models/survey-result'
-import { mockSurveyResultModel } from '../../domain/mocks'
+import { mockSurveyResultModel } from '@/tests/domain/mocks'
+import { SaveSurveyResultRepository } from '../protocols/db/survey/save-survey-result-repository'
+import { LoadSurveyResultRepository } from '../protocols/db/survey/load-survey-result-repository'
 
-export const mockSaveSurveyResultRepository = (): SaveSurveyResultRepository => {
-  class SaveSurveyRepositoryStub implements SaveSurveyResultRepository {
-    async save(data: SaveSurveyResultParams): Promise<SurveyResultModel> {
-      return await Promise.resolve(mockSurveyResultModel())
-    }
+export class SaveSurveyResultRepositorySpy implements SaveSurveyResultRepository {
+  params!: SaveSurveyResultRepository.Params
+
+  async save(params: SaveSurveyResultRepository.Params): Promise<void> {
+    this.params = params
   }
-  return new SaveSurveyRepositoryStub()
+}
+
+export class LoadSurveyResultRepositorySpy implements LoadSurveyResultRepository {
+  surveyId!: string
+  accountId!: string
+  result = mockSurveyResultModel()
+
+  async loadBySurveyId(
+    surveyId: string,
+    accountId: string,
+  ): Promise<LoadSurveyResultRepository.Result> {
+    this.surveyId = surveyId
+    this.accountId = accountId
+    return this.result
+  }
 }
