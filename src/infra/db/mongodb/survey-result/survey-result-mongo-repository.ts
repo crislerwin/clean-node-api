@@ -28,8 +28,11 @@ export class SurveyResultMongoRepository
     )
   }
 
-  async loadBySurveyId(surveyId: string, accountId: string): Promise<SurveyResultModel> {
-    const surveyResultCollection = MongoHelper.getCollection('surveyResults')
+  async loadBySurveyId(
+    surveyId: string,
+    accountId: string,
+  ): Promise<LoadSurveyResultRepository.Result> {
+    const surveyResultCollection = await MongoHelper.getCollection('surveyResults')
     const query = new QueryBuilder()
       .match({
         surveyId: new ObjectId(surveyId),
@@ -189,8 +192,8 @@ export class SurveyResultMongoRepository
         answer: {
           answer: '$_id.answer',
           image: '$_id.image',
-          count: '$round.count',
-          percent: '$round.percent',
+          count: { $round: ['$count', 2] },
+          percent: { $round: ['$percent', 2] },
           isCurrentAccountAnswer: {
             $eq: ['$isCurrentAccountAnswerCount', 1],
           },
@@ -219,9 +222,7 @@ export class SurveyResultMongoRepository
         answers: '$answers',
       })
       .build()
-    const surveyResult = await (await surveyResultCollection)
-      .aggregate<SurveyResultModel>(query)
-      .toArray()
+    const surveyResult = await surveyResultCollection.aggregate<SurveyResultModel>(query).toArray()
     return surveyResult[0] || null
   }
 }

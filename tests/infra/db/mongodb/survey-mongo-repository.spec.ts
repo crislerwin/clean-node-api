@@ -83,7 +83,7 @@ describe('Survey Mongo Repository', async () => {
       const sut = makeSut()
       const survey = await sut.loadById(res.insertedId.toHexString())
       expect(survey).toBeTruthy()
-      expect(survey.id).toBeTruthy()
+      expect(survey.surveyId).toBeTruthy()
     })
     test('Should return null if survey does not exists', async () => {
       const sut = makeSut()

@@ -3,6 +3,7 @@ import { SaveSurveyResultController } from '@/presentation/controllers/survey/sa
 import {
   forbidden,
   InvalidParamError,
+  ok,
   serverError,
 } from '@/presentation/controllers/survey/save-survey-result/save-survey-result-protocols'
 import { faker } from '@faker-js/faker'
@@ -74,5 +75,11 @@ describe('SaveSurveyResultController', () => {
       date: new Date(),
       answer: request.answer,
     })
+  })
+  test('Should return 200 on success', async () => {
+    const { sut, saveSurveyResultSpy, loadAnswersBySurveySpy } = makeSut()
+    const request = mockRequest(loadAnswersBySurveySpy.result[0])
+    const httpResponse = await sut.handle(request)
+    expect(httpResponse).toEqual(ok(saveSurveyResultSpy.result))
   })
 })

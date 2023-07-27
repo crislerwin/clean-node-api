@@ -32,5 +32,5 @@ export const mockSurveyResultModel = (): SurveyResultModel => ({
   ],
   date: new Date(),
   question: 'any_question',
-  id: 'any_id',
+  surveyId: 'any_id',
 })

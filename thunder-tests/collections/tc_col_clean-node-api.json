@@ -14,21 +14,11 @@
             "method": "GET",
             "sortNum": 10000,
             "created": "2023-06-29T12:18:52.469Z",
-            "modified": "2023-07-07T23:59:31.234Z",
+            "modified": "2023-07-20T12:04:59.010Z",
             "headers": [
                 {
                     "name": "x-access-token",
-                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YThhNWExZDZkNTlkZGVhZDUyMmE5NiIsImlhdCI6MTY4ODc3NDM1M30.2X_PCPiO6tRm9z9iBwLfzGsfz6CBb4ksnP15yjCIN4A"
-                },
-                {
-                    "name": "Accept",
-                    "value": "*/*",
-                    "isDisabled": true
-                },
-                {
-                    "name": "User-Agent",
-                    "value": "Thunder Client (https://www.thunderclient.com)",
-                    "isDisabled": true
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YjkyMDlhNGM5NDAwZmJhNGM3NDc1YyIsImlhdCI6MTY4OTg1NDM3Mn0.l-l5sf--5PGjyigGJQDajoQvV1RjLVhkhIjCarUS9I0"
                 }
             ],
             "params": [],
@@ -43,12 +33,12 @@
             "method": "POST",
             "sortNum": 20000,
             "created": "2023-06-29T12:23:29.594Z",
-            "modified": "2023-06-29T12:23:29.594Z",
+            "modified": "2023-07-20T11:55:24.940Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"email\": \"crislerwintler@gmail.com\",\n  \"password\": \"123456\"\n}",
+                "raw": "{\n  \"email\": \"crislerwintler@gmail.com\",\n  \"password\": \"123456\"\n}\n",
                 "form": []
             },
             "tests": []
@@ -110,27 +100,17 @@
             "method": "POST",
             "sortNum": 15000,
             "created": "2023-07-07T23:59:51.560Z",
-            "modified": "2023-07-08T00:04:25.365Z",
+            "modified": "2023-07-20T12:05:58.286Z",
             "headers": [
                 {
                     "name": "x-access-token",
-                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YThhNWExZDZkNTlkZGVhZDUyMmE5NiIsImlhdCI6MTY4ODc3NDM1M30.2X_PCPiO6tRm9z9iBwLfzGsfz6CBb4ksnP15yjCIN4A"
-                },
-                {
-                    "name": "Accept",
-                    "value": "*/*",
-                    "isDisabled": true
-                },
-                {
-                    "name": "User-Agent",
-                    "value": "Thunder Client (https://www.thunderclient.com)",
-                    "isDisabled": true
+                    "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YjkyMDlhNGM5NDAwZmJhNGM3NDc1YyIsImlhdCI6MTY4OTg1NDM3Mn0.l-l5sf--5PGjyigGJQDajoQvV1RjLVhkhIjCarUS9I0"
                 }
             ],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\r\n    \"question\": \"any_question\",\r\n    \"answers\": [\r\n      {\r\n        \"image\": \"any_image\",\r\n        \"answer\": \"any_answer\"\r\n      }\r\n    ]\r\n  }",
+                "raw": "{\r\n    \"question\": \"another_question\",\r\n    \"didAnswer\": true,\r\n    \"answers\": [\r\n      {\r\n        \"image\": \"any_image\",\r\n        \"answer\": \"any_answer\"\r\n      }\r\n    ]\r\n  }",
                 "form": []
             },
             "tests": []

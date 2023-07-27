@@ -2,7 +2,7 @@ import { LoadSurveys } from '@/domain/usecases/survey/load-surveys'
 import { SurveyResultModel } from '../models/survey-result'
 
 export const mockSurveyModel = (): SurveyResultModel => ({
-  id: 'any_id',
+  surveyId: 'any_id',
   question: 'any_question',
   answers: [
     {

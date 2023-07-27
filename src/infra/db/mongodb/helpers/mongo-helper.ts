@@ -20,7 +20,13 @@ export const MongoHelper = {
   map<T extends object>(collection: WithId<Document> | null): T {
     if (!collection) return null as unknown as T
     const { _id, ...collectionWithoutId } = collection
-    return Object.assign({}, collectionWithoutId, { id: _id }) as T
+    return Object.assign({}, collectionWithoutId, { id: _id.toHexString() }) as T
+  },
+
+  mapSurvey<T extends object>(collection: WithId<Document> | null): T {
+    if (!collection) return null as unknown as T
+    const { _id, ...collectionWithoutId } = collection
+    return Object.assign({}, collectionWithoutId, { surveyId: _id.toHexString() }) as T
   },
 
   mapCollection<T extends object>(collection: any[]): T[] {
