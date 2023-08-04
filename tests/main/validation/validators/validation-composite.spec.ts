@@ -1,4 +1,4 @@
-import { MissingPararmError } from '@/presentation/errors'
+import { MissingParamError } from '@/presentation/errors'
 import { describe, expect, test, vi } from 'vitest'
 import { Validation } from '@/presentation/protocols'
 import { ValidationComposite } from '@/validation/validators/validation-composite'
@@ -28,14 +28,14 @@ const makeSut = (): SutTypes => {
 describe('ValidationComposite', () => {
   test('Should return an error if any validation fails', () => {
     const { sut, validationStubs } = makeSut()
-    vi.spyOn(validationStubs[1], 'validate').mockReturnValueOnce(new MissingPararmError('field'))
+    vi.spyOn(validationStubs[1], 'validate').mockReturnValueOnce(new MissingParamError('field'))
     const error = sut.validate({ field: 'any_value' })
-    expect(error).toEqual(new MissingPararmError('field'))
+    expect(error).toEqual(new MissingParamError('field'))
   })
   test('Should return the first error more than one validation fails ', () => {
     const { sut, validationStubs } = makeSut()
     vi.spyOn(validationStubs[0], 'validate').mockReturnValueOnce(new Error())
-    vi.spyOn(validationStubs[1], 'validate').mockReturnValueOnce(new MissingPararmError('field'))
+    vi.spyOn(validationStubs[1], 'validate').mockReturnValueOnce(new MissingParamError('field'))
     const error = sut.validate({ field: 'any_value' })
     expect(error).toEqual(new Error())
   })

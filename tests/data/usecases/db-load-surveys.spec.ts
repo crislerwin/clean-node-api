@@ -1,21 +1,19 @@
-import { LoadSurveysRepository } from '@/data/usecases/survey/load-surveys/db-load-survey-protocols'
 import { beforeAll, describe, expect, test, vi } from 'vitest'
 import { DbLoadSurveys } from '@/data/usecases/survey/load-surveys/db-load-surveys'
-import { mockLoadSurveysRepository } from '@/tests/data/mocks'
-import { mockSurveyModels, throwError } from '@/tests/domain/mocks'
+import { throwError } from '@/tests/domain/mocks'
 import { faker } from '@faker-js/faker'
+import { LoadSurveysRepositorySpy } from '../mocks'
 
 type SutTypes = {
   sut: DbLoadSurveys
-  loadSurveysRepository: LoadSurveysRepository
+  loadSurveysRepositorySpy: LoadSurveysRepositorySpy
 }
-
 const makeSut = (): SutTypes => {
-  const loadSurveysRepository = mockLoadSurveysRepository()
-  const sut = new DbLoadSurveys(loadSurveysRepository)
+  const loadSurveysRepositorySpy = new LoadSurveysRepositorySpy()
+  const sut = new DbLoadSurveys(loadSurveysRepositorySpy)
   return {
     sut,
-    loadSurveysRepository,
+    loadSurveysRepositorySpy,
   }
 }
 
@@ -25,19 +23,21 @@ describe('DbLoadSurveys', () => {
   })
 
   test('Should call LoadSurveysRepository', async () => {
-    const { sut, loadSurveysRepository } = makeSut()
-    const loadSpy = vi.spyOn(loadSurveysRepository, 'loadAll')
-    await sut.load(faker.string.uuid())
-    expect(loadSpy).toHaveBeenCalled()
+    const { sut, loadSurveysRepositorySpy } = makeSut()
+    const accountId = faker.datatype.uuid()
+    await sut.load(accountId)
+    expect(loadSurveysRepositorySpy.accountId).toBe(accountId)
   })
+
   test('Should return a list of Surveys on success', async () => {
-    const { sut } = makeSut()
-    const surveys = await sut.load(faker.string.uuid())
-    expect(surveys).toEqual(mockSurveyModels())
+    const { sut, loadSurveysRepositorySpy } = makeSut()
+    const surveys = await sut.load(faker.datatype.uuid())
+    expect(surveys).toEqual(loadSurveysRepositorySpy.result)
   })
-  test('Should  throw if LoadSurveysRepository throws', async () => {
-    const { loadSurveysRepository, sut } = makeSut()
-    vi.spyOn(loadSurveysRepository, 'loadAll').mockImplementationOnce(throwError)
+
+  test('Should throw if LoadSurveysRepository throws', async () => {
+    const { sut, loadSurveysRepositorySpy } = makeSut()
+    vi.spyOn(loadSurveysRepositorySpy, 'loadAll').mockImplementationOnce(throwError)
     const promise = sut.load(faker.string.uuid())
     await expect(promise).rejects.toThrow()
   })

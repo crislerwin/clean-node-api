@@ -1,43 +1,51 @@
-import { beforeAll, describe, expect, test, vi } from 'vitest'
-import { DbLoadSurveyById } from '@/data/usecases/survey/load-survey-by-id/db-load-survey-by-id'
-import { mockLoadSurveyByIdRepository } from '@/tests/data/mocks'
-import { mockSurveyModel, throwError } from '@/tests/domain/mocks'
-import { LoadSurveyByIdRepository } from '../protocols/db/survey/load-survey-by-id-repository'
+import { beforeEach, describe, expect, test, vi } from 'vitest'
+import { DbCheckSurveyById } from '@/data/usecases/survey/load-survey-by-id/db-load-survey-by-id'
+import { throwError } from '@/tests/domain/mocks'
+import { CheckSurveyByIdRepositorySpy } from '../mocks'
+import { faker } from '@faker-js/faker'
 
 type SutTypes = {
-  sut: DbLoadSurveyById
-  loadSurveyByIdRepositoryStub: LoadSurveyByIdRepository
+  sut: DbCheckSurveyById
+  checkSurveyByIdRepositorySpy: CheckSurveyByIdRepositorySpy
 }
 
 const makeSut = (): SutTypes => {
-  const loadSurveyByIdRepositoryStub = mockLoadSurveyByIdRepository()
-  const sut = new DbLoadSurveyById(loadSurveyByIdRepositoryStub)
+  const checkSurveyByIdRepositorySpy = new CheckSurveyByIdRepositorySpy()
+  const sut = new DbCheckSurveyById(checkSurveyByIdRepositorySpy)
   return {
     sut,
-    loadSurveyByIdRepositoryStub,
+    checkSurveyByIdRepositorySpy,
   }
 }
+let surveyId: string
 
 describe('DbLoadSurveyById', () => {
-  beforeAll(() => {
-    vi.useFakeTimers()
+  beforeEach(() => {
+    surveyId = faker.string.uuid()
+  })
+  test('Should call CheckSurveyByIdRepository', async () => {
+    const { sut, checkSurveyByIdRepositorySpy } = makeSut()
+    await sut.checkById(surveyId)
+    expect(checkSurveyByIdRepositorySpy.id).toBe(surveyId)
   })
 
-  test('Should call LoadSurveysRepository', async () => {
-    const { sut, loadSurveyByIdRepositoryStub } = makeSut()
-    const loadByIdSpy = vi.spyOn(loadSurveyByIdRepositoryStub, 'loadById')
-    await sut.loadById('any_id')
-    expect(loadByIdSpy).toHaveBeenCalledWith('any_id')
-  })
-  test('Should return a survey on success', async () => {
+  test('Should return true if CheckSurveyByIdRepository returns true', async () => {
     const { sut } = makeSut()
-    const survey = await sut.loadById('any_id')
-    expect(survey).toEqual(mockSurveyModel())
+    const exists = await sut.checkById(surveyId)
+    expect(exists).toBe(true)
   })
-  test('Should  throw if LoadSurveyByIdRepository throws', async () => {
-    const { loadSurveyByIdRepositoryStub, sut } = makeSut()
-    vi.spyOn(loadSurveyByIdRepositoryStub, 'loadById').mockImplementationOnce(throwError)
-    const promise = sut.loadById('any_id')
+
+  test('Should return false if CheckSurveyByIdRepository returns false', async () => {
+    const { sut, checkSurveyByIdRepositorySpy } = makeSut()
+    checkSurveyByIdRepositorySpy.result = false
+    const exists = await sut.checkById(surveyId)
+    expect(exists).toBe(false)
+  })
+
+  test('Should throw if CheckSurveyByIdRepository throws', async () => {
+    const { sut, checkSurveyByIdRepositorySpy } = makeSut()
+    vi.spyOn(checkSurveyByIdRepositorySpy, 'checkById').mockImplementationOnce(throwError)
+    const promise = sut.checkById(surveyId)
     await expect(promise).rejects.toThrow()
   })
 })

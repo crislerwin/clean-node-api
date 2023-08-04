@@ -1,5 +1,7 @@
 import { mockAccountModel } from '@/tests/domain/mocks'
 import { AccountModel, LoadAccountByToken } from '../middlewares/auth-middleware-protocols'
+import { Authentication } from '../controllers/login/login/login-controller-protocols'
+import { faker } from '@faker-js/faker'
 
 export const makeLoadAccountByToken = (): LoadAccountByToken => {
   class LoadAccountByTokenStub implements LoadAccountByToken {
@@ -8,4 +10,17 @@ export const makeLoadAccountByToken = (): LoadAccountByToken => {
     }
   }
   return new LoadAccountByTokenStub()
+}
+
+export class AuthenticationSpy implements Authentication {
+  params!: Authentication.Params
+  result = {
+    accessToken: faker.string.uuid(),
+    name: faker.person.firstName(),
+  }
+
+  async auth(params: Authentication.Params): Promise<Authentication.Result> {
+    this.params = params
+    return this.result
+  }
 }

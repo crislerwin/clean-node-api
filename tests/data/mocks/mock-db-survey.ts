@@ -1,33 +1,54 @@
 import { AddSurveyRepository } from '@/data/protocols/db/survey/add-survey-repository'
 import { LoadSurveysRepository } from '@/data/protocols/db/survey/load-survey-repository'
 import { mockSurveyModel, mockSurveyModels } from '../../domain/mocks'
-import { SurveyResultModel } from '../usecases/survey/save-survey-result/db-save-survey-result.protocols'
-import { AddSurvey } from '../usecases/survey/db-add-survey/add-survey-protocols'
 import { LoadSurveyByIdRepository } from '../protocols/db/survey/load-survey-by-id-repository'
+import { LoadAnswersBySurveyRepository } from '../protocols/db/survey/load-answers-by-survey-repository'
+import { faker } from '@faker-js/faker'
+import { CheckSurveyByIdRepository } from '../protocols/db/survey/check-survey-by-id-repository'
 
-export const mockAddSurveyRepository = (): AddSurveyRepository => {
-  class AddSurveyRepositoryStub implements AddSurveyRepository {
-    async add(data: AddSurvey.Params): Promise<void> {
-      await Promise.resolve()
-    }
+export class AddSurveyRepositorySpy implements AddSurveyRepository {
+  params!: AddSurveyRepository.Params
+  async add(params: AddSurveyRepository.Params): Promise<void> {
+    this.params = params
   }
-  return new AddSurveyRepositoryStub()
 }
 
-export const mockLoadSurveyByIdRepository = (): LoadSurveyByIdRepository => {
-  class LoadSurveyByIdRepositoryStub implements LoadSurveyByIdRepository {
-    async loadById(id: string): Promise<SurveyResultModel> {
-      return await Promise.resolve(mockSurveyModel())
-    }
+export class LoadSurveyByIdRepositorySpy implements LoadSurveyByIdRepository {
+  id!: string
+  result = mockSurveyModel()
+
+  async loadById(id: string): Promise<LoadSurveyByIdRepository.Result> {
+    this.id = id
+    return this.result
   }
-  return new LoadSurveyByIdRepositoryStub()
 }
 
-export const mockLoadSurveysRepository = (): LoadSurveysRepository => {
-  class LoadSurveysRepositoryStub implements LoadSurveysRepository {
-    async loadAll(): Promise<SurveyResultModel[]> {
-      return await Promise.resolve(mockSurveyModels())
-    }
+export class LoadAnswersBySurveyRepositorySpy implements LoadAnswersBySurveyRepository {
+  id!: string
+  result = [faker.lorem.word(), faker.lorem.word()]
+
+  async loadAnswers(id: string): Promise<LoadAnswersBySurveyRepository.Result> {
+    this.id = id
+    return this.result
   }
-  return new LoadSurveysRepositoryStub()
+}
+
+export class LoadSurveysRepositorySpy implements LoadSurveysRepository {
+  accountId!: string
+  result = mockSurveyModels()
+
+  async loadAll(accountId: string): Promise<LoadSurveysRepository.Result> {
+    this.accountId = accountId
+    return this.result
+  }
+}
+
+export class CheckSurveyByIdRepositorySpy implements CheckSurveyByIdRepository {
+  id!: string
+  result = true
+
+  async checkById(id: string): Promise<CheckSurveyByIdRepository.Result> {
+    this.id = id
+    return this.result
+  }
 }

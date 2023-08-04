@@ -1,39 +1,36 @@
-import { LoadSurveys } from '@/domain/usecases/survey/load-surveys'
-import { SurveyResultModel } from '../models/survey-result'
+import { SurveyModel } from '../models/survey'
+import { faker } from '@faker-js/faker'
+import { AddSurvey } from '../usecases/survey/add-survey'
 
-export const mockSurveyModel = (): SurveyResultModel => ({
-  surveyId: 'any_id',
-  question: 'any_question',
+export const mockSurveyModel = (): SurveyModel => {
+  return {
+    id: faker.string.uuid(),
+    question: faker.lorem.word(),
+    answers: [
+      {
+        answer: faker.lorem.word(),
+      },
+      {
+        answer: faker.lorem.word(),
+        image: faker.image.url(),
+      },
+    ],
+    date: faker.date.recent(),
+  }
+}
+
+export const mockSurveyModels = (): SurveyModel[] => [mockSurveyModel(), mockSurveyModel()]
+
+export const mockAddSurveyParams = (): AddSurvey.Params => ({
+  question: faker.lorem.words(),
   answers: [
     {
-      image: 'any_image',
-      answer: 'any_answer',
-      count: 0,
-      isCurrentAccountAnswer: false,
-      percent: 0,
+      image: faker.image.imageUrl(),
+      answer: faker.lorem.word(),
+    },
+    {
+      answer: faker.lorem.word(),
     },
   ],
-  date: new Date(),
+  date: faker.date.recent(),
 })
-
-export const mockSurveyModels = (): SurveyResultModel[] => [mockSurveyModel()]
-
-export const mockLoadSurveys = (): LoadSurveys => {
-  class LoadSurveysStub implements LoadSurveys {
-    async load(): Promise<SurveyResultModel[]> {
-      return await Promise.resolve(mockSurveyModels())
-    }
-  }
-
-  return new LoadSurveysStub()
-}
-
-export class LoadSurveysSpy implements LoadSurveys {
-  accountId!: string
-  result = mockSurveyModels()
-
-  async load(accountId: string): Promise<LoadSurveys.Result> {
-    this.accountId = accountId
-    return this.result
-  }
-}

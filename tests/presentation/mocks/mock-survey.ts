@@ -1,8 +1,20 @@
 import { SaveSurveyResult } from '@/domain/usecases/survey-result'
 import { LoadAnswersBySurvey } from '@/domain/usecases/survey/load-answers-by-survey'
 import { LoadSurveyResult } from '@/domain/usecases/survey/load-survey-result'
-import { mockSurveyResultModel } from '@/tests/domain/mocks'
+import { mockSurveyModels } from '@/tests/domain/mocks'
 import { faker } from '@faker-js/faker'
+import { LoadSurveys } from '../controllers/survey/load-surveys/load-surveys-controller-protocols'
+import { mockSurveyResultModel } from '@/tests/domain/mocks/mock-survey-result'
+
+export class LoadSurveysSpy implements LoadSurveys {
+  accountId!: string
+  result = mockSurveyModels()
+
+  async load(accountId: string): Promise<LoadSurveys.Result> {
+    this.accountId = accountId
+    return this.result
+  }
+}
 
 export class SaveSurveyResultSpy implements SaveSurveyResult {
   params!: SaveSurveyResult.Params

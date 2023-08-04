@@ -1,108 +1,89 @@
 import { describe, expect, test, vi } from 'vitest'
 import {
-  HttpRequest,
-  Validation,
-  Authentication,
-  AuthenticationParams,
   badRequest,
-  MissingPararmError,
+  MissingParamError,
   ok,
   serverError,
   unauthorized,
 } from '@/presentation/controllers/login/login/login-controller-protocols'
 import { LoginController } from '@/presentation/controllers/login/login/login-controller'
 import { throwError } from '@/tests/domain/mocks'
-
-const makeFakeRequest = (): HttpRequest => ({
-  body: {
-    email: 'any_email@mail.com',
-    password: 'any_password',
-  },
-})
-const makeValidation = (): Validation => {
-  class ValidationStub implements Validation {
-    validate(_input: any): Error {
-      return null as any
-    }
-  }
-  return new ValidationStub()
-}
-
-const makeAuthentication = (): Authentication => {
-  class AuthenticationStub implements Authentication {
-    async auth(authentication: AuthenticationParams): Promise<string> {
-      return 'any_token'
-    }
-  }
-  return new AuthenticationStub()
-}
+import { faker } from '@faker-js/faker'
+import { AuthenticationSpy, ValidationSpy } from '../mocks'
 
 type SutTypes = {
   sut: LoginController
-  validationStub: Validation
-  authenticationStub: Authentication
+  authenticationSpy: AuthenticationSpy
+  validationSpy: ValidationSpy
 }
+
 const makeSut = (): SutTypes => {
-  const validationStub = makeValidation()
-  const authenticationStub = makeAuthentication()
-  const sut = new LoginController(authenticationStub, validationStub)
+  const authenticationSpy = new AuthenticationSpy()
+  const validationSpy = new ValidationSpy()
+  const sut = new LoginController(authenticationSpy, validationSpy)
   return {
     sut,
-    validationStub,
-    authenticationStub,
+    authenticationSpy,
+    validationSpy,
   }
 }
+
+const mockRequest = (): LoginController.Request => ({
+  email: faker.internet.email(),
+  password: faker.internet.password(),
+})
+
 describe('Login Controller', () => {
   test('Should return 500 if Validator throws', async () => {
-    const { sut, validationStub } = makeSut()
+    const { sut, validationSpy: validationStub } = makeSut()
     vi.spyOn(validationStub, 'validate').mockImplementationOnce(() => {
       throw new Error()
     })
-    const httpRequest = makeFakeRequest()
+    const httpRequest = mockRequest()
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(serverError(new Error()))
   })
 
   test('Should call Authentication with correct value', async () => {
-    const { sut, authenticationStub } = makeSut()
+    const { sut, authenticationSpy: authenticationStub } = makeSut()
     const authSpy = vi.spyOn(authenticationStub, 'auth')
-    const httpRequest = makeFakeRequest()
+    const httpRequest = mockRequest()
     await sut.handle(httpRequest)
-    expect(authSpy).toHaveBeenCalledWith(httpRequest.body)
+    expect(authSpy).toHaveBeenCalledWith(httpRequest)
   })
   test('Should return 401 if invalid credentials is provided', async () => {
-    const { sut, authenticationStub } = makeSut()
-    vi.spyOn(authenticationStub, 'auth').mockReturnValueOnce(Promise.resolve(null))
-    const httpRequest = makeFakeRequest()
-    const httpResponse = await sut.handle(httpRequest)
+    const { sut, authenticationSpy } = makeSut()
+    // @ts-expect-error
+    authenticationSpy.result = null
+    const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(unauthorized())
   })
   test('Should return 500 if Authentication throws', async () => {
-    const { sut, authenticationStub } = makeSut()
+    const { sut, authenticationSpy: authenticationStub } = makeSut()
     vi.spyOn(authenticationStub, 'auth').mockImplementationOnce(throwError)
-    const httpRequest = makeFakeRequest()
+    const httpRequest = mockRequest()
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(serverError(new Error()))
   })
   test('Should return 200 if valid credentials are provided', async () => {
-    const { sut, authenticationStub } = makeSut()
-    vi.spyOn(authenticationStub, 'auth')
-    const httpRequest = makeFakeRequest()
+    const { sut, authenticationSpy } = makeSut()
+    vi.spyOn(authenticationSpy, 'auth')
+    const httpRequest = mockRequest()
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(ok({ accessToken: 'any_token' }))
+    expect(httpResponse).toEqual(ok(authenticationSpy.result))
   })
   test('Should call Validation with correct values', async () => {
-    const { sut, validationStub } = makeSut()
+    const { sut, validationSpy: validationStub } = makeSut()
     const validateSpy = vi.spyOn(validationStub, 'validate')
-    const httpRequest = makeFakeRequest()
+    const httpRequest = mockRequest()
     await sut.handle(httpRequest)
-    expect(validateSpy).toBeCalledWith(httpRequest.body)
+    expect(validateSpy).toBeCalledWith(httpRequest)
   })
   test('should return 400 if Validation returns an error', async () => {
-    const { sut, validationStub } = makeSut()
-    vi.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingPararmError('any_field'))
-    const httpRequest = makeFakeRequest()
+    const { sut, validationSpy: validationStub } = makeSut()
+    vi.spyOn(validationStub, 'validate').mockReturnValueOnce(new MissingParamError('any_field'))
+    const httpRequest = mockRequest()
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse).toEqual(badRequest(new MissingPararmError('any_field')))
+    expect(httpResponse).toEqual(badRequest(new MissingParamError('any_field')))
   })
 })

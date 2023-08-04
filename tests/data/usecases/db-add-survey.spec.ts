@@ -1,22 +1,21 @@
 import { describe, test, vi, expect, beforeEach, afterEach } from 'vitest'
 import { DbAddSurvey } from '@/data/usecases/survey/db-add-survey/db-add-survey'
-import { AddSurveyRepository } from '@/data/protocols/db/survey/add-survey-repository'
-import { mockAddSurveyRepository } from '@/tests/data/mocks'
-import { mockAddSurveyParams } from '@/tests/domain/mocks'
+import { AddSurveyRepositorySpy } from '@/tests/data/mocks'
+import { mockAddSurveyParams, throwError } from '@/tests/domain/mocks'
 
 type SutTypes = {
   sut: DbAddSurvey
-  addSurveyRepositoryStub: AddSurveyRepository
+  addSurveyRepositorySpy: AddSurveyRepositorySpy
 }
-
 const makeSut = (): SutTypes => {
-  const addSurveyRepositoryStub = mockAddSurveyRepository()
-  const sut = new DbAddSurvey(addSurveyRepositoryStub)
+  const addSurveyRepositorySpy = new AddSurveyRepositorySpy()
+  const sut = new DbAddSurvey(addSurveyRepositorySpy)
   return {
     sut,
-    addSurveyRepositoryStub,
+    addSurveyRepositorySpy,
   }
 }
+
 describe('DbAddSurvey', () => {
   beforeEach(() => {
     vi.useFakeTimers()
@@ -25,18 +24,16 @@ describe('DbAddSurvey', () => {
   afterEach(() => {
     vi.useRealTimers()
   })
-  test('should call AddSurveyRepository with correct values', async () => {
-    const { addSurveyRepositoryStub, sut } = makeSut()
-    const addSpy = vi.spyOn(addSurveyRepositoryStub, 'add')
-    await sut.add(mockAddSurveyParams())
-    expect(addSpy).toHaveBeenCalledWith(mockAddSurveyParams())
+  test('Should call AddSurveyRepository with correct values', async () => {
+    const { sut, addSurveyRepositorySpy } = makeSut()
+    const surveyData = mockAddSurveyParams()
+    await sut.add(surveyData)
+    expect(addSurveyRepositorySpy.params).toEqual(surveyData)
   })
-  test('Should throw if Hasher throws', async () => {
-    const { sut, addSurveyRepositoryStub } = makeSut()
-    vi.spyOn(addSurveyRepositoryStub, 'add').mockImplementationOnce(
-      async () => await Promise.reject(new Error()),
-    )
 
+  test('Should throw if AddSurveyRepository throws', async () => {
+    const { sut, addSurveyRepositorySpy } = makeSut()
+    vi.spyOn(addSurveyRepositorySpy, 'add').mockImplementationOnce(throwError)
     const promise = sut.add(mockAddSurveyParams())
     await expect(promise).rejects.toThrow()
   })

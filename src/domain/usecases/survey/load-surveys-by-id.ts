@@ -1,5 +1,7 @@
-import { SurveyResultModel } from '@/domain/models/survey-result'
+export interface CheckSurveyById {
+  checkById: (id: string) => Promise<CheckSurveyById.Result>
+}
 
-export interface LoadSurveyById {
-  loadById: (id: string) => Promise<SurveyResultModel>
+export namespace CheckSurveyById {
+  export type Result = boolean
 }

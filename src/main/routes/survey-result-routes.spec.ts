@@ -81,8 +81,7 @@ describe('Survey Routes', () => {
         .send({
           answer: 'Answer 1',
         })
-      // Fix this
-      // .expect(200)
+        .expect(200)
     })
   })
 })

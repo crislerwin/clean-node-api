@@ -3,12 +3,11 @@ import { MongoMemoryServer } from 'mongodb-memory-server'
 import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper'
 import { setupApp } from '../config/app'
 import { Express } from 'express'
-import { agent, SuperAgentTest } from 'supertest'
+import request from 'supertest'
 import { Collection } from 'mongodb'
 import { hash } from 'bcrypt'
 
 let app: Express
-let server: SuperAgentTest
 let accountCollection: Collection
 
 beforeAll(async () => {
@@ -17,7 +16,6 @@ beforeAll(async () => {
   await MongoHelper.connect(mongoUri)
   accountCollection = await MongoHelper.getCollection('accounts')
   app = await setupApp()
-  server = agent(app)
 })
 
 beforeEach(async () => {
@@ -30,7 +28,7 @@ afterAll(async () => {
 
 describe('Post /signup', () => {
   test('Should return 200 on signup', async () => {
-    await server
+    await request(app)
       .post('/api/signup')
       .send({
         name: 'any_name',
@@ -50,7 +48,7 @@ describe('Post /login', () => {
       email: 'any_email@email.com',
       password,
     })
-    await server
+    await request(app)
       .post('/api/login')
       .send({
         email: 'any_email@email.com',
@@ -59,7 +57,7 @@ describe('Post /login', () => {
       .expect(200)
   })
   test('Should return 401 on login if user not exists', async () => {
-    await server
+    await request(app)
       .post('/api/login')
       .send({
         email: 'any_email@email.com',
