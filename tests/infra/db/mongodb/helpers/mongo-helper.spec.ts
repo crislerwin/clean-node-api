@@ -1,4 +1,4 @@
-import { MongoHelper as sut } from './mongo-helper'
+import { MongoHelper as sut } from '@/infra/db/mongodb/helpers/mongo-helper'
 import { describe, test, expect, beforeAll, afterAll } from 'vitest'
 import { MongoMemoryServer } from 'mongodb-memory-server'
 

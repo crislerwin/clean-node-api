@@ -24,14 +24,14 @@ describe('DbLoadSurveys', () => {
 
   test('Should call LoadSurveysRepository', async () => {
     const { sut, loadSurveysRepositorySpy } = makeSut()
-    const accountId = faker.datatype.uuid()
+    const accountId = faker.string.uuid()
     await sut.load(accountId)
     expect(loadSurveysRepositorySpy.accountId).toBe(accountId)
   })
 
   test('Should return a list of Surveys on success', async () => {
     const { sut, loadSurveysRepositorySpy } = makeSut()
-    const surveys = await sut.load(faker.datatype.uuid())
+    const surveys = await sut.load(faker.string.uuid())
     expect(surveys).toEqual(loadSurveysRepositorySpy.result)
   })
 

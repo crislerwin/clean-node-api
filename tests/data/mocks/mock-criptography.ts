@@ -1,18 +1,5 @@
 import { Decrypter, Encrypter, HashComparer, Hasher } from '@/data/protocols/criptography'
-
-export const mockHasher = (): Hasher => {
-  class HasherStub implements Hasher {
-    async hash(value: string): Promise<string> {
-      return await Promise.resolve('hashed_password')
-    }
-
-    async compare(value: string, hash: string): Promise<boolean> {
-      return await Promise.resolve(true)
-    }
-  }
-  const encrypterStub = new HasherStub()
-  return encrypterStub
-}
+import { faker } from '@faker-js/faker'
 
 export const mockDecrypter = (): Decrypter => {
   class DecrypterStub implements Decrypter {
@@ -23,20 +10,44 @@ export const mockDecrypter = (): Decrypter => {
   return new DecrypterStub()
 }
 
-export const mockEncrypter = (): Encrypter => {
-  class EncrypterStub implements Encrypter {
-    async encrypt(id: string): Promise<string> {
-      return await Promise.resolve('any_token')
-    }
+export class HasherSpy implements Hasher {
+  digest = faker.datatype.uuid()
+  plaintext!: string
+
+  async hash(plaintext: string): Promise<string> {
+    this.plaintext = plaintext
+    return this.digest
   }
-  return new EncrypterStub()
 }
 
-export const mockHashComparer = (): HashComparer => {
-  class HashComparerStub implements HashComparer {
-    async compare(value: string, hash: string): Promise<boolean> {
-      return await Promise.resolve(true)
-    }
+export class HashComparerSpy implements HashComparer {
+  plaintext!: string
+  digest!: string
+  isValid = true
+
+  async compare(plaintext: string, digest: string): Promise<boolean> {
+    this.plaintext = plaintext
+    this.digest = digest
+    return this.isValid
   }
-  return new HashComparerStub()
+}
+
+export class EncrypterSpy implements Encrypter {
+  ciphertext = faker.string.uuid()
+  plaintext!: string
+
+  async encrypt(plaintext: string): Promise<string> {
+    this.plaintext = plaintext
+    return this.ciphertext
+  }
+}
+
+export class DecrypterSpy implements Decrypter {
+  plaintext = faker.internet.password()
+  ciphertext!: string
+
+  async decrypt(ciphertext: string): Promise<string> {
+    this.ciphertext = ciphertext
+    return this.plaintext
+  }
 }

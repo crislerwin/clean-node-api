@@ -3,7 +3,7 @@ import { SurveyResultModel } from '@/domain/models/survey-result'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { ObjectId } from 'mongodb'
 import { LoadSurveyResultRepository } from '@/data/protocols/db/survey/load-survey-result-repository'
-import { QueryBuilder } from '../query-builder'
+import { QueryBuilder } from '../helpers'
 import { SaveSurveyResult } from '@/domain/usecases/survey-result/save-survey-result'
 
 export class SurveyResultMongoRepository

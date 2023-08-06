@@ -3,7 +3,7 @@ import { AddSurveyRepository } from '@/data/protocols/db/survey/add-survey-repos
 import { LoadSurveysRepository } from '@/data/protocols/db/survey/load-survey-repository'
 import { ObjectId } from 'mongodb'
 import { SurveyResultModel } from '@/domain/models/survey-result'
-import { QueryBuilder } from '../query-builder'
+import { QueryBuilder } from '../helpers'
 import { LoadAnswersBySurveyRepository } from '@/data/protocols/db/survey/load-answers-by-survey-repository'
 import { AddSurvey } from '@/domain/usecases/survey/add-survey'
 import { CheckSurveyByIdRepository } from '@/data/protocols/db/survey/check-survey-by-id-repository'
