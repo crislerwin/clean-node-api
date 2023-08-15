@@ -5,6 +5,7 @@ import { mockSurveyModels } from '@/tests/domain/mocks'
 import { faker } from '@faker-js/faker'
 import { LoadSurveys } from '../controllers/survey/load-surveys/load-surveys-controller-protocols'
 import { mockSurveyResultModel } from '@/tests/domain/mocks/mock-survey-result'
+import { AddSurvey } from '../controllers/survey/add-survey/add-survey-controller-protocols'
 
 export class LoadSurveysSpy implements LoadSurveys {
   accountId!: string
@@ -13,6 +14,14 @@ export class LoadSurveysSpy implements LoadSurveys {
   async load(accountId: string): Promise<LoadSurveys.Result> {
     this.accountId = accountId
     return this.result
+  }
+}
+
+export class AddSurveySpy implements AddSurvey {
+  params!: AddSurvey.Params
+
+  async add(params: AddSurvey.Params): Promise<void> {
+    this.params = params
   }
 }
 

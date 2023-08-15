@@ -68,7 +68,7 @@ describe('Survey Routes', () => {
         })
         .expect(403)
     })
-    test.skip('Should return 204 on add survey with valid token', async () => {
+    test('Should return 204 on add survey with valid token', async () => {
       const accessToken = await mockAccessToken()
       await request(app)
         .post('/api/surveys')

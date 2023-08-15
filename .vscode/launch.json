@@ -10,6 +10,16 @@
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "skipFiles": ["<node_internals>/*", "/node_modules/*", "/dist"]
+    },
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Attach",
+      "port": 9222,
+      "internalConsoleOptions": "neverOpen",
+      "restart": true,
+      "cwd": "${workspaceFolder}",
+      "skipFiles": ["<node_internals>/*", "/node_modules/*", "/dist"]
     }
   ]
 }
