@@ -1,11 +1,8 @@
 import { describe, test, vi, expect, beforeEach, afterEach } from 'vitest'
 import { DbSaveSurveyResult } from '@/data/usecases/survey/save-survey-result/db-save-survey-result'
-import { SurveyResultModel } from '@/data/usecases/survey/save-survey-result/db-save-survey-result.protocols'
 import { LoadSurveyResultRepositorySpy, SaveSurveyResultRepositorySpy } from '@/tests/data/mocks'
-import {
-  mockSaveSurveyResultParams,
-  mockSurveyResultModel,
-} from '@/tests/domain/mocks/mock-survey-result'
+import { mockSaveSurveyResultParams } from '@/tests/domain/mocks/mock-survey-result'
+import { throwError } from '@/tests/domain/mocks'
 
 type SutTypes = {
   sut: DbSaveSurveyResult
@@ -32,29 +29,38 @@ describe('DbSaveSurveyResult', () => {
   afterEach(() => {
     vi.useRealTimers()
   })
+
   test('should call DbSaveSurveyResult with correct values', async () => {
     const { saveSurveyResultRepositorySpy, sut } = makeSut()
-    const addSpy = vi.spyOn(saveSurveyResultRepositorySpy, 'save')
     const surveyData = mockSaveSurveyResultParams()
     await sut.save(surveyData)
-    expect(addSpy).toHaveBeenCalledWith(surveyData)
+    expect(saveSurveyResultRepositorySpy.params).toEqual(surveyData)
   })
 
-  test('Should throw if DbSaveSurveyResult throws', async () => {
+  test('Should throw if SaveSurveyResultRepository throws', async () => {
     const { sut, saveSurveyResultRepositorySpy } = makeSut()
-    vi.spyOn(saveSurveyResultRepositorySpy, 'save').mockImplementationOnce(
-      // @ts-expect-error
-      async (): Promise<SurveyResultModel> => {
-        return await Promise.reject(new Error())
-      },
-    )
-
+    vi.spyOn(saveSurveyResultRepositorySpy, 'save').mockImplementationOnce(throwError)
     const promise = sut.save(mockSaveSurveyResultParams())
     await expect(promise).rejects.toThrow()
   })
+
+  test('Should call LoadSurveyResultRepository with correct values', async () => {
+    const { sut, loadSurveyResultRepositorySpy } = makeSut()
+    const surveyResultData = mockSaveSurveyResultParams()
+    await sut.save(surveyResultData)
+    expect(loadSurveyResultRepositorySpy.surveyId).toBe(surveyResultData.surveyId)
+  })
+
+  test('Should throw if LoadSurveyResultRepository throws', async () => {
+    const { sut, loadSurveyResultRepositorySpy } = makeSut()
+    vi.spyOn(loadSurveyResultRepositorySpy, 'loadBySurveyId').mockImplementationOnce(throwError)
+    const promise = sut.save(mockSaveSurveyResultParams())
+    await expect(promise).rejects.toThrow()
+  })
+
   test('Should return SurveyResult on success', async () => {
-    const { sut } = makeSut()
+    const { sut, loadSurveyResultRepositorySpy } = makeSut()
     const surveyResultData = await sut.save(mockSaveSurveyResultParams())
-    expect(surveyResultData).toEqual(mockSurveyResultModel())
+    expect(surveyResultData).toEqual(loadSurveyResultRepositorySpy.result)
   })
 })
