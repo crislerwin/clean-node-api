@@ -1,12 +1,12 @@
 import { test, beforeAll, describe, afterAll, beforeEach } from 'vitest'
 import { MongoMemoryServer } from 'mongodb-memory-server'
-import { MongoHelper } from '../../infra/db/mongodb/helpers/mongo-helper'
-import { setupApp } from '../config/app'
+import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper'
+import { setupApp } from '@/main/config/app'
 import { Express } from 'express'
 import request from 'supertest'
 import { Collection } from 'mongodb'
 import { sign } from 'jsonwebtoken'
-import env from '../config/env'
+import env from '@/main/config/env'
 
 let surveyCollection: Collection
 let accountCollection: Collection
