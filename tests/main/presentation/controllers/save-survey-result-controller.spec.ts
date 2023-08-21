@@ -8,7 +8,7 @@ import {
 } from '@/presentation/controllers/survey/save-survey-result/save-survey-result-protocols'
 import { faker } from '@faker-js/faker'
 import { throwError } from '@/tests/domain/mocks'
-import { LoadAnswersBySurveySpy, SaveSurveyResultSpy } from '@/tests/presentation/mocks'
+import { LoadAnswersBySurveySpy, SaveSurveyResultSpy } from '../mocks'
 
 const mockRequest = (answer?: string): SaveSurveyResultController.Request => ({
   surveyId: faker.string.uuid(),

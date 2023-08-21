@@ -3,9 +3,9 @@ import { LoadAnswersBySurvey } from '@/domain/usecases/survey/load-answers-by-su
 import { LoadSurveyResult } from '@/domain/usecases/survey/load-survey-result'
 import { mockSurveyModels } from '@/tests/domain/mocks'
 import { faker } from '@faker-js/faker'
-import { LoadSurveys } from '../controllers/survey/load-surveys/load-surveys-controller-protocols'
 import { mockSurveyResultModel } from '@/tests/domain/mocks/mock-survey-result'
-import { AddSurvey } from '../controllers/survey/add-survey/add-survey-controller-protocols'
+import { LoadSurveys } from '@/domain/usecases/survey/load-surveys'
+import { AddSurvey } from '@/domain/usecases/survey/add-survey'
 
 export class LoadSurveysSpy implements LoadSurveys {
   accountId!: string

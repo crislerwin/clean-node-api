@@ -7,7 +7,7 @@ import {
   LoadAccountByToken,
 } from '@/presentation/middlewares/auth-middleware-protocols'
 import { throwError } from '@/tests/domain/mocks'
-import { makeLoadAccountByToken } from '@/tests/presentation/mocks'
+import { makeLoadAccountByToken } from '../mocks'
 
 type SutTypes = {
   sut: AuthMiddleware

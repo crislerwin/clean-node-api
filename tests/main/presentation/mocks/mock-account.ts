@@ -1,6 +1,9 @@
+import { Authentication } from '@/domain/usecases/account/authentication'
+import {
+  AccountModel,
+  LoadAccountByToken,
+} from '@/presentation/middlewares/auth-middleware-protocols'
 import { mockAccountModel } from '@/tests/domain/mocks'
-import { AccountModel, LoadAccountByToken } from '../middlewares/auth-middleware-protocols'
-import { Authentication } from '../controllers/login/login/login-controller-protocols'
 import { faker } from '@faker-js/faker'
 
 export const makeLoadAccountByToken = (): LoadAccountByToken => {
