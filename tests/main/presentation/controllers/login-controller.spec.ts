@@ -1,15 +1,10 @@
 import { describe, expect, test, vi } from 'vitest'
-import {
-  badRequest,
-  MissingParamError,
-  ok,
-  serverError,
-  unauthorized,
-} from '@/presentation/controllers/login/login/login-controller-protocols'
 import { LoginController } from '@/presentation/controllers/login/login/login-controller'
 import { throwError } from '@/tests/domain/mocks'
 import { faker } from '@faker-js/faker'
 import { AuthenticationSpy, ValidationSpy } from '../mocks'
+import { serverError, unauthorized, ok, badRequest } from '@/presentation/helpers/http'
+import { MissingParamError } from '@/presentation/errors'
 
 type SutTypes = {
   sut: LoginController

@@ -1,13 +1,9 @@
 import { describe, expect, test, vi } from 'vitest'
-import {
-  badRequest,
-  noContent,
-  serverError,
-} from '@/presentation/controllers/survey/add-survey/add-survey-controller-protocols'
-import { AddSurveyController } from '@/presentation/controllers/survey/add-survey/add-survey-controller'
 import { throwError } from '@/tests/domain/mocks'
 import { faker } from '@faker-js/faker'
 import { AddSurveySpy, ValidationSpy } from '../mocks'
+import { AddSurveyController } from '@/presentation/controllers/survey/add-survey/add-survey-controller'
+import { badRequest, noContent, serverError } from '@/presentation/helpers/http'
 
 type SutTypes = {
   sut: AddSurveyController
