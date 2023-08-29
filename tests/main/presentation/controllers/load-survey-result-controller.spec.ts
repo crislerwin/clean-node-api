@@ -1,7 +1,7 @@
 import { CheckSurveyById } from '@/domain/usecases/survey/load-survey-by-id'
 import { LoadSurveyResultController } from '@/presentation/controllers/survey/load-survey-result/load-survey-result-controller'
 import { InvalidParamError } from '@/presentation/errors'
-import { forbidden, serverError } from '@/presentation/helpers/http'
+import { forbidden, ok, serverError } from '@/presentation/helpers/http'
 import { throwError } from '@/tests/domain/mocks'
 import { faker } from '@faker-js/faker'
 import { describe, expect, test, vi } from 'vitest'
@@ -70,5 +70,10 @@ describe('LoadSurveyResultController', () => {
     vi.spyOn(loadSurveyResultSpy, 'load').mockImplementationOnce(throwError)
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+  test('Should return 200 on success', async () => {
+    const { sut, loadSurveyResultSpy } = makeSut()
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(ok(loadSurveyResultSpy.result))
   })
 })
