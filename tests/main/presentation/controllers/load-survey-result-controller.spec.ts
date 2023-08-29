@@ -65,4 +65,10 @@ describe('LoadSurveyResultController', () => {
     expect(loadSurveyResultSpy.surveyId).toBe(request.surveyId)
     expect(loadSurveyResultSpy.accountId).toBe(request.accountId)
   })
+  test('Should return 500 if LoadSurveyResult throws', async () => {
+    const { sut, loadSurveyResultSpy } = makeSut()
+    vi.spyOn(loadSurveyResultSpy, 'load').mockImplementationOnce(throwError)
+    const httpResponse = await sut.handle(mockRequest())
+    expect(httpResponse).toEqual(serverError(new Error()))
+  })
 })
