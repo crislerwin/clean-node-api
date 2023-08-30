@@ -5,10 +5,10 @@ import {
   RequiredFieldValidation,
   EmailValidation,
   CompareFieldsValidation,
-  Validation,
   EmailValidator,
 } from '@/validation/validators'
 import { EmailValidatorSpy } from '../validation/mocks'
+import { Validation } from '@/presentation/protocols'
 vi.mock('@/validation/validators/validation-composite')
 
 const makeEmailValidator = (): EmailValidator => new EmailValidatorSpy()

@@ -4,9 +4,9 @@ import {
   ValidationComposite,
   EmailValidation,
   EmailValidator,
-  Validation,
   RequiredFieldValidation,
 } from '@/validation/validators'
+import { Validation } from '@/presentation/protocols'
 vi.mock('@/validation/validators/validation-composite')
 
 const makeEmailValidator = (): EmailValidator => {

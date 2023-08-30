@@ -16,7 +16,7 @@ const mockAccessToken = async (): Promise<string> => {
   const res = await accountCollection.insertOne({
     name: 'any_name',
     email: 'any_email@email.com',
-    password: 'any_password',
+    password: ' any_password',
   })
   const id = res.insertedId
   const accessToken = sign({ id }, env.jwtSecret)
@@ -82,6 +82,44 @@ describe('Survey Routes', () => {
           answer: 'Answer 1',
         })
         .expect(200)
+    })
+  })
+  describe('GET /surveys/:surveyId/results', () => {
+    test('Should return 200 on load survey result with accessToken', async () => {
+      const accessToken = await mockAccessToken()
+      const { insertedId } = await surveyCollection.insertOne({
+        question: 'Question',
+        image: 'http://image-name.com',
+        answers: [
+          {
+            answer: 'Answer 1',
+            image: 'http://image-name.com',
+          },
+        ],
+        date: new Date(),
+      })
+      await request(app)
+        .get(`/api/surveys/${insertedId.toHexString()}/results`)
+        .set('x-access-token', accessToken)
+        .expect(200)
+    })
+
+    test('Should return 403 on load survey result without accessToken', async () => {
+      const { insertedId } = await surveyCollection.insertOne({
+        question: 'Question',
+        image: 'http://image-name.com',
+        answers: [
+          {
+            answer: 'Answer 1',
+            image: 'http://image-name.com',
+          },
+        ],
+        date: new Date(),
+      })
+      await request(app)
+        .get(`/api/surveys/${insertedId.toHexString()}/results`)
+
+        .expect(403)
     })
   })
 })
