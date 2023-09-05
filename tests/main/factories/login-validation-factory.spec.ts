@@ -1,4 +1,4 @@
-import { makeLoginValidation } from '@/main/factories/controllers/login/login/login-validation-factory'
+import { makeLoginValidation } from '@/main/factories/controllers'
 import { describe, test, expect, vi } from 'vitest'
 import {
   ValidationComposite,
@@ -7,6 +7,7 @@ import {
   RequiredFieldValidation,
 } from '@/validation/validators'
 import { Validation } from '@/presentation/protocols'
+
 vi.mock('@/validation/validators/validation-composite')
 
 const makeEmailValidator = (): EmailValidator => {

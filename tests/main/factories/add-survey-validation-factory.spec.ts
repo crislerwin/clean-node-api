@@ -1,6 +1,6 @@
 import { describe, test, expect, vi } from 'vitest'
 import { ValidationComposite, RequiredFieldValidation } from '@/validation/validators'
-import { makeAddSurveyValidation } from '@/main/factories/controllers/survey/add-survey/add-survey-validation-factory'
+import { makeAddSurveyValidation } from '@/main/factories/controllers'
 import { Validation } from '@/presentation/protocols'
 vi.mock('@/validation/validators/validation-composite')
 
