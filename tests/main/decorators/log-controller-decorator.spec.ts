@@ -1,7 +1,7 @@
 import { LogControllerDecorator } from '../../../src/main/decorators/log-controller-decorator'
 import { describe, expect, test, vi } from 'vitest'
 import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
-import { serverError } from '@/presentation/helpers/http/http-helper'
+import { serverError } from '@/presentation/helpers'
 import { LogErrorRepository } from '@/data/protocols/db/log/log-error-repository'
 import { mockLogErrorRepository } from '@/tests/data/mocks'
 

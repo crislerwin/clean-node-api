@@ -1,4 +1,4 @@
-import { LoadSurveyResultController } from '@/presentation/controllers/survey/load-survey-result/load-survey-result-controller'
+import { LoadSurveyResultController } from '@/presentation/controllers'
 import { makeLogControllerDecorator } from '../decorators/log-controller-decorator-factory'
 import { Controller } from '@/presentation/protocols'
 import { makeDbCheckSurveyById } from '../usecases/survey/survey-result/check-survey-by-id-factory'

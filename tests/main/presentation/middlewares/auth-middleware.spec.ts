@@ -1,5 +1,5 @@
 import { test, vi, expect, describe } from 'vitest'
-import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
+import { forbidden, ok, serverError } from '@/presentation/helpers'
 import { AccessDeniedError } from '@/presentation/errors'
 import { AuthMiddleware } from '@/presentation/middlewares/auth-middleware'
 import {

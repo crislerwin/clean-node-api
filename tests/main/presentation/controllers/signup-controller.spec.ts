@@ -1,17 +1,12 @@
 import { describe, expect, test, vi } from 'vitest'
-import { SignUpController } from '@/presentation/controllers/login/signup/signup-controller'
-import {
-  badRequest,
-  forbidden,
-  ok,
-  serverError,
-  AddAccount,
-} from '@/presentation/controllers/login/signup/signup-controller-protocols'
+import { SignUpController } from '@/presentation/controllers'
+import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers'
 import { EmailInUseError, MissingParamError, ServerError } from '@/presentation/errors'
 
 import { AuthenticationSpy, ValidationSpy } from '../mocks'
 import { throwError } from '@/tests/domain/mocks'
 import { faker } from '@faker-js/faker'
+import { AddAccount } from '@/domain/usecases/account/add-account'
 
 const mockRequest = (): SignUpController.Request => {
   const password = faker.internet.password()

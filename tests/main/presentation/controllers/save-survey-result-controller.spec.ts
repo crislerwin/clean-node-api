@@ -1,14 +1,10 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import { SaveSurveyResultController } from '@/presentation/controllers/survey/save-survey-result/save-survey-result-controller'
-import {
-  forbidden,
-  InvalidParamError,
-  ok,
-  serverError,
-} from '@/presentation/controllers/survey/save-survey-result/save-survey-result-protocols'
+import { SaveSurveyResultController } from '@/presentation/controllers'
+import { forbidden, ok, serverError } from '@/presentation/helpers'
 import { faker } from '@faker-js/faker'
 import { throwError } from '@/tests/domain/mocks'
 import { LoadAnswersBySurveySpy, SaveSurveyResultSpy } from '../mocks'
+import { InvalidParamError } from '@/presentation/errors'
 
 const mockRequest = (answer?: string): SaveSurveyResultController.Request => ({
   surveyId: faker.string.uuid(),

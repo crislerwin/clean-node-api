@@ -2,8 +2,8 @@ import { describe, expect, test, vi } from 'vitest'
 import { throwError } from '@/tests/domain/mocks'
 import { faker } from '@faker-js/faker'
 import { AddSurveySpy, ValidationSpy } from '../mocks'
-import { AddSurveyController } from '@/presentation/controllers/survey/add-survey/add-survey-controller'
-import { badRequest, noContent, serverError } from '@/presentation/helpers/http'
+import { AddSurveyController } from '@/presentation/controllers'
+import { badRequest, noContent, serverError } from '@/presentation/helpers'
 
 type SutTypes = {
   sut: AddSurveyController
