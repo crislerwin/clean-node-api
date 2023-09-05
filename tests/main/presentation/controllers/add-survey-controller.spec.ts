@@ -1,4 +1,4 @@
-import { describe, expect, test, vi } from 'vitest'
+import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest'
 import { throwError } from '@/tests/domain/mocks'
 import { faker } from '@faker-js/faker'
 import { AddSurveySpy, ValidationSpy } from '../mocks'
@@ -33,6 +33,14 @@ const makeSut = (): SutTypes => {
 }
 
 describe('AddSurveyController', () => {
+  beforeAll(() => {
+    vi.useFakeTimers()
+  })
+
+  afterAll(() => {
+    vi.useRealTimers()
+  })
+
   test('Should call Validation with correct values', async () => {
     const { sut, validationSpy } = makeSut()
     const httpRequest = mockRequest()
