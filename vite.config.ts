@@ -11,7 +11,7 @@ export default defineConfig({
       ],
     }),
   ],
-
+  envPrefix: 'VITE_',
   test: {
     testTimeout: 50000,
     exclude: ['.data', 'node_modules', 'dist'],
