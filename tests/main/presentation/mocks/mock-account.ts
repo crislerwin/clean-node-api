@@ -1,8 +1,5 @@
-import { Authentication } from '@/domain/usecases/account/authentication'
-import {
-  AccountModel,
-  LoadAccountByToken,
-} from '@/presentation/middlewares/auth-middleware-protocols'
+import { AccountModel } from '@/domain/models/account'
+import { Authentication, LoadAccountByToken } from '@/domain/usecases'
 import { mockAccountModel } from '@/tests/domain/mocks'
 import { faker } from '@faker-js/faker'
 

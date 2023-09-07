@@ -1,10 +1,10 @@
 import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import { LoadSurveyResultRepository } from '@/data/protocols/db/survey/load-survey-result-repository'
-import { DbLoadSurveyResult } from '@/domain/usecases/load-survey-result/db-load-survey-result'
 import { LoadSurveyByIdRepositorySpy, LoadSurveyResultRepositorySpy } from '../mocks'
 import { throwError } from '@/tests/domain/mocks'
 import { mockSurveyResultModel } from '@/tests/domain/mocks/mock-survey-result'
 import { faker } from '@faker-js/faker'
+import { DbLoadSurveyResult } from '@/data/usecases'
 
 type SutTypes = {
   sut: DbLoadSurveyResult

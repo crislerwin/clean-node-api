@@ -1,11 +1,13 @@
-import { SaveSurveyResult } from '@/domain/usecases/survey-result'
-import { LoadAnswersBySurvey } from '@/domain/usecases/survey/load-answers-by-survey'
-import { LoadSurveyResult } from '@/domain/usecases/survey/load-survey-result'
 import { mockSurveyModels } from '@/tests/domain/mocks'
 import { faker } from '@faker-js/faker'
 import { mockSurveyResultModel } from '@/tests/domain/mocks/mock-survey-result'
-import { LoadSurveys } from '@/domain/usecases/survey/load-surveys'
-import { AddSurvey } from '@/domain/usecases/survey/add-survey'
+import {
+  AddSurvey,
+  LoadAnswersBySurvey,
+  LoadSurveyResult,
+  LoadSurveys,
+  SaveSurveyResult,
+} from '@/domain/usecases'
 
 export class LoadSurveysSpy implements LoadSurveys {
   accountId!: string

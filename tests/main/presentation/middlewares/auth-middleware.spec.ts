@@ -2,12 +2,10 @@ import { test, vi, expect, describe } from 'vitest'
 import { forbidden, ok, serverError } from '@/presentation/helpers'
 import { AccessDeniedError } from '@/presentation/errors'
 import { AuthMiddleware } from '@/presentation/middlewares/auth-middleware'
-import {
-  HttpRequest,
-  LoadAccountByToken,
-} from '@/presentation/middlewares/auth-middleware-protocols'
 import { throwError } from '@/tests/domain/mocks'
 import { makeLoadAccountByToken } from '../mocks'
+import { LoadAccountByToken } from '@/domain/usecases'
+import { HttpRequest } from '@/presentation/protocols'
 
 type SutTypes = {
   sut: AuthMiddleware

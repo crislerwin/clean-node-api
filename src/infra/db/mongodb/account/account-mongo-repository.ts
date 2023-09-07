@@ -5,7 +5,7 @@ import { MongoHelper } from '../helpers/mongo-helper'
 import { LoadAccountByTokenRepository } from '@/data/protocols/db/account/load-account-by-token-repository'
 import { UpdateAccessTokenRepository } from '@/data/protocols/db/account/update-access-token-repository'
 import { CheckAccountByEmailRepository } from '@/data/protocols/db/account/check-account-by-email-repository'
-import { LoadAccountByEmailRepository } from '@/data/usecases/load-account-by-token/db-load-account-by-token-protocols'
+import { LoadAccountByEmailRepository } from '@/data/protocols/db/account'
 
 export class AccountMongoRepository
   implements

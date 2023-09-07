@@ -1,10 +1,10 @@
 import { AddSurveyRepository } from '@/data/protocols/db/survey/add-survey-repository'
-import { LoadSurveysRepository } from '@/data/protocols/db/survey/load-survey-repository'
 import { mockSurveyModel, mockSurveyModels } from '../../domain/mocks'
 import { LoadSurveyByIdRepository } from '../protocols/db/survey/load-survey-by-id-repository'
 import { LoadAnswersBySurveyRepository } from '../protocols/db/survey/load-answers-by-survey-repository'
 import { faker } from '@faker-js/faker'
 import { CheckSurveyByIdRepository } from '../protocols/db/survey/check-survey-by-id-repository'
+import { LoadSurveysRepository } from '../protocols/db/survey'
 
 export class AddSurveyRepositorySpy implements AddSurveyRepository {
   params!: AddSurveyRepository.Params

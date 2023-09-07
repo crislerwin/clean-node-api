@@ -6,7 +6,7 @@ import { EmailInUseError, MissingParamError, ServerError } from '@/presentation/
 import { AuthenticationSpy, ValidationSpy } from '../mocks'
 import { throwError } from '@/tests/domain/mocks'
 import { faker } from '@faker-js/faker'
-import { AddAccount } from '@/domain/usecases/account/add-account'
+import { AddAccount } from '@/domain/usecases'
 
 const mockRequest = (): SignUpController.Request => {
   const password = faker.internet.password()

@@ -1,12 +1,12 @@
 import { MongoHelper } from '../helpers/mongo-helper'
 import { AddSurveyRepository } from '@/data/protocols/db/survey/add-survey-repository'
-import { LoadSurveysRepository } from '@/data/protocols/db/survey/load-survey-repository'
 import { ObjectId } from 'mongodb'
 import { QueryBuilder } from '../helpers'
 import { LoadAnswersBySurveyRepository } from '@/data/protocols/db/survey/load-answers-by-survey-repository'
-import { AddSurvey } from '@/domain/usecases/survey/add-survey'
 import { CheckSurveyByIdRepository } from '@/data/protocols/db/survey/check-survey-by-id-repository'
 import { LoadSurveyByIdRepository } from '@/data/protocols/db/survey/load-survey-by-id-repository'
+import { LoadSurveysRepository } from '@/data/protocols/db/survey'
+import { AddSurvey } from '@/domain/usecases'
 
 export class SurveyMongoRepository
   implements

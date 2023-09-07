@@ -1,6 +1,6 @@
 import { SurveyModel } from '../models/survey'
 import { faker } from '@faker-js/faker'
-import { AddSurvey } from '../usecases/survey/add-survey'
+import { AddSurvey } from '../usecases/add-survey'
 
 export const mockSurveyModel = (): SurveyModel => {
   return {

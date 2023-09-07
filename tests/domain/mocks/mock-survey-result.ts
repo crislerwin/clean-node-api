@@ -1,6 +1,6 @@
 import { SurveyResultModel } from '@/domain/models/survey-result'
-import { SaveSurveyResult } from '@/domain/usecases/survey-result/save-survey-result'
-import { AddSurvey } from '../usecases/survey/add-survey'
+import { AddSurvey } from '../usecases/add-survey'
+import { SaveSurveyResult } from '../usecases'
 
 export const mockAddSurveyParams = (): AddSurvey.Params => ({
   question: 'any_question',

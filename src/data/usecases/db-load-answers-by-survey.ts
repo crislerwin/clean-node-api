@@ -1,5 +1,5 @@
-import { LoadAnswersBySurveyRepository } from '@/data/protocols/db/survey/load-answers-by-survey-repository'
-import { LoadAnswersBySurvey } from '@/domain/usecases/survey/load-answers-by-survey'
+import { LoadAnswersBySurveyRepository } from '@/data/protocols/db/survey'
+import { LoadAnswersBySurvey } from '@/domain/usecases'
 
 export class DbLoadAnswersBySurvey implements LoadAnswersBySurvey {
   constructor(private readonly loadAnswersBySurveyRepository: LoadAnswersBySurveyRepository) {}

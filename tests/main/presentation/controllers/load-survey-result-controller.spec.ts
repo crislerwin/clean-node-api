@@ -1,4 +1,3 @@
-import { CheckSurveyById } from '@/domain/usecases/survey/load-survey-by-id'
 import { LoadSurveyResultController } from '@/presentation/controllers'
 import { InvalidParamError } from '@/presentation/errors'
 import { forbidden, ok, serverError } from '@/presentation/helpers'
@@ -6,6 +5,7 @@ import { throwError } from '@/tests/domain/mocks'
 import { faker } from '@faker-js/faker'
 import { describe, expect, test, vi } from 'vitest'
 import { LoadSurveyResultSpy } from '../mocks'
+import { CheckSurveyById } from '@/domain/usecases'
 
 export class CheckSurveyByIdSpy implements CheckSurveyById {
   id!: string
