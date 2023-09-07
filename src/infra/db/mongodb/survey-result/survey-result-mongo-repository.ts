@@ -193,7 +193,7 @@ export class SurveyResultMongoRepository
           answer: '$_id.answer',
           image: '$_id.image',
           count: { $round: ['$count', 2] },
-          percent: { $round: ['$percent', 2] },
+          percent: { $round: ['$percent'] },
           isCurrentAccountAnswer: {
             $eq: ['$isCurrentAccountAnswerCount', 1],
           },
