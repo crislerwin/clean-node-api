@@ -11,9 +11,10 @@ services:
   api:
     container_name: clean-node-api
     image: node:20
-    command: npm run debug
-    restart: always
+    user: node
+    command: ['node', 'dist/main/server.js']
     working_dir: /app
+    restart: always
     volumes:
       - .:/app
     ports:
