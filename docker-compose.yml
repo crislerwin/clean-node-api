@@ -12,12 +12,13 @@ services:
     container_name: clean-node-api
     image: node:20
     user: node
-    command: ['node', 'dist/main/server.js']
+    command: bash -c "npm install && npm run debug"
     working_dir: /app
     restart: always
     volumes:
       - .:/app
     ports:
       - '5050:5050'
+      - '9222:9222'
     depends_on:
       - mongo

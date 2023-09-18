@@ -27,6 +27,9 @@ export const surveySchema = {
       format: 'date-time',
       example: '2021-12-20T00:00:00.000Z',
     },
+    didAnswer: {
+      type: 'boolean',
+    },
   },
-  required: ['id', 'question', 'answers', 'date'],
+  required: ['id', 'question', 'answers', 'date', 'didAnswer'],
 }
