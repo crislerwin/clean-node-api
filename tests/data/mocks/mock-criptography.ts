@@ -1,15 +1,6 @@
 import { Decrypter, Encrypter, HashComparer, Hasher } from '@/data/protocols/criptography'
 import { faker } from '@faker-js/faker'
 
-export const mockDecrypter = (): Decrypter => {
-  class DecrypterStub implements Decrypter {
-    async decrypt(value: string): Promise<string> {
-      return await Promise.resolve('any_value')
-    }
-  }
-  return new DecrypterStub()
-}
-
 export class HasherSpy implements Hasher {
   digest = faker.datatype.uuid()
   plaintext!: string
