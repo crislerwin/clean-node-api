@@ -2,7 +2,7 @@ import { Decrypter, Encrypter, HashComparer, Hasher } from '@/data/protocols/cri
 import { faker } from '@faker-js/faker'
 
 export class HasherSpy implements Hasher {
-  digest = faker.datatype.uuid()
+  digest = faker.string.uuid()
   plaintext!: string
 
   async hash(plaintext: string): Promise<string> {
