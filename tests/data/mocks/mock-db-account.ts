@@ -19,6 +19,20 @@ export class AddAccountRepositorySpy implements AddAccountRepository {
   }
 }
 
+export class LoadAccountByTokenRepositorySpy implements LoadAccountByTokenRepository {
+  token!: string
+  role?: string
+  result = {
+    id: faker.string.uuid(),
+  }
+
+  async loadByToken(token: string, role?: string): Promise<LoadAccountByTokenRepository.Result> {
+    this.token = token
+    this.role = role
+    return this.result
+  }
+}
+
 export class LoadAccountByEmailRepositorySpy implements LoadAccountByEmailRepository {
   email!: string
   result = {
@@ -40,15 +54,6 @@ export const mockLoadAccountByEmail = (): LoadAccountByEmailRepository => {
     }
   }
   return new LoadAccountByEmailRepositoryStub()
-}
-
-export const mockLoadAccountByToken = (): LoadAccountByTokenRepository => {
-  class LoadAccountByTokenRepositoryStub implements LoadAccountByTokenRepository {
-    async loadByToken(token: string, role?: string): Promise<AccountModel> {
-      return await Promise.resolve(mockAccountModel())
-    }
-  }
-  return new LoadAccountByTokenRepositoryStub()
 }
 
 export const mockUpdateAccessTokenRepository = (): UpdateAccessTokenRepository => {
