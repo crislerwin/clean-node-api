@@ -1,23 +1,23 @@
 import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
-import { LoadSurveyResultRepository } from '@/data/protocols/db/survey/load-survey-result-repository'
 import { LoadSurveyByIdRepositorySpy, LoadSurveyResultRepositorySpy } from '../mocks'
 import { throwError } from '@/tests/domain/mocks'
-import { mockSurveyResultModel } from '@/tests/domain/mocks/mock-survey-result'
 import { faker } from '@faker-js/faker'
 import { DbLoadSurveyResult } from '@/data/usecases'
 
 type SutTypes = {
   sut: DbLoadSurveyResult
-  loadSurveyResultRepositorySpy: LoadSurveyResultRepository
+  loadSurveyResultRepositorySpy: LoadSurveyResultRepositorySpy
+  loadSurveyByIdRepositorySpy: LoadSurveyByIdRepositorySpy
 }
 
 const makeSut = (): SutTypes => {
   const loadSurveyResultRepositorySpy = new LoadSurveyResultRepositorySpy()
-  const loadSurveyByIdRepository = new LoadSurveyByIdRepositorySpy()
-  const sut = new DbLoadSurveyResult(loadSurveyResultRepositorySpy, loadSurveyByIdRepository)
+  const loadSurveyByIdRepositorySpy = new LoadSurveyByIdRepositorySpy()
+  const sut = new DbLoadSurveyResult(loadSurveyResultRepositorySpy, loadSurveyByIdRepositorySpy)
   return {
     sut,
     loadSurveyResultRepositorySpy,
+    loadSurveyByIdRepositorySpy,
   }
 }
 
@@ -31,15 +31,14 @@ describe('DbLoadSurveyResult UseCase', () => {
 
   beforeEach(() => {
     surveyId = faker.string.uuid()
-
     accountId = faker.string.uuid()
   })
 
-  test('Should call  LoadSurveyResultRepository ', async () => {
+  test('Should call  LoadSurveyResultRepository with correct values', async () => {
     const { sut, loadSurveyResultRepositorySpy } = makeSut()
-    const loadSurveyByIdSpy = vi.spyOn(loadSurveyResultRepositorySpy, 'loadBySurveyId')
     await sut.load(surveyId, accountId)
-    expect(loadSurveyByIdSpy).toHaveBeenCalledWith(surveyId, accountId)
+    expect(loadSurveyResultRepositorySpy.surveyId).toBe(surveyId)
+    expect(loadSurveyResultRepositorySpy.accountId).toBe(accountId)
   })
   test('Should throw if LoadSurveyResultRepository throws', async () => {
     const { sut, loadSurveyResultRepositorySpy } = makeSut()
@@ -47,9 +46,33 @@ describe('DbLoadSurveyResult UseCase', () => {
     const promise = sut.load(surveyId, accountId)
     await expect(promise).rejects.toThrow()
   })
-  test('Should return on DbLoadSurveyResult return surveyResult on sucess', async () => {
-    const { sut } = makeSut()
+  test('Should call LoadSurveyByIdRepository if LoadSurveyResult returns null', async () => {
+    const { loadSurveyResultRepositorySpy, sut } = makeSut()
+    // @ts-expect-error
+    loadSurveyResultRepositorySpy.result = null
+    await sut.load(surveyId, accountId)
+    expect(loadSurveyResultRepositorySpy.surveyId).toBe(surveyId)
+  })
+
+  test('Should return surveyResultModel with all answers with count 0 if LoadSurveyResultRepository returns null', async () => {
+    const { sut, loadSurveyResultRepositorySpy } = makeSut()
     const surveyResult = await sut.load(surveyId, accountId)
-    expect(surveyResult).toEqual(mockSurveyResultModel())
+    const { result } = loadSurveyResultRepositorySpy
+    expect(surveyResult).toEqual({
+      surveyId: result.surveyId,
+      question: result.question,
+      date: result.date,
+      answers: result.answers.map((answer) => ({
+        ...answer,
+        count: 0,
+        percent: 0,
+        isCurrentAccountAnswer: false,
+      })),
+    })
+  })
+  test('Should return surveyResultModel on success', async () => {
+    const { sut, loadSurveyResultRepositorySpy } = makeSut()
+    const surveyResult = await sut.load(surveyId, accountId)
+    expect(surveyResult).toEqual(loadSurveyResultRepositorySpy.result)
   })
 })

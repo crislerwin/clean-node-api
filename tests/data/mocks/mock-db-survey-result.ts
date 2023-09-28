@@ -15,8 +15,12 @@ export class LoadSurveyResultRepositorySpy implements LoadSurveyResultRepository
   accountId!: string
   result = mockSurveyResultModel()
 
-  async loadBySurveyId(surveyId: string): Promise<LoadSurveyResultRepository.Result> {
+  async loadBySurveyId(
+    surveyId: string,
+    accountId: string,
+  ): Promise<LoadSurveyResultRepository.Result> {
     this.surveyId = surveyId
+    this.accountId = accountId
     return this.result
   }
 }
