@@ -5,13 +5,10 @@ import {
   RequiredFieldValidation,
   EmailValidation,
   CompareFieldsValidation,
-  EmailValidator,
 } from '@/validation/validators'
-import { EmailValidatorSpy } from '../validation/mocks'
 import { Validation } from '@/presentation/protocols'
+import { EmailValidatorAdapter } from '@/infra/validators/email-validator-adapter'
 vi.mock('@/validation/validators/validation-composite')
-
-const makeEmailValidator = (): EmailValidator => new EmailValidatorSpy()
 
 describe('SignUp Validation', () => {
   test('Should call Validation Composite with all validations', () => {
@@ -21,7 +18,7 @@ describe('SignUp Validation', () => {
       validations.push(new RequiredFieldValidation(field))
     }
     validations.push(new CompareFieldsValidation('password', 'passwordConfirmation'))
-    validations.push(new EmailValidation('email', makeEmailValidator()))
+    validations.push(new EmailValidation('email', new EmailValidatorAdapter()))
     expect(ValidationComposite).toHaveBeenCalledWith(validations)
   })
 })

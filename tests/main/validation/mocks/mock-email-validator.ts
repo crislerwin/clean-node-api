@@ -1,7 +1,10 @@
 import { EmailValidator } from '@/validation/validators'
 
 export class EmailValidatorSpy implements EmailValidator {
-  isValid(mail: string): boolean {
-    return true
+  isEmailValid = true
+  email!: string
+  isValid(email: string): boolean {
+    this.email = email
+    return this.isEmailValid
   }
 }
