@@ -8,18 +8,10 @@ import typeDefs from '../typedefs'
 import { resolvers } from '../resolvers'
 import { GraphQLError } from 'graphql'
 
-const errorMap: Record<string, number> = {
-  Unauthorized: 401,
-  ServerError: 500,
-  BadRequest: 400,
-  AccessDenied: 401,
-  InvalidParam: 401,
-}
-
 const handleErrors = (response: any, errors?: readonly GraphQLError[] | undefined): void => {
   errors?.forEach((error) => {
     response.data = undefined
-    response.http.status = errorMap?.[error.message] ?? 500
+    response.http.status = error.extensions.code
   })
 }
 
