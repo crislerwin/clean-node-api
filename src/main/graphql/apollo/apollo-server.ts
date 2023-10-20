@@ -5,8 +5,10 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import http from 'http'
 import { json } from 'body-parser'
 import typeDefs from '../typedefs'
-import { resolvers } from '../resolvers'
+import resolvers from '../resolvers'
 import { GraphQLError } from 'graphql'
+import { makeExecutableSchema } from '@graphql-tools/schema'
+import { authDirectiveTransformer } from '@/main/graphql/directives'
 
 const handleErrors = (response: any, errors?: readonly GraphQLError[] | undefined): void => {
   errors?.forEach((error) => {
@@ -14,12 +16,12 @@ const handleErrors = (response: any, errors?: readonly GraphQLError[] | undefine
     response.http.status = error.extensions.code
   })
 }
-
+let schema = makeExecutableSchema({ resolvers, typeDefs })
+schema = authDirectiveTransformer(schema)
 export default async (app: Express): Promise<void> => {
   const httpServer = http.createServer(app)
   const server = new ApolloServer({
-    typeDefs,
-    resolvers,
+    schema,
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer }),
       {
