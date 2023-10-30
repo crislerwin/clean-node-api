@@ -63,7 +63,7 @@ export class SurveyMongoRepository
       _id: new ObjectId(id),
     })
 
-    return await MongoHelper.map(result)
+    return MongoHelper.map<LoadSurveyByIdRepository.Result>(result)
   }
 
   async loadAnswers(id: string): Promise<LoadAnswersBySurveyRepository.Result> {

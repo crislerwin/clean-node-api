@@ -223,6 +223,6 @@ export class SurveyResultMongoRepository
       })
       .build()
     const surveyResult = await surveyResultCollection.aggregate<SurveyResultModel>(query).toArray()
-    return surveyResult[0] || null
+    return surveyResult?.[0] || null
   }
 }

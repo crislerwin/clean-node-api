@@ -1,6 +1,6 @@
 import { test, describe, expect, beforeAll, afterAll, beforeEach } from 'vitest'
 import { MongoMemoryServer } from 'mongodb-memory-server'
-import { Collection, ObjectId, WithId } from 'mongodb'
+import { Collection, ObjectId } from 'mongodb'
 import { SurveyResultMongoRepository } from '@/infra/db/mongodb/survey-result/survey-result-mongo-repository'
 import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper'
 import { mockAddAccountParams, mockAddSurveyParams } from '@/tests/domain/mocks'
@@ -13,14 +13,14 @@ const makeSut = (): SurveyResultMongoRepository => new SurveyResultMongoReposito
 
 const mockSurvey = async (): Promise<LoadSurveyResultRepository.Result> => {
   const { insertedId } = await surveyCollection.insertOne(mockAddSurveyParams())
-  const result = (await surveyCollection.findOne({
+  const result = await surveyCollection.findOne({
     _id: insertedId,
-  })) as WithId<Collection>
-  return await MongoHelper.mapSurvey(result)
+  })
+
+  return MongoHelper.map<LoadSurveyResultRepository.Result>(result, 'surveyId')
 }
 const mockAccountId = async (): Promise<string> => {
   const { insertedId } = await accountCollection.insertOne(mockAddAccountParams())
-
   return insertedId.toHexString()
 }
 
