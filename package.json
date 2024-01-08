@@ -54,7 +54,7 @@
     "eslint-plugin-promise": "^6.0.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.2",
-    "mongodb-memory-server": "^8.11.5",
+    "mongodb-memory-server": "^9.1.4",
     "prettier": "2.8.8",
     "rimraf": "^5.0.5",
     "supertest": "^6.3.3",
